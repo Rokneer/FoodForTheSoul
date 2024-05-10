@@ -68,6 +68,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private float crouchYScale;
     private float originalYScale;
+    bool HasCeilingAbove =>
+        Physics.Raycast(transform.position, Vector3.up, playerHeight * 1f + 0.3f);
 
     [Header("Ground Check")]
     [SerializeField]
@@ -260,29 +262,21 @@ public class PlayerController : MonoBehaviour
                 rb.AddForce(Vector3.down * 5f, ForceMode.Impulse);
             }
 
-            if (context.canceled)
+            if (context.canceled && !HasCeilingAbove)
             {
-                bool hasCeilingAbove = Physics.Raycast(
-                    transform.position,
-                    Vector3.up,
-                    playerHeight * 0.5f + 0.3f
+                movementState = MovementState.Walking;
+                transform.localScale = new(
+                    transform.localScale.x,
+                    originalYScale,
+                    transform.localScale.z
                 );
-                if (!hasCeilingAbove)
-                {
-                    movementState = MovementState.Walking;
-                    transform.localScale = new(
-                        transform.localScale.x,
-                        originalYScale,
-                        transform.localScale.z
-                    );
-                }
             }
         }
     }
 
     private void OnRun(InputAction.CallbackContext context)
     {
-        if (isGrounded)
+        if (isGrounded && movementState != MovementState.Crouching)
         {
             if (context.started)
             {
@@ -359,5 +353,6 @@ public class PlayerController : MonoBehaviour
     {
         return Vector3.ProjectOnPlane(moveDirection, slopeHit.normal).normalized;
     }
+
     #endregion Functions
 }
