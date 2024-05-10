@@ -15,8 +15,8 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "PointerPosition",
-                    "type": "Value",
+                    "name": "Look",
+                    "type": "PassThrough",
                     "id": "f49a8e29-9809-47af-b33d-bf8f067faab0",
                     "expectedControlType": "Vector2",
                     "processors": "",
@@ -54,6 +54,15 @@
                     "name": "Run",
                     "type": "Button",
                     "id": "6eca8200-7531-4aec-b6ff-b6c4ac747d43",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Jump",
+                    "type": "Button",
+                    "id": "69e6859f-7b8a-41ad-8437-8a60968b7ac3",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -181,11 +190,11 @@
                 {
                     "name": "",
                     "id": "d530de27-b878-4e63-aece-992b33fcce6b",
-                    "path": "<Mouse>/position",
+                    "path": "<Mouse>/delta",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "PointerPosition",
+                    "action": "Look",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -208,6 +217,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Flash",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "fe447295-93a5-4346-9dcc-46dbfc87d63b",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Jump",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
