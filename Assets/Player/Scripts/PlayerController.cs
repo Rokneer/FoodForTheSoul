@@ -9,6 +9,8 @@ public class PlayerController : MonoBehaviour
 
     private PlayerInput playerInput;
     private Rigidbody rb;
+    private PhotoCapture photoCapture;
+
     private InputAction moveAction;
 
     [HideInInspector]
@@ -111,6 +113,7 @@ public class PlayerController : MonoBehaviour
 
         playerInput = GetComponent<PlayerInput>();
         rb = GetComponent<Rigidbody>();
+        photoCapture = GetComponent<PhotoCapture>();
 
         // Defines input actions based on the Player Input component
         moveAction = playerInput.actions[PlayerActionStrings.Move];
@@ -314,12 +317,28 @@ public class PlayerController : MonoBehaviour
 
     private void OnZoom(InputAction.CallbackContext context)
     {
-        Debug.Log("Zoom");
+        if (context.started)
+        {
+            photoCapture.IsCameraCanvasVisible = !photoCapture.IsCameraCanvasVisible;
+        }
     }
 
     private void OnPhoto(InputAction.CallbackContext context)
     {
-        Debug.Log("Photo");
+        if (context.started)
+        {
+            if (photoCapture.IsCameraCanvasVisible)
+            {
+                if (!photoCapture.isViewingPhoto)
+                {
+                    StartCoroutine(photoCapture.CapturePhoto());
+                }
+                else
+                {
+                    photoCapture.RemovePhoto();
+                }
+            }
+        }
     }
 
     private bool CheckIfGrounded()
