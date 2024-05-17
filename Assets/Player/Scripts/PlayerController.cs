@@ -325,19 +325,9 @@ public class PlayerController : MonoBehaviour
 
     private void OnPhoto(InputAction.CallbackContext context)
     {
-        if (context.started)
+        if (context.started && photoCapture.IsCameraCanvasVisible && photoCapture.canTakePhoto)
         {
-            if (photoCapture.IsCameraCanvasVisible)
-            {
-                if (!photoCapture.isViewingPhoto)
-                {
-                    StartCoroutine(photoCapture.CapturePhoto());
-                }
-                else
-                {
-                    photoCapture.RemovePhoto();
-                }
-            }
+            StartCoroutine(photoCapture.CapturePhoto());
         }
     }
 
