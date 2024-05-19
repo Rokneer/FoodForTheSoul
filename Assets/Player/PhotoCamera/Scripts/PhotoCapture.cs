@@ -9,57 +9,141 @@ public class PhotoCapture : MonoBehaviour
     private GameObject cameraCanvas;
 
     [SerializeField]
-    private float photoDelay;
+    private Transform cameraBarrelRaycast;
 
+    [SerializeField]
+    private float photoDelay;
     public bool canTakePhoto = true;
+
+    [Header("Raycasting")]
+    [SerializeField]
+    private float sphereCastRadius;
+
+    [SerializeField]
+    private float sphereCastLength;
+
+    [SerializeField]
+    private LayerMask photoLayer;
+
+    private RaycastHit photoHit;
+
+    [Header("Photo Textures")]
+    [SerializeField]
+    private RenderTexture cameraRenderTexture;
+
     private Texture2D screenCapture;
-    private int PhotoWidth => Screen.width / 4;
-    private int PhotoHeight => Screen.height / 4;
 
     [Header("Audio")]
     [SerializeField]
     private AudioClip photoSFX;
-
-    [Header("Visibility")]
-    private bool _isCameraCanvasVisible;
-    public bool IsCameraCanvasVisible
-    {
-        get => _isCameraCanvasVisible;
-        set
-        {
-            _isCameraCanvasVisible = value;
-            cameraCanvas.SetActive(_isCameraCanvasVisible);
-        }
-    }
     #endregion Variables
 
     #region Lifecycle
-    private void Start()
+
+    private void OnDrawGizmos()
     {
-        screenCapture = new Texture2D(PhotoWidth, PhotoHeight, TextureFormat.RGB24, false);
+        // Draws gizmos to visualize photography range
+        Gizmos.color = Color.red;
+        for (int i = 0; i < 4; i++)
+        {
+            Gizmos.DrawWireSphere(
+                (
+                    cameraBarrelRaycast.transform.position
+                    - cameraBarrelRaycast.transform.forward * -sphereCastLength / i
+                ),
+                sphereCastRadius
+            );
+        }
+        Gizmos.DrawRay(
+            cameraBarrelRaycast.transform.position,
+            cameraBarrelRaycast.transform.forward * sphereCastLength
+        );
     }
     #endregion Lifecycle
 
     #region Functions
     public IEnumerator CapturePhoto()
     {
+        // Checks if cast sphere hits a valid target
+        bool hasHit = Physics.SphereCast(
+            cameraBarrelRaycast.transform.position,
+            sphereCastRadius,
+            cameraBarrelRaycast.transform.forward,
+            out photoHit,
+            sphereCastLength,
+            photoLayer
+        );
+
+        // Disables ability take photos
         canTakePhoto = false;
+        SoundFXManager.Instance.PlaySoundFXClip(photoSFX, transform, 1);
+
+        // Creates a new texture 2D to store photo information
+        screenCapture = new Texture2D(
+            cameraRenderTexture.width,
+            cameraRenderTexture.height,
+            TextureFormat.RGB24,
+            false
+        );
+
         yield return new WaitForEndOfFrame();
-        Rect regionToRead = new(0, 0, PhotoWidth, PhotoHeight);
 
+        // Gets temporary texture information from the camera render texture
+        RenderTexture textureTemporary = RenderTexture.GetTemporary(
+            cameraRenderTexture.width,
+            cameraRenderTexture.height
+        );
+
+        // Stores current render texture to reapply later
+        RenderTexture currentActiveRT = RenderTexture.active;
+
+        // Sets temporary render texture as the active render texture
+        RenderTexture.active = textureTemporary;
+
+        // Copies camera render texture data into temporary render texture
+        Graphics.Blit(cameraRenderTexture, textureTemporary);
+
+        // Defines the size of the texture
+        Rect regionToRead = new(0, 0, cameraRenderTexture.width, cameraRenderTexture.height);
+
+        // Copies and applies texture data from render texture area
         screenCapture.ReadPixels(regionToRead, 0, 0, false);
-        screenCapture.Apply();
+        screenCapture.Apply(true, true);
 
+        // Creates a sprite out of the texture 2D
         Sprite photoSprite = Sprite.Create(
             screenCapture,
-            new Rect(0.0f, 0.0f, PhotoWidth, PhotoHeight),
+            regionToRead,
             new Vector2(0.5f, 0.5f),
-            100.0f
+            100f
         );
-        StartCoroutine(PhotoCameraUIManager.Instance.AddPhoto(photoSprite));
+
+        // Restores original render texture
+        RenderTexture.active = currentActiveRT;
+
+        // Releases temporary render texture
+        RenderTexture.ReleaseTemporary(textureTemporary);
+
+        // Adds photo to UI
+        PhotoCameraUIManager.Instance.AddPhoto(photoSprite);
+
+        if (hasHit)
+        {
+            // Checks whether the photographed object was an enemy or an ingredient
+            if (photoHit.collider.gameObject.CompareTag(TagStrings.Enemy))
+            {
+                Debug.Log($"Hit enemy {photoHit.collider.name}");
+                photoHit.collider.gameObject.GetComponent<PhotoObject>().WasPhotographed();
+            }
+            else if (photoHit.collider.gameObject.CompareTag(TagStrings.Food))
+            {
+                Debug.Log($"Hit food {photoHit.collider.name}");
+                photoHit.collider.gameObject.GetComponent<PhotoObject>().WasPhotographed();
+            }
+        }
+        // Waits for a delay to restore ability take photos
         yield return new WaitForSeconds(photoDelay);
         canTakePhoto = true;
     }
-
     #endregion Functions
 }

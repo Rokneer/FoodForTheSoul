@@ -9,7 +9,10 @@ public class PlayerController : MonoBehaviour
 
     private PlayerInput playerInput;
     private Rigidbody rb;
+
     private PhotoCapture photoCapture;
+    private PhotoZoom photoZoom;
+    private PhotoFlash photoFlash;
 
     private InputAction moveAction;
 
@@ -17,11 +20,16 @@ public class PlayerController : MonoBehaviour
     public InputAction lookAction;
     private InputAction photoAction;
     private InputAction zoomAction;
+    private InputAction extraZoomAction;
     private InputAction flashAction;
     private InputAction runAction;
     private InputAction jumpAction;
     private InputAction crouchAction;
     private InputAction interactAction;
+
+    [Header("Player")]
+    [SerializeField]
+    private GameObject playerObject;
 
     [Header("Movement")]
     [SerializeField]
@@ -113,13 +121,18 @@ public class PlayerController : MonoBehaviour
 
         playerInput = GetComponent<PlayerInput>();
         rb = GetComponent<Rigidbody>();
-        photoCapture = GetComponent<PhotoCapture>();
+
+        // Photo functionality
+        photoCapture = GetComponentInChildren<PhotoCapture>();
+        photoZoom = GetComponentInChildren<PhotoZoom>();
+        photoFlash = GetComponentInChildren<PhotoFlash>();
 
         // Defines input actions based on the Player Input component
         moveAction = playerInput.actions[PlayerActionStrings.Move];
         lookAction = playerInput.actions[PlayerActionStrings.Look];
         photoAction = playerInput.actions[PlayerActionStrings.Photo];
         zoomAction = playerInput.actions[PlayerActionStrings.Zoom];
+        extraZoomAction = playerInput.actions[PlayerActionStrings.ExtraZoom];
         flashAction = playerInput.actions[PlayerActionStrings.Flash];
         runAction = playerInput.actions[PlayerActionStrings.Run];
         jumpAction = playerInput.actions[PlayerActionStrings.Jump];
@@ -141,6 +154,7 @@ public class PlayerController : MonoBehaviour
         // Suscribes input actions to its respective functions
         photoAction.started += OnPhoto;
         zoomAction.started += OnZoom;
+        extraZoomAction.started += OnExtraZoom;
         flashAction.started += OnFlash;
         runAction.started += OnRun;
         runAction.canceled += OnRun;
@@ -155,6 +169,7 @@ public class PlayerController : MonoBehaviour
         // Unsuscribes input actions to its respective functions to prevent memory leaks
         photoAction.started -= OnPhoto;
         zoomAction.started -= OnZoom;
+        extraZoomAction.started -= OnExtraZoom;
         flashAction.started -= OnFlash;
         runAction.started -= OnRun;
         runAction.canceled -= OnRun;
@@ -167,10 +182,10 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         // Checks if player is grounded
-        isGrounded = CheckIfGrounded();
+        isGrounded = CheckIfIsGrounded();
 
         // Checks if player is on a slope
-        isOnSlope = CheckIfOnSlope();
+        isOnSlope = CheckIfIsOnSlope();
 
         // Manages player speed
         ManageSpeed();
@@ -257,10 +272,10 @@ public class PlayerController : MonoBehaviour
             if (context.started)
             {
                 movementState = MovementState.Crouching;
-                transform.localScale = new(
-                    transform.localScale.x,
+                playerObject.transform.localScale = new(
+                    playerObject.transform.localScale.x,
                     crouchYScale,
-                    transform.localScale.z
+                    playerObject.transform.localScale.z
                 );
                 rb.AddForce(Vector3.down * 5f, ForceMode.Impulse);
             }
@@ -268,10 +283,10 @@ public class PlayerController : MonoBehaviour
             if (context.canceled && !HasCeilingAbove)
             {
                 movementState = MovementState.Walking;
-                transform.localScale = new(
-                    transform.localScale.x,
+                playerObject.transform.localScale = new(
+                    playerObject.transform.localScale.x,
                     originalYScale,
-                    transform.localScale.z
+                    playerObject.transform.localScale.z
                 );
             }
         }
@@ -312,26 +327,58 @@ public class PlayerController : MonoBehaviour
 
     private void OnFlash(InputAction.CallbackContext context)
     {
-        Debug.Log("Flash");
+        if (context.started && photoFlash.canUseFlash)
+        {
+            StartCoroutine(photoFlash.ActivateFlash());
+        }
     }
 
     private void OnZoom(InputAction.CallbackContext context)
     {
         if (context.started)
         {
-            photoCapture.IsCameraCanvasVisible = !photoCapture.IsCameraCanvasVisible;
+            photoZoom.IsZooming = !photoZoom.IsZooming;
+            if (photoZoom.IsZooming)
+            {
+                photoZoom.ZoomIn();
+            }
+            else
+            {
+                photoZoom.ZoomOut();
+            }
+        }
+    }
+
+    private void OnExtraZoom(InputAction.CallbackContext context)
+    {
+        if (context.started && photoZoom.IsZooming)
+        {
+            photoZoom.isExtraZooming = !photoZoom.isExtraZooming;
+            if (photoZoom.isExtraZooming)
+            {
+                photoZoom.ExtraZoomIn();
+            }
+            else
+            {
+                photoZoom.ZoomIn();
+            }
         }
     }
 
     private void OnPhoto(InputAction.CallbackContext context)
     {
-        if (context.started && photoCapture.IsCameraCanvasVisible && photoCapture.canTakePhoto)
+        if (context.started && photoCapture.canTakePhoto)
         {
+            if (PhotoCameraUIManager.Instance.activePhotoIndex == 3)
+            {
+                PhotoCameraUIManager.Instance.ResetPhotos();
+                return;
+            }
             StartCoroutine(photoCapture.CapturePhoto());
         }
     }
 
-    private bool CheckIfGrounded()
+    private bool CheckIfIsGrounded()
     {
         return Physics.Raycast(
             transform.position,
@@ -341,7 +388,7 @@ public class PlayerController : MonoBehaviour
         );
     }
 
-    private bool CheckIfOnSlope()
+    private bool CheckIfIsOnSlope()
     {
         bool isOnSlope = Physics.Raycast(
             transform.position,

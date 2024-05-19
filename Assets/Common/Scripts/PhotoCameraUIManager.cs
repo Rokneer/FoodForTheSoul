@@ -1,5 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,11 +16,14 @@ public class PhotoCameraUIManager : MonoBehaviour
     [SerializeField]
     private List<Image> photoDisplayImages;
 
-    private List<Animator> photoAnimators = new();
-
     [SerializeField]
-    private int activePhotoIndex = 0;
+    private List<Sprite> photoDisplaySprites;
 
+    private readonly List<RectTransform> photoFramesRectTransforms = new();
+    private readonly List<CanvasGroup> photoCanvasGroups = new();
+
+    public int activePhotoIndex = 0;
+    private readonly float fadeTime = 1f;
     #endregion Variables
 
     #region Lifecycle
@@ -39,39 +42,44 @@ public class PhotoCameraUIManager : MonoBehaviour
         // Gets photo frame animators
         foreach (GameObject photoFrame in photoFrames)
         {
-            photoAnimators.Add(photoFrame.GetComponent<Animator>());
+            photoFramesRectTransforms.Add(photoFrame.GetComponent<RectTransform>());
+            photoCanvasGroups.Add(photoFrame.GetComponentInChildren<CanvasGroup>());
         }
     }
     #endregion Lifecycle
 
     #region Functions
-    public IEnumerator AddPhoto(Sprite photoSprite)
+    public void AddPhoto(Sprite photoSprite)
     {
-        if (activePhotoIndex == 3)
-        {
-            activePhotoIndex = 0;
-            for (int i = 0; i < 4; i++)
-            {
-                StartCoroutine(HidePhoto(i));
-            }
-        }
-
+        photoDisplaySprites.Add(photoSprite);
         photoDisplayImages[activePhotoIndex].sprite = photoSprite;
-        photoFrames[activePhotoIndex].SetActive(true);
 
-        photoAnimators[activePhotoIndex].Play(AnimationStrings.PhotoSlide);
-        yield return new WaitForSeconds(1);
-        photoAnimators[activePhotoIndex].Play(AnimationStrings.PhotoFade);
+        // Slide into frame
+        photoFramesRectTransforms[activePhotoIndex]
+            .DOAnchorPosX(-157, 0.25f)
+            .SetEase(Ease.InOutSine);
+        // Fade photo in
+        photoCanvasGroups[activePhotoIndex].DOFade(1, fadeTime);
 
         activePhotoIndex++;
     }
 
-    private IEnumerator HidePhoto(int photoIndex)
+    private void HidePhoto(int photoIndex)
     {
-        photoAnimators[photoIndex].Play(AnimationStrings.PhotoSlide);
+        // Fade photo out
+        photoCanvasGroups[photoIndex].DOFade(0, 0.1f);
+        // Slide out of frame
+        photoFramesRectTransforms[photoIndex].DOAnchorPosX(157, 0.25f).SetEase(Ease.InOutSine);
+    }
 
-        photoFrames[photoIndex].SetActive(false);
-        yield return new WaitForSeconds(1);
+    public void ResetPhotos()
+    {
+        activePhotoIndex = 0;
+        photoDisplaySprites.Clear();
+        for (int i = 0; i < 3; i++)
+        {
+            HidePhoto(i);
+        }
     }
     #endregion Functions
 }

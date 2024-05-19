@@ -42,6 +42,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "ExtraZoom",
+                    "type": "Button",
+                    "id": "7429425d-76f2-40a5-9fdd-4935c506bf8c",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Flash",
                     "type": "Button",
                     "id": "422c9a34-e8e0-468b-bf93-eaf44d760c2c",
@@ -228,6 +237,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8846f07d-de6e-4ee2-8e36-5fb94148d142",
+                    "path": "<Keyboard>/f",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ExtraZoom",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
