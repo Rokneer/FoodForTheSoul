@@ -1,22 +1,30 @@
-using DG.Tweening;
 using UnityEngine;
 
-public class PhotoObject : MonoBehaviour
+public abstract class PhotoObject : MonoBehaviour
 {
     #region Variables
     [SerializeField]
-    private PhotoObjectData data;
+    protected PhotoObjectData data;
+    private MeshFilter meshFilter;
+    private MeshRenderer meshRenderer;
     #endregion Variables
 
     #region Lifecycle
+    private void Awake()
+    {
+        meshFilter = GetComponent<MeshFilter>();
+        meshRenderer = GetComponent<MeshRenderer>();
 
+        meshFilter.mesh = data.model.GetComponent<MeshFilter>().sharedMesh;
+
+        meshRenderer.materials = data.model.GetComponent<MeshRenderer>().sharedMaterials;
+    }
     #endregion Lifecycle
 
     #region Functions
-    public void WasPhotographed()
+    public virtual void WasPhotographed()
     {
-        Debug.Log(data.objectName);
-        Destroy(gameObject);
+        ObjectPoolManager.ReturnToPool(gameObject);
     }
     #endregion Functions
 }

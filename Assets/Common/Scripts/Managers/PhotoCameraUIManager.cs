@@ -32,7 +32,7 @@ public class PhotoCameraUIManager : MonoBehaviour
         // Checks if there is only one instance of the script in the scene
         if (_instance != null && _instance != this)
         {
-            Destroy(this.gameObject);
+            Destroy(gameObject);
         }
         else
         {

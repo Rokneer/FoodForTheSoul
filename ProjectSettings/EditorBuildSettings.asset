@@ -5,9 +5,12 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Main Scene.unity
     guid: 99c9720ab356a0642a771bea13969a05
+  - enabled: 1
+    path: Assets/Scenes/Alejo Test Scene.unity
+    guid: 2b9f29a6b47f331419c4014ab036e9e0
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: adee8831b90010a4d8268aaa94ca2575,
       type: 2}

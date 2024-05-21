@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 7616290540158899007}
   - component: {fileID: 7832417485593717867}
   - component: {fileID: 8315949471278683522}
-  - component: {fileID: 3310574391587741293}
+  - component: {fileID: 6292750738548169626}
   m_Layer: 7
-  m_Name: Enemy
+  m_Name: Creature
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -31,7 +31,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -106,7 +106,7 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &3310574391587741293
+--- !u!114 &6292750738548169626
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -115,7 +115,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3783829494860762345}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 21eab0788f25a0b40a223adefeab632f, type: 3}
+  m_Script: {fileID: 11500000, guid: 02bee71c07e8d97479599f17c67f8eef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  data: {fileID: 11400000, guid: 90c26f112b2eb934a8e134f72723649c, type: 2}
+  data: {fileID: 0}

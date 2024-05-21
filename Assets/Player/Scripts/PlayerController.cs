@@ -7,7 +7,8 @@ public class PlayerController : MonoBehaviour
     private static PlayerController _instance;
     public static PlayerController Instance => _instance;
 
-    private PlayerInput playerInput;
+    [HideInInspector]
+    public PlayerInput playerInput;
     private Rigidbody rb;
 
     private PhotoCapture photoCapture;
@@ -15,9 +16,6 @@ public class PlayerController : MonoBehaviour
     private PhotoFlash photoFlash;
 
     private InputAction moveAction;
-
-    [HideInInspector]
-    public InputAction lookAction;
     private InputAction photoAction;
     private InputAction zoomAction;
     private InputAction extraZoomAction;
@@ -112,7 +110,7 @@ public class PlayerController : MonoBehaviour
         // Checks if there is only one instance of the script in the scene
         if (_instance != null && _instance != this)
         {
-            Destroy(this.gameObject);
+            Destroy(gameObject);
         }
         else
         {
@@ -129,7 +127,6 @@ public class PlayerController : MonoBehaviour
 
         // Defines input actions based on the Player Input component
         moveAction = playerInput.actions[PlayerActionStrings.Move];
-        lookAction = playerInput.actions[PlayerActionStrings.Look];
         photoAction = playerInput.actions[PlayerActionStrings.Photo];
         zoomAction = playerInput.actions[PlayerActionStrings.Zoom];
         extraZoomAction = playerInput.actions[PlayerActionStrings.ExtraZoom];

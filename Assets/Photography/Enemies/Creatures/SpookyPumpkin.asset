@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c1d072467f71be64bb5096c6713f0389, type: 3}
-  m_Name: TestIngredient_3
+  m_Script: {fileID: 11500000, guid: 5d6ee7102500491438fc0173b4d931dc, type: 3}
+  m_Name: SpookyPumpkin
   m_EditorClassIdentifier: 
-  objectName: Test Ingredient 3
-  sprite: {fileID: 21300000, guid: de183b92e25210144a426c143b53b1f6, type: 3}
+  objectName: Spooky Pumpkin
+  model: {fileID: 919132149155446097, guid: 6737fe8d0c0f98048b703da97d699db1, type: 3}

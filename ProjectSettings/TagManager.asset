@@ -6,7 +6,10 @@ TagManager:
   tags:
   - PhotoCamera
   - Food
-  - Enemy
+  - Creature
+  - Customer
+  - StartPoint
+  - EndPoint
   layers:
   - Default
   - TransparentFX

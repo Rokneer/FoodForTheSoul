@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class FirstPersonCamera : MonoBehaviour
 {
@@ -15,6 +16,9 @@ public class FirstPersonCamera : MonoBehaviour
 
     private float xRotation;
     private float yRotation;
+
+    private InputAction lookAction;
+
     #endregion Variables
 
     #region Lifecycle
@@ -24,11 +28,16 @@ public class FirstPersonCamera : MonoBehaviour
         Cursor.visible = false;
     }
 
+    private void Start()
+    {
+        lookAction = PlayerController.Instance.playerInput.actions[PlayerActionStrings.Look];
+    }
+
     void Update()
     {
-        Vector2 mouseInputs = PlayerController.Instance.lookAction.ReadValue<Vector2>().normalized;
-        float mouseX = mouseInputs.x * sensX;
-        float mouseY = mouseInputs.y * sensY;
+        Vector2 mouseInput = lookAction.ReadValue<Vector2>().normalized;
+        float mouseX = mouseInput.x * sensX;
+        float mouseY = mouseInput.y * sensY;
 
         yRotation += mouseX;
         xRotation -= mouseY;
