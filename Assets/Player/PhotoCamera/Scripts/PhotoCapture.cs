@@ -130,14 +130,11 @@ public class PhotoCapture : MonoBehaviour
         if (hasHit)
         {
             // Checks whether the photographed object was an enemy or an ingredient
-            if (photoHit.collider.gameObject.CompareTag(TagStrings.Enemy))
+            if (
+                photoHit.collider.gameObject.CompareTag(TagStrings.Enemy)
+                || photoHit.collider.gameObject.CompareTag(TagStrings.Food)
+            )
             {
-                Debug.Log($"Hit enemy {photoHit.collider.name}");
-                photoHit.collider.gameObject.GetComponent<PhotoObject>().WasPhotographed();
-            }
-            else if (photoHit.collider.gameObject.CompareTag(TagStrings.Food))
-            {
-                Debug.Log($"Hit food {photoHit.collider.name}");
                 photoHit.collider.gameObject.GetComponent<PhotoObject>().WasPhotographed();
             }
         }

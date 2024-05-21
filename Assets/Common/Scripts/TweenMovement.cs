@@ -20,28 +20,56 @@ public class TweenMovement : MonoBehaviour
     #endregion Variables
 
     #region Lifecycle
-    private void Awake()
-    {
-        if (endTransform != null)
-        {
-            if (startTransform == null)
-            {
-                startTransform = transform;
-            }
-            transform.position = startTransform.position;
-            MoveToPosition();
-        }
-    }
+
     #endregion Lifecycle
 
     #region Functions
-    private void MoveToPosition()
+    public void SetUpMovement(Transform startPoint, Transform endPoint)
+    {
+        if (endPoint != null)
+        {
+            if (startPoint == null)
+            {
+                startPoint = transform;
+            }
+            startTransform = startPoint;
+            endTransform = endPoint;
+            transform.position = startPoint.position;
+        }
+    }
+
+    public void StartMovement()
     {
         transform
             .DOMove(endTransform.position, tweenTime)
             .SetLoops(loopCount, LoopType.Yoyo)
-            .SetEase(Ease.InOutSine);
-        ;
+            .SetEase(Ease.InOutSine)
+            .OnComplete(OnTweenEnd);
+    }
+
+    private void OnTweenEnd()
+    {
+        if (gameObject.TryGetComponent<Ingredient>(out _))
+        {
+            ResetTransforms();
+            FoodSpawnManager.Instance.RemoveObject(gameObject);
+        }
+        else if (gameObject.TryGetComponent<Creature>(out _))
+        {
+            ResetTransforms();
+            CreatureSpawnManager.Instance.RemoveObject(gameObject);
+        }
+        else if (gameObject.TryGetComponent<Customer>(out _))
+        {
+            ResetTransforms();
+            CustomerSpawnManager.Instance.RemoveObject(gameObject);
+        }
+    }
+
+    private void ResetTransforms()
+    {
+        startTransform = null;
+        endTransform = null;
     }
     #endregion Functions
 }

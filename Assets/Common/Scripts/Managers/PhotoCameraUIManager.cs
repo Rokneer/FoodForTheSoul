@@ -74,12 +74,15 @@ public class PhotoCameraUIManager : MonoBehaviour
 
     public void ResetPhotos()
     {
+        // Reset photo to inactive state
         activePhotoIndex = 0;
         photoDisplaySprites.Clear();
         for (int i = 0; i < 3; i++)
         {
             HidePhoto(i);
         }
+        // Remove all current ingredients
+        RecipeManager.Instance.ResetCurrentIngredients();
     }
     #endregion Functions
 }

@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class Creature : PhotoObject
@@ -6,7 +5,7 @@ public class Creature : PhotoObject
     public override void WasPhotographed()
     {
         KillCreature();
-        base.WasPhotographed();
+        CreatureSpawnManager.Instance.RemoveObject(gameObject);
     }
 
     private void KillCreature()

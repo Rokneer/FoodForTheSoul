@@ -3,14 +3,17 @@ using UnityEngine;
 public abstract class PhotoObject : MonoBehaviour
 {
     #region Variables
-    [SerializeField]
-    protected PhotoObjectData data;
+    public PhotoObjectData data;
     private MeshFilter meshFilter;
     private MeshRenderer meshRenderer;
     #endregion Variables
 
     #region Lifecycle
-    private void Awake()
+
+    #endregion Lifecycle
+
+    #region Functions
+    public void SetMeshData()
     {
         meshFilter = GetComponent<MeshFilter>();
         meshRenderer = GetComponent<MeshRenderer>();
@@ -19,12 +22,11 @@ public abstract class PhotoObject : MonoBehaviour
 
         meshRenderer.materials = data.model.GetComponent<MeshRenderer>().sharedMaterials;
     }
-    #endregion Lifecycle
 
-    #region Functions
     public virtual void WasPhotographed()
     {
         ObjectPoolManager.ReturnToPool(gameObject);
     }
+
     #endregion Functions
 }

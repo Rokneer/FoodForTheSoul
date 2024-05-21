@@ -5,14 +5,29 @@ using UnityEngine;
 
 public class ObjectPoolManager : MonoBehaviour
 {
+    private static ObjectPoolManager _instance;
+    public static ObjectPoolManager Instance => _instance;
+
     public static List<PooledObjectInfo> ObjectPools = new();
     private GameObject objectPoolEmptyHolder;
     private static GameObject gameObjectsEmpty;
+    private static GameObject foodEmpty;
+    private static GameObject creaturesEmpty;
+    private static GameObject customersEmpty;
 
     public static PoolType PoolingType;
 
     private void Awake()
     {
+        // Checks if there is only one instance of the script in the scene
+        if (_instance != null && _instance != this)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            _instance = this;
+        }
         SetupEmpties();
     }
 
@@ -120,10 +135,15 @@ public class ObjectPoolManager : MonoBehaviour
     {
         switch (poolType)
         {
-            case PoolType.GameObjects:
+            case PoolType.Food:
                 return gameObjectsEmpty;
+            case PoolType.Creatures:
+                return foodEmpty;
+            case PoolType.Customers:
+                return creaturesEmpty;
+            case PoolType.GameObjects:
+                return customersEmpty;
             case PoolType.None:
-                return null;
             default:
                 return null;
         }
@@ -139,5 +159,8 @@ public class PooledObjectInfo
 public enum PoolType
 {
     GameObjects,
+    Food,
+    Creatures,
+    Customers,
     None
 }

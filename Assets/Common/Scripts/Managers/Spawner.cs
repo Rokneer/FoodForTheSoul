@@ -7,7 +7,9 @@ public abstract class Spawner : MonoBehaviour
     protected float spawnTime;
 
     [SerializeField]
-    private GameObject objectToSpawn;
+    protected GameObject objectToSpawn;
+
+    public bool canSpawn = true;
 
     [Header("Object Data")]
     [SerializeField]
@@ -16,24 +18,32 @@ public abstract class Spawner : MonoBehaviour
     [SerializeField]
     protected int maxObjectCount;
 
-    private int randomSpawnPointIndex;
+    private int lastSpawnPointIndex = -1;
 
-    protected virtual GameObject SpawnObject(Transform[] spawnPoints)
-    {
-        randomSpawnPointIndex = Random.Range(0, spawnPoints.Length);
+    protected abstract GameObject SpawnObject(Transform spawnPoint);
 
-        currentObjectCount++;
-        return ObjectPoolManager.SpawnObject(
-            objectToSpawn,
-            spawnPoints[randomSpawnPointIndex].position,
-            Quaternion.identity,
-            PoolType.GameObjects
-        );
-    }
-
-    protected virtual void RemoveObject()
+    public virtual void RemoveObject(GameObject objectToRemove)
     {
         currentObjectCount--;
-        ObjectPoolManager.ReturnToPool(objectToSpawn);
+        ObjectPoolManager.ReturnToPool(objectToRemove);
+    }
+
+    protected int GetRandomSpawnPointIndex(Transform[] transforms)
+    {
+        int randomIndex = Random.Range(0, transforms.Length);
+        if (randomIndex == 0 && randomIndex == lastSpawnPointIndex)
+        {
+            return randomIndex + 1;
+        }
+        else if (
+            randomIndex > 0
+            && randomIndex <= transforms.Length
+            && randomIndex == lastSpawnPointIndex
+        )
+        {
+            return randomIndex - 1;
+        }
+        lastSpawnPointIndex = randomIndex;
+        return randomIndex;
     }
 }
