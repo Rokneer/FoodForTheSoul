@@ -4,10 +4,14 @@ using UnityEngine.InputSystem;
 public class FirstPersonCamera : MonoBehaviour
 {
     #region Variables
+    [Header("Sensbility")]
+    [Range(0.1f, 10f)]
     public float sensX;
 
+    [Range(0.1f, 10f)]
     public float sensY;
 
+    [Header("Positions")]
     [SerializeField]
     private Transform orientation;
 

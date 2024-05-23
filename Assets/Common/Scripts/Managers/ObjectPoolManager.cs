@@ -37,6 +37,15 @@ public class ObjectPoolManager : MonoBehaviour
 
         gameObjectsEmpty = new GameObject("GameObjects");
         gameObjectsEmpty.transform.SetParent(objectPoolEmptyHolder.transform);
+
+        foodEmpty = new GameObject("Food");
+        foodEmpty.transform.SetParent(objectPoolEmptyHolder.transform);
+
+        creaturesEmpty = new GameObject("Creatures");
+        creaturesEmpty.transform.SetParent(objectPoolEmptyHolder.transform);
+
+        customersEmpty = new GameObject("Customers");
+        customersEmpty.transform.SetParent(objectPoolEmptyHolder.transform);
     }
 
     public static GameObject SpawnObject(
@@ -133,20 +142,14 @@ public class ObjectPoolManager : MonoBehaviour
 
     private static GameObject SetParentObject(PoolType poolType)
     {
-        switch (poolType)
+        return poolType switch
         {
-            case PoolType.Food:
-                return gameObjectsEmpty;
-            case PoolType.Creatures:
-                return foodEmpty;
-            case PoolType.Customers:
-                return creaturesEmpty;
-            case PoolType.GameObjects:
-                return customersEmpty;
-            case PoolType.None:
-            default:
-                return null;
-        }
+            PoolType.Ingredient => foodEmpty,
+            PoolType.Creatures => creaturesEmpty,
+            PoolType.Customers => customersEmpty,
+            PoolType.GameObjects => gameObjectsEmpty,
+            _ => null,
+        };
     }
 }
 
@@ -159,7 +162,7 @@ public class PooledObjectInfo
 public enum PoolType
 {
     GameObjects,
-    Food,
+    Ingredient,
     Creatures,
     Customers,
     None

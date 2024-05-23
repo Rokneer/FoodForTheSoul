@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class RecipeManager : MonoBehaviour
@@ -13,14 +14,21 @@ public class RecipeManager : MonoBehaviour
     [SerializeField]
     private bool hasCompleteRecipe;
 
-    [Header("Active Recipes")]
+    [Header("Recipes")]
     [SerializeField]
-    private List<Recipe> activeRecipes;
+    private List<Recipe> recipes;
 
-    private Dictionary<string, bool> isRecipeDoneDictionary = new();
+    [SerializeField]
+    private GameObject recipeUI;
 
+    public List<Recipe> activeRecipes;
+
+    private Dictionary<Recipe, bool> isRecipeDoneDictionary = new();
+
+    [Header("Ingredients")]
     [SerializeField]
     private List<IngredientData> activeIngredients;
+    private int lastIndex = -1;
 
     private void Awake()
     {
@@ -32,18 +40,6 @@ public class RecipeManager : MonoBehaviour
         else
         {
             _instance = this;
-        }
-    }
-
-    private void Start()
-    {
-        foreach (Recipe recipe in activeRecipes)
-        {
-            isRecipeDoneDictionary[recipe.recipeName] = false;
-            foreach (IngredientData ingredient in recipe.ingredients)
-            {
-                activeIngredients.Add(ingredient);
-            }
         }
     }
 
@@ -63,19 +59,55 @@ public class RecipeManager : MonoBehaviour
         currentIngredients.Clear();
     }
 
+    public Recipe ChooseRecipe()
+    {
+        int randomIndex = RandomIndex.GetRandomIndex(recipes.ToArray(), lastIndex);
+
+        Recipe selectedRecipe = recipes[randomIndex];
+
+        activeRecipes.Add(selectedRecipe);
+        isRecipeDoneDictionary[selectedRecipe] = false;
+        AddIngredients(selectedRecipe);
+
+        return selectedRecipe;
+    }
+
+    private void AddIngredients(Recipe recipe)
+    {
+        List<IngredientData> uniqueIngredients = recipe.ingredients.Distinct().ToList();
+        foreach (IngredientData uniqueIngredient in uniqueIngredients)
+        {
+            if (!activeIngredients.Contains(uniqueIngredient))
+            {
+                activeIngredients.Add(uniqueIngredient);
+            }
+        }
+    }
+
+    private void RemoveIngredients(Recipe recipe)
+    {
+        foreach (IngredientData ingredient in recipe.ingredients)
+        {
+            if (currentIngredients.Contains(ingredient))
+            {
+                activeIngredients.Remove(ingredient);
+            }
+        }
+    }
+
     private void CompletedRecipe()
     {
-        foreach (Recipe recipe in activeRecipes)
+        foreach (Recipe recipe in activeRecipes.ToArray())
         {
             foreach (IngredientData recipeIngredient in recipe.ingredients)
             {
-                isRecipeDoneDictionary[recipe.recipeName] = currentIngredients.Contains(
-                    recipeIngredient
-                );
+                isRecipeDoneDictionary[recipe] = currentIngredients.Contains(recipeIngredient);
             }
-            if (isRecipeDoneDictionary[recipe.recipeName])
+            if (isRecipeDoneDictionary[recipe])
             {
                 Debug.Log($"{recipe.recipeName} is ready to serve!");
+                activeRecipes.Remove(recipe);
+                RemoveIngredients(recipe);
             }
         }
     }

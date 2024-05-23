@@ -24,6 +24,12 @@ public class CreatureSpawnManager : Spawner
 
     protected override GameObject SpawnObject(Transform spawnPoint)
     {
-        throw new System.NotImplementedException();
+        currentObjectCount++;
+        return ObjectPoolManager.SpawnObject(
+            objectToSpawn,
+            spawnPoint.position,
+            Quaternion.identity,
+            PoolType.Creatures
+        );
     }
 }

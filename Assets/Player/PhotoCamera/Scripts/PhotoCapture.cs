@@ -6,9 +6,6 @@ public class PhotoCapture : MonoBehaviour
     #region Variables
     [Header("Photo Taker")]
     [SerializeField]
-    private GameObject cameraCanvas;
-
-    [SerializeField]
     private Transform cameraBarrelRaycast;
 
     [SerializeField]
@@ -36,6 +33,9 @@ public class PhotoCapture : MonoBehaviour
     [Header("Audio")]
     [SerializeField]
     private AudioClip photoSFX;
+
+    [SerializeField]
+    private AudioClip failedPhotoSFX;
     #endregion Variables
 
     #region Lifecycle
@@ -64,83 +64,91 @@ public class PhotoCapture : MonoBehaviour
     #region Functions
     public IEnumerator CapturePhoto()
     {
-        // Checks if cast sphere hits a valid target
-        bool hasHit = Physics.SphereCast(
-            cameraBarrelRaycast.transform.position,
-            sphereCastRadius,
-            cameraBarrelRaycast.transform.forward,
-            out photoHit,
-            sphereCastLength,
-            photoLayer
-        );
-
-        // Disables ability take photos
-        canTakePhoto = false;
-        SoundFXManager.Instance.PlaySoundFXClip(photoSFX, transform, 1);
-
-        // Creates a new texture 2D to store photo information
-        screenCapture = new Texture2D(
-            cameraRenderTexture.width,
-            cameraRenderTexture.height,
-            TextureFormat.RGB24,
-            false
-        );
-
-        yield return new WaitForEndOfFrame();
-
-        // Gets temporary texture information from the camera render texture
-        RenderTexture textureTemporary = RenderTexture.GetTemporary(
-            cameraRenderTexture.width,
-            cameraRenderTexture.height
-        );
-
-        // Stores current render texture to reapply later
-        RenderTexture currentActiveRT = RenderTexture.active;
-
-        // Sets temporary render texture as the active render texture
-        RenderTexture.active = textureTemporary;
-
-        // Copies camera render texture data into temporary render texture
-        Graphics.Blit(cameraRenderTexture, textureTemporary);
-
-        // Defines the size of the texture
-        Rect regionToRead = new(0, 0, cameraRenderTexture.width, cameraRenderTexture.height);
-
-        // Copies and applies texture data from render texture area
-        screenCapture.ReadPixels(regionToRead, 0, 0, false);
-        screenCapture.Apply(true, true);
-
-        // Creates a sprite out of the texture 2D
-        Sprite photoSprite = Sprite.Create(
-            screenCapture,
-            regionToRead,
-            new Vector2(0.5f, 0.5f),
-            100f
-        );
-
-        // Restores original render texture
-        RenderTexture.active = currentActiveRT;
-
-        // Releases temporary render texture
-        RenderTexture.ReleaseTemporary(textureTemporary);
-
-        // Adds photo to UI
-        PhotoCameraUIManager.Instance.AddPhoto(photoSprite);
-
-        if (hasHit)
+        if (PhotoCameraUIManager.Instance.activePhotoIndex < 3)
         {
-            // Checks whether the photographed object was an enemy or an ingredient
-            if (
-                photoHit.collider.gameObject.CompareTag(TagStrings.Enemy)
-                || photoHit.collider.gameObject.CompareTag(TagStrings.Food)
-            )
+            // Checks if cast sphere hits a valid target
+            bool hasHit = Physics.SphereCast(
+                cameraBarrelRaycast.transform.position,
+                sphereCastRadius,
+                cameraBarrelRaycast.transform.forward,
+                out photoHit,
+                sphereCastLength,
+                photoLayer
+            );
+
+            // Disables ability take photos
+            canTakePhoto = false;
+            SoundFXManager.Instance.PlaySoundFXClip(photoSFX, transform, 1);
+
+            // Creates a new texture 2D to store photo information
+            screenCapture = new Texture2D(
+                cameraRenderTexture.width,
+                cameraRenderTexture.height,
+                TextureFormat.RGB24,
+                false
+            );
+
+            yield return new WaitForEndOfFrame();
+
+            // Gets temporary texture information from the camera render texture
+            RenderTexture textureTemporary = RenderTexture.GetTemporary(
+                cameraRenderTexture.width,
+                cameraRenderTexture.height
+            );
+
+            // Stores current render texture to reapply later
+            RenderTexture currentActiveRT = RenderTexture.active;
+
+            // Sets temporary render texture as the active render texture
+            RenderTexture.active = textureTemporary;
+
+            // Copies camera render texture data into temporary render texture
+            Graphics.Blit(cameraRenderTexture, textureTemporary);
+
+            // Defines the size of the texture
+            Rect regionToRead = new(0, 0, cameraRenderTexture.width, cameraRenderTexture.height);
+
+            // Copies and applies texture data from render texture area
+            screenCapture.ReadPixels(regionToRead, 0, 0, false);
+            screenCapture.Apply(true, true);
+
+            // Creates a sprite out of the texture 2D
+            Sprite photoSprite = Sprite.Create(
+                screenCapture,
+                regionToRead,
+                new Vector2(0.5f, 0.5f),
+                100f
+            );
+
+            // Restores original render texture
+            RenderTexture.active = currentActiveRT;
+
+            // Releases temporary render texture
+            RenderTexture.ReleaseTemporary(textureTemporary);
+
+            // Adds photo to UI
+            PhotoCameraUIManager.Instance.AddPhoto(photoSprite);
+
+            if (hasHit)
             {
-                photoHit.collider.gameObject.GetComponent<PhotoObject>().WasPhotographed();
+                // Checks whether the photographed object was an enemy or an ingredient
+                if (
+                    photoHit.collider.gameObject.CompareTag(TagStrings.Enemy)
+                    || photoHit.collider.gameObject.CompareTag(TagStrings.Food)
+                )
+                {
+                    photoHit.collider.gameObject.GetComponent<PhotoObject>().WasPhotographed();
+                }
             }
+            // Waits for a delay to restore ability take photos
+            yield return new WaitForSeconds(photoDelay);
+            canTakePhoto = true;
         }
-        // Waits for a delay to restore ability take photos
-        yield return new WaitForSeconds(photoDelay);
-        canTakePhoto = true;
+        else
+        {
+            // Play failed photo SFX
+            SoundFXManager.Instance.PlaySoundFXClip(failedPhotoSFX, transform, 1);
+        }
     }
     #endregion Functions
 }

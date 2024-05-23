@@ -9,6 +9,13 @@ public class PhotoZoom : MonoBehaviour
 
     private FirstPersonCamera cameraController;
 
+    [Header("Positions")]
+    [SerializeField]
+    private Vector3 basePosition = new(0.23f, -0.141f, 0.738f);
+
+    [SerializeField]
+    private Vector3 zoomPosition = new(0.364f, -0.339f, 0.734f);
+
     [Header("Zoom")]
     [SerializeField]
     private bool isZooming = false;
@@ -103,6 +110,7 @@ public class PhotoZoom : MonoBehaviour
 
     public void ZoomIn()
     {
+        transform.localPosition = basePosition;
         ZoomCamera(
             mainCameraZoomInValue,
             photoCameraZoomInValue,
@@ -125,8 +133,8 @@ public class PhotoZoom : MonoBehaviour
 
     public void ZoomOut()
     {
+        transform.localPosition = zoomPosition;
         ZoomCamera(baseMainCameraFOV, basePhotoCameraFOV, baseSenXValue, baseSenYValue, zoomOutSFX);
     }
-
     #endregion Functions
 }

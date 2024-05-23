@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour
     private InputAction zoomAction;
     private InputAction extraZoomAction;
     private InputAction flashAction;
+    private InputAction reloadAction;
     private InputAction runAction;
     private InputAction jumpAction;
     private InputAction crouchAction;
@@ -131,6 +132,7 @@ public class PlayerController : MonoBehaviour
         zoomAction = playerInput.actions[PlayerActionStrings.Zoom];
         extraZoomAction = playerInput.actions[PlayerActionStrings.ExtraZoom];
         flashAction = playerInput.actions[PlayerActionStrings.Flash];
+        reloadAction = playerInput.actions[PlayerActionStrings.Reload];
         runAction = playerInput.actions[PlayerActionStrings.Run];
         jumpAction = playerInput.actions[PlayerActionStrings.Jump];
         crouchAction = playerInput.actions[PlayerActionStrings.Crouch];
@@ -153,6 +155,7 @@ public class PlayerController : MonoBehaviour
         zoomAction.started += OnZoom;
         extraZoomAction.started += OnExtraZoom;
         flashAction.started += OnFlash;
+        reloadAction.started += OnReload;
         runAction.started += OnRun;
         runAction.canceled += OnRun;
         jumpAction.started += OnJump;
@@ -168,6 +171,7 @@ public class PlayerController : MonoBehaviour
         zoomAction.started -= OnZoom;
         extraZoomAction.started -= OnExtraZoom;
         flashAction.started -= OnFlash;
+        reloadAction.started -= OnReload;
         runAction.started -= OnRun;
         runAction.canceled -= OnRun;
         jumpAction.started -= OnJump;
@@ -330,6 +334,14 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void OnReload(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            PhotoCameraUIManager.Instance.ResetPhotos();
+        }
+    }
+
     private void OnZoom(InputAction.CallbackContext context)
     {
         if (context.started)
@@ -366,11 +378,6 @@ public class PlayerController : MonoBehaviour
     {
         if (context.started && photoCapture.canTakePhoto)
         {
-            if (PhotoCameraUIManager.Instance.activePhotoIndex == 3)
-            {
-                PhotoCameraUIManager.Instance.ResetPhotos();
-                return;
-            }
             StartCoroutine(photoCapture.CapturePhoto());
         }
     }

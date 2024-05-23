@@ -6,6 +6,7 @@ internal class PlayerActionStrings
     internal static string Zoom = "Zoom";
     internal static string ExtraZoom = "ExtraZoom";
     internal static string Flash = "Flash";
+    internal static string Reload = "Reload";
     internal static string Run = "Run";
     internal static string Jump = "Jump";
     internal static string Crouch = "Crouch";

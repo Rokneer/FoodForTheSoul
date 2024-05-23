@@ -12,8 +12,7 @@ public class TweenMovement : MonoBehaviour
     private Vector3 currentPosition;
 
     [Header("Setup")]
-    [SerializeField]
-    private float tweenTime;
+    public float tweenTime;
 
     [SerializeField]
     private int loopCount;

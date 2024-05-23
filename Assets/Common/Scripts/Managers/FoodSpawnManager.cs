@@ -15,6 +15,9 @@ public class FoodSpawnManager : Spawner
     private CeilingHook[] ceilingHooks;
     private Transform[] ceilingHooksSpawnPoints = new Transform[7];
 
+    private int randomRecipeIndex;
+    private int randomIngredientIndex;
+
     private void Awake()
     {
         // Checks if there is only one instance of the script in the scene
@@ -52,7 +55,7 @@ public class FoodSpawnManager : Spawner
             objectToSpawn,
             spawnPoint.position,
             Quaternion.identity,
-            PoolType.Food
+            PoolType.Ingredient
         );
     }
 
@@ -60,7 +63,10 @@ public class FoodSpawnManager : Spawner
     {
         if (canSpawn)
         {
-            int randomIndex = GetRandomSpawnPointIndex(ceilingPathsStartPoints);
+            int randomIndex = RandomIndex.GetRandomIndex(
+                ceilingPathsStartPoints,
+                lastSpawnPointIndex
+            );
             Transform startPoint = ceilingPathsStartPoints[randomIndex];
             Transform endPoint = ceilingPathsEndPoints[randomIndex];
 
@@ -90,8 +96,14 @@ public class FoodSpawnManager : Spawner
         }
     }
 
-    /* private Ingredient SelectIngredient()
+    private IngredientData SelectIngredient()
     {
-        // Select an ingredient from a current recipe
-    } */
+        // Select an recipe from the active list
+        randomRecipeIndex = Random.Range(0, RecipeManager.Instance.activeRecipes.Count);
+        Recipe selectedRecipe = RecipeManager.Instance.activeRecipes[randomRecipeIndex];
+
+        // Select an ingredient from the selected recipe
+        randomIngredientIndex = Random.Range(0, RecipeManager.Instance.activeRecipes.Count);
+        return selectedRecipe.ingredients[randomIngredientIndex];
+    }
 }
