@@ -47,7 +47,7 @@ public class CustomerSpawnManager : Spawner
             spawnPointsDict[spawnPoint] = false;
         }
 
-        InvokeRepeating(nameof(SpawnCustomer), spawnTime, spawnTime);
+        InvokeRepeating(nameof(SpawnCustomer), firstSpawnTime, spawnTime);
     }
 
     protected override GameObject SpawnObject(Transform spawnPoint)
@@ -86,8 +86,6 @@ public class CustomerSpawnManager : Spawner
                 // Assign recipe
                 Customer spawnedCustomer = spawnedCustomerObj.GetComponent<Customer>();
                 spawnedCustomer.recipe = RecipeManager.Instance.ChooseRecipe();
-                //* Add recipe photo to UI
-                //* Add ingredients to recipe photo UI
 
                 // Get tween movement
                 TweenMovement tweenMovement = spawnedCustomerObj.GetComponent<TweenMovement>();

@@ -131,7 +131,7 @@ public class PhotoCapture : MonoBehaviour
 
             if (hasHit)
             {
-                // Checks whether the photographed object was an enemy or an ingredient
+                // Checks whether the photographed object was a valid one
                 if (
                     photoHit.collider.gameObject.CompareTag(TagStrings.Enemy)
                     || photoHit.collider.gameObject.CompareTag(TagStrings.Food)

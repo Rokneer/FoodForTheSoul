@@ -22,6 +22,7 @@ public class RecipeManager : MonoBehaviour
     private GameObject recipeUI;
 
     public List<Recipe> activeRecipes;
+    private int lastIngredientIndex = -1;
 
     private Dictionary<Recipe, bool> isRecipeDoneDictionary = new();
 
@@ -69,6 +70,15 @@ public class RecipeManager : MonoBehaviour
         isRecipeDoneDictionary[selectedRecipe] = false;
         AddIngredients(selectedRecipe);
 
+        Sprite[] recipeIngredientSprites = new Sprite[selectedRecipe.ingredients.Count];
+        for (int i = 0; i < selectedRecipe.ingredients.Count; i++)
+        {
+            IngredientData ingredient = selectedRecipe.ingredients[i];
+            recipeIngredientSprites[i] = (ingredient.sprite);
+        }
+
+        RecipeUIManager.Instance.AddPhoto(selectedRecipe.sprite, recipeIngredientSprites);
+
         return selectedRecipe;
     }
 
@@ -93,6 +103,16 @@ public class RecipeManager : MonoBehaviour
                 activeIngredients.Remove(ingredient);
             }
         }
+    }
+
+    public IngredientData ChooseRandomIngredient()
+    {
+        int randomIndex = RandomIndex.GetRandomIndex(
+            activeIngredients.ToArray(),
+            lastIngredientIndex
+        );
+
+        return activeIngredients[randomIndex];
     }
 
     private void CompletedRecipe()

@@ -4,6 +4,9 @@ public abstract class Spawner : MonoBehaviour
 {
     [Header("Spawn Setup")]
     [SerializeField]
+    protected float firstSpawnTime;
+
+    [SerializeField]
     protected float spawnTime;
 
     [SerializeField]

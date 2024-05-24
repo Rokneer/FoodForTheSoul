@@ -39,12 +39,19 @@ public class PhotoFlash : MonoBehaviour
     internal IEnumerator ActivateFlash()
     {
         canUseFlash = false;
+
+        //* Stun enemies with StunCustomer()
+        //? Maybe use a GameManager event to trigger it in all current enemies
+
         SoundFXManager.Instance.PlaySoundFXClip(flashSFX, transform, 1);
         targetIntensity = 4;
 
         yield return new WaitForSeconds(flashDuration);
 
         targetIntensity = 0;
+
+        //* Update flash UI
+        //* Start flash UI cooldown timer
 
         yield return new WaitForSeconds(flashDelay);
 

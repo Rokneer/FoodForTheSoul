@@ -18,10 +18,6 @@ public class TweenMovement : MonoBehaviour
     private int loopCount;
     #endregion Variables
 
-    #region Lifecycle
-
-    #endregion Lifecycle
-
     #region Functions
     public void SetUpMovement(Transform startPoint, Transform endPoint)
     {
@@ -44,6 +40,11 @@ public class TweenMovement : MonoBehaviour
             .SetLoops(loopCount, LoopType.Yoyo)
             .SetEase(Ease.InOutSine)
             .OnComplete(OnTweenEnd);
+    }
+
+    public void StopMovement()
+    {
+        //* Stop tween movement
     }
 
     private void OnTweenEnd()
