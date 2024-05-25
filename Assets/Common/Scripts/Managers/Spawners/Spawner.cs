@@ -25,6 +25,12 @@ public abstract class Spawner : MonoBehaviour
 
     protected abstract GameObject SpawnObject(Transform spawnPoint);
 
+    protected GameObject SpawnObject(Transform spawnPoint, Transform parentTransform)
+    {
+        currentObjectCount++;
+        return ObjectPoolManager.SpawnObject(objectToSpawn, parentTransform);
+    }
+
     public virtual void RemoveObject(GameObject objectToRemove)
     {
         currentObjectCount--;

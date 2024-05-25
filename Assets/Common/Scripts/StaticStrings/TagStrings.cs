@@ -1,6 +1,7 @@
 internal class TagStrings
 {
     #region Photos
+    internal static string Player = "Player";
     internal static string MainCamera = "MainCamera";
     internal static string PhotoCamera = "PhotoCamera";
     internal static string Food = "Food";

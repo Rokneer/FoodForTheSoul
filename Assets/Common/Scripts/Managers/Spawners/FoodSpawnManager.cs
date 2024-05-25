@@ -84,10 +84,14 @@ public class FoodSpawnManager : Spawner
             lastSpawnPointHookIndex
         );
 
+        CeilingHook currentCeilingHook = ceilingHooks[randomIndex];
+
         Transform spawnPoint = ceilingHooksSpawnPoints[randomIndex];
 
-        GameObject spawnedObj = SpawnObject(spawnPoint);
+        GameObject spawnedObj = SpawnObject(spawnPoint, spawnPoint);
         SetupIngredient(spawnedObj);
+
+        currentCeilingHook.GetComponent<TweenMovement>().StartMovement();
     }
 
     private void SpawnFood()

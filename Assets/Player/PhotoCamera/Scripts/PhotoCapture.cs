@@ -80,20 +80,22 @@ public class PhotoCapture : MonoBehaviour
             canTakePhoto = false;
             SoundFXManager.Instance.PlaySoundFXClip(photoSFX, transform, 1);
 
+            yield return new WaitForEndOfFrame();
+
             // Creates a new texture 2D to store photo information
             screenCapture = new Texture2D(
                 cameraRenderTexture.width,
                 cameraRenderTexture.height,
-                TextureFormat.RGB24,
+                TextureFormat.RGBAHalf,
                 false
             );
-
-            yield return new WaitForEndOfFrame();
 
             // Gets temporary texture information from the camera render texture
             RenderTexture textureTemporary = RenderTexture.GetTemporary(
                 cameraRenderTexture.width,
-                cameraRenderTexture.height
+                cameraRenderTexture.height,
+                24,
+                UnityEngine.Experimental.Rendering.GraphicsFormat.R16G16B16A16_SFloat
             );
 
             // Stores current render texture to reapply later

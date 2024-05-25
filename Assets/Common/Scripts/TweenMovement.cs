@@ -33,12 +33,12 @@ public class TweenMovement : MonoBehaviour
         }
     }
 
-    public void StartMovement()
+    public void StartMovement(Ease ease = Ease.InOutSine)
     {
         transform
             .DOMove(endTransform.position, tweenTime)
             .SetLoops(loopCount, LoopType.Yoyo)
-            .SetEase(Ease.InOutSine)
+            .SetEase(ease)
             .OnComplete(OnTweenEnd);
     }
 

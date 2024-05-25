@@ -1,6 +1,4 @@
-using Unity.Mathematics;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 public class SoundFXManager : MonoBehaviour
 {
@@ -8,7 +6,9 @@ public class SoundFXManager : MonoBehaviour
     public static SoundFXManager Instance => _instance;
 
     [SerializeField]
-    private AudioSource soundFXObject;
+    private GameObject soundFXObject;
+
+    private readonly int lastIndex = -1;
 
     private void Awake()
     {
@@ -24,15 +24,22 @@ public class SoundFXManager : MonoBehaviour
 
     public void PlaySoundFXClip(AudioClip audioClip, Transform spawnTransform, float volume)
     {
-        AudioSource audioSource = Instantiate(
-            soundFXObject,
-            spawnTransform.position,
-            quaternion.identity
-        );
+        AudioSource audioSource = ObjectPoolManager
+            .SpawnObject(
+                soundFXObject,
+                spawnTransform.position,
+                Quaternion.identity,
+                PoolType.GameObjects
+            )
+            .GetComponent<AudioSource>();
+
         audioSource.clip = audioClip;
         audioSource.volume = volume;
         audioSource.Play();
-        Destroy(audioSource.gameObject, audioSource.clip.length);
+
+        StartCoroutine(
+            ObjectPoolManager.ReturnToPool(audioSource.gameObject, audioSource.clip.length)
+        );
     }
 
     public void PlayRandomSoundFXClip(
@@ -41,7 +48,7 @@ public class SoundFXManager : MonoBehaviour
         float volume
     )
     {
-        int rand = Random.Range(0, audioClips.Length);
-        PlaySoundFXClip(audioClips[rand], spawnTransform, volume);
+        int randomIndex = RandomIndex.GetRandomIndex(audioClips, lastIndex);
+        PlaySoundFXClip(audioClips[randomIndex], spawnTransform, volume);
     }
 }
