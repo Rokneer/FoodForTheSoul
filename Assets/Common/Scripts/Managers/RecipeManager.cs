@@ -126,6 +126,7 @@ public class RecipeManager : MonoBehaviour
             if (isRecipeDoneDictionary[recipe])
             {
                 Debug.Log($"{recipe.recipeName} is ready to serve!");
+                RecipeSpawner.Instance.SpawnRecipe(recipe);
                 activeRecipes.Remove(recipe);
                 RemoveIngredients(recipe);
             }

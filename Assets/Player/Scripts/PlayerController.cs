@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -99,9 +100,13 @@ public class PlayerController : MonoBehaviour
     private float maxSlopeAngle;
     private RaycastHit slopeHit;
 
-    [Space]
+    [Header("Camera Orientation")]
     [SerializeField]
     private Transform orientation;
+
+    [Header("Interactable")]
+    public bool isInsideInteractable = false;
+    public event Action InteractableAction;
 
     #endregion Variables
 
@@ -263,8 +268,13 @@ public class PlayerController : MonoBehaviour
 
     private void OnInteract(InputAction.CallbackContext context)
     {
-        Debug.Log("Interact");
+        if (context.started && isInsideInteractable)
+        {
+            InteractableAction?.Invoke();
+        }
     }
+
+    private void ExcuteInteractableAction() { }
 
     private void OnCrouch(InputAction.CallbackContext context)
     {

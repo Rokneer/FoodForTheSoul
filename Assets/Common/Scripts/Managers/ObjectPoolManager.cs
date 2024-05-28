@@ -11,7 +11,7 @@ public class ObjectPoolManager : MonoBehaviour
     public static List<PooledObjectInfo> ObjectPools = new();
     private GameObject objectPoolEmptyHolder;
     private static GameObject gameObjectsEmpty;
-    private static GameObject foodEmpty;
+    private static GameObject ingredientEmpty;
     private static GameObject creaturesEmpty;
     private static GameObject customersEmpty;
 
@@ -33,18 +33,24 @@ public class ObjectPoolManager : MonoBehaviour
 
     private void SetupEmpties()
     {
-        objectPoolEmptyHolder = new GameObject("Pooled Objects");
+        objectPoolEmptyHolder = new GameObject(PoolStrings.PooledObjects);
 
-        gameObjectsEmpty = new GameObject("GameObjects");
+        /*  foreach (string poolName in PoolStrings.PoolStringsArray)
+         {
+             gameObjectsEmpty = new GameObject(poolName);
+             gameObjectsEmpty.transform.SetParent(objectPoolEmptyHolder.transform);
+         } */
+
+        gameObjectsEmpty = new GameObject(PoolStrings.GameObjects);
         gameObjectsEmpty.transform.SetParent(objectPoolEmptyHolder.transform);
 
-        foodEmpty = new GameObject("Food");
-        foodEmpty.transform.SetParent(objectPoolEmptyHolder.transform);
+        ingredientEmpty = new GameObject(PoolStrings.Ingredients);
+        ingredientEmpty.transform.SetParent(objectPoolEmptyHolder.transform);
 
-        creaturesEmpty = new GameObject("Creatures");
+        creaturesEmpty = new GameObject(PoolStrings.Creatures);
         creaturesEmpty.transform.SetParent(objectPoolEmptyHolder.transform);
 
-        customersEmpty = new GameObject("Customers");
+        customersEmpty = new GameObject(PoolStrings.Customers);
         customersEmpty.transform.SetParent(objectPoolEmptyHolder.transform);
     }
 
@@ -125,7 +131,9 @@ public class ObjectPoolManager : MonoBehaviour
 
         if (pool == null)
         {
-            Debug.LogWarning("Trying to release an object that isn't pooled" + objectToRemove.name);
+            Debug.LogWarning(
+                "Trying to release an object that isn't pooled " + objectToRemove.name
+            );
         }
         else
         {
@@ -144,7 +152,7 @@ public class ObjectPoolManager : MonoBehaviour
     {
         return poolType switch
         {
-            PoolType.Ingredient => foodEmpty,
+            PoolType.Ingredient => ingredientEmpty,
             PoolType.Creatures => creaturesEmpty,
             PoolType.Customers => customersEmpty,
             PoolType.GameObjects => gameObjectsEmpty,

@@ -63,41 +63,50 @@ public class CustomerSpawnManager : Spawner
 
     private void SpawnCustomer()
     {
-        if (canSpawn)
+        if (canSpawn && !IsSpawnFull)
         {
-            if (!IsSpawnFull)
+            // Get a random spawn index that isn't in use
+            randomIndex = RandomIndex.GetUnusedRandomIndex(
+                startPoints,
+                lastSpawnPointIndex,
+                spawnPointsDict
+            );
+
+            // Set selected transform as currently used
+            spawnPointsDict[startPoints[randomIndex]] = true;
+
+            // Select tween start and end point
+            Transform startPoint = startPoints[randomIndex];
+            Transform endPoint = endPoints[randomIndex];
+
+            // Spawn customer
+            GameObject spawnedCustomerObj = SpawnObject(startPoints[randomIndex]);
+
+            // Assign recipe
+            Customer spawnedCustomer = spawnedCustomerObj.GetComponent<Customer>();
+            spawnedCustomer.recipe = RecipeManager.Instance.ChooseRecipe();
+
+            // Get tween movement
+            TweenMovement tweenMovement = spawnedCustomerObj.GetComponent<TweenMovement>();
+
+            // Set timer
+            tweenMovement.tweenTime = spawnedCustomer.recipe.time;
+            //* Start timer on recipe UI
+
+            // Start movement
+            tweenMovement.SetUpMovement(startPoint, endPoint);
+            tweenMovement.StartMovement(() =>
             {
-                // Get a random spawn index that isn't in use
-                do
-                {
-                    randomIndex = RandomIndex.GetRandomIndex(startPoints, lastSpawnPointIndex);
-                } while (spawnPointsDict[startPoints[randomIndex]]);
-
-                // Set selected transform as currently used
-                spawnPointsDict[startPoints[randomIndex]] = true;
-
-                // Select tween start and end point
-                Transform startPoint = startPoints[randomIndex];
-                Transform endPoint = endPoints[randomIndex];
-
-                // Spawn customer
-                GameObject spawnedCustomerObj = SpawnObject(startPoints[randomIndex]);
-
-                // Assign recipe
-                Customer spawnedCustomer = spawnedCustomerObj.GetComponent<Customer>();
-                spawnedCustomer.recipe = RecipeManager.Instance.ChooseRecipe();
-
-                // Get tween movement
-                TweenMovement tweenMovement = spawnedCustomerObj.GetComponent<TweenMovement>();
-
-                // Set timer
-                tweenMovement.tweenTime = spawnedCustomer.recipe.time;
-                //* Start timer on recipe UI
-
-                // Start movement
-                tweenMovement.SetUpMovement(startPoint, endPoint);
-                tweenMovement.StartMovement();
-            }
+                spawnedCustomer.DoDamage();
+                RemoveCustomer(spawnedCustomer.gameObject);
+            });
         }
+    }
+
+    public void RemoveCustomer(GameObject objectToRemove)
+    {
+        // Set selected transform as not longer in use
+        spawnPointsDict[startPoints[randomIndex]] = false;
+        base.RemoveObject(objectToRemove);
     }
 }

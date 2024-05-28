@@ -1,3 +1,6 @@
+using System.Collections;
+using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 
 public class FoodSpawnManager : Spawner
@@ -15,7 +18,23 @@ public class FoodSpawnManager : Spawner
     [SerializeField]
     private CeilingHook[] ceilingHooks;
     private Transform[] ceilingHooksSpawnPoints = new Transform[7];
+    private int hookRandomIndex;
     private readonly int lastSpawnPointHookIndex = -1;
+    private Dictionary<Transform, bool> hooksSpawnPointsDict = new();
+    private bool IsSpawnFull
+    {
+        get
+        {
+            foreach (Transform spawnPoint in ceilingHooksSpawnPoints)
+            {
+                if (!hooksSpawnPointsDict[spawnPoint])
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+    }
 
     private void Awake()
     {
@@ -28,10 +47,7 @@ public class FoodSpawnManager : Spawner
         {
             _instance = this;
         }
-    }
 
-    private void Start()
-    {
         for (int i = 0; i < ceilingPaths.Length; i++)
         {
             ceilingPathsStartPoints[i] = ceilingPaths[i].startPoint;
@@ -41,6 +57,7 @@ public class FoodSpawnManager : Spawner
         for (int i = 0; i < ceilingHooks.Length; i++)
         {
             ceilingHooksSpawnPoints[i] = ceilingHooks[i].spawnPoint;
+            hooksSpawnPointsDict[ceilingHooks[i].spawnPoint] = false;
         }
 
         InvokeRepeating(nameof(SpawnFood), firstSpawnTime, spawnTime);
@@ -72,26 +89,66 @@ public class FoodSpawnManager : Spawner
         // Setup movement
         TweenMovement tweenMovement = spawnedObj.GetComponent<TweenMovement>();
         tweenMovement.SetUpMovement(startPoint, endPoint);
-        tweenMovement.StartMovement();
+        tweenMovement.StartMovement(() => RemoveObject(spawnedObj));
     }
 
     private void SpawnFoodInHook()
     {
-        //! TODO: Ensure ingredients don't stack in one hook
+        if (!IsSpawnFull)
+        {
+            // Get a random spawn index that isn't in use
+            hookRandomIndex = RandomIndex.GetUnusedRandomIndex(
+                ceilingHooksSpawnPoints,
+                lastSpawnPointHookIndex,
+                hooksSpawnPointsDict
+            );
 
-        int randomIndex = RandomIndex.GetRandomIndex(
-            ceilingHooksSpawnPoints,
-            lastSpawnPointHookIndex
-        );
+            // Set selected transform as currently used
+            hooksSpawnPointsDict[ceilingHooksSpawnPoints[hookRandomIndex]] = true;
+            ceilingHooks[hookRandomIndex].isActive = hooksSpawnPointsDict[
+                ceilingHooksSpawnPoints[hookRandomIndex]
+            ];
 
-        CeilingHook currentCeilingHook = ceilingHooks[randomIndex];
+            CeilingHook currentCeilingHook = ceilingHooks[hookRandomIndex];
 
-        Transform spawnPoint = ceilingHooksSpawnPoints[randomIndex];
+            Transform spawnPoint = ceilingHooksSpawnPoints[hookRandomIndex];
 
-        GameObject spawnedObj = SpawnObject(spawnPoint, spawnPoint);
-        SetupIngredient(spawnedObj);
+            GameObject spawnedObj = SpawnObject(spawnPoint, spawnPoint);
+            SetupIngredient(spawnedObj);
 
-        currentCeilingHook.GetComponent<TweenMovement>().StartMovement();
+            TweenMovement tweenMovement = currentCeilingHook.GetComponent<TweenMovement>();
+            currentCeilingHook.isActive = true;
+            tweenMovement
+                .StartMovement(() =>
+                {
+                    StartCoroutine(
+                        DelayHookRetraction(tweenMovement, currentCeilingHook, spawnedObj)
+                    );
+                })
+                .SetAutoKill(false);
+        }
+    }
+
+    private void RetractHook(
+        TweenMovement tweenMovement,
+        CeilingHook ceilingHook,
+        GameObject spawnedObj
+    )
+    {
+        tweenMovement.ReverseMovement().SetAutoKill(true);
+        ceilingHook.isActive = false;
+        hooksSpawnPointsDict[ceilingHooksSpawnPoints[hookRandomIndex]] = false;
+        RemoveObject(spawnedObj);
+    }
+
+    private IEnumerator DelayHookRetraction(
+        TweenMovement tweenMovement,
+        CeilingHook ceilingHook,
+        GameObject spawnedObj
+    )
+    {
+        yield return new WaitForSeconds(ceilingHook.delay);
+        RetractHook(tweenMovement, ceilingHook, spawnedObj);
     }
 
     private void SpawnFood()

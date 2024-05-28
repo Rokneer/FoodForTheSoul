@@ -1,3 +1,4 @@
+using System;
 using DG.Tweening;
 using UnityEngine;
 
@@ -16,6 +17,8 @@ public class TweenMovement : MonoBehaviour
 
     [SerializeField]
     private int loopCount;
+
+    public Tween tween;
     #endregion Variables
 
     #region Functions
@@ -33,37 +36,48 @@ public class TweenMovement : MonoBehaviour
         }
     }
 
-    public void StartMovement(Ease ease = Ease.InOutSine)
+    public void StartMovement(Ease ease = Ease.InOutSine, LoopType loopType = LoopType.Yoyo)
     {
-        transform
+        tween = transform
             .DOMove(endTransform.position, tweenTime)
-            .SetLoops(loopCount, LoopType.Yoyo)
+            .SetLoops(loopCount, loopType)
             .SetEase(ease)
-            .OnComplete(OnTweenEnd);
+            .OnComplete(ResetTransforms);
     }
 
-    public void StopMovement()
+    public Tween StartMovement(
+        TweenCallback EndingAction,
+        Ease ease = Ease.InOutSine,
+        LoopType loopType = LoopType.Yoyo
+    )
     {
-        //* Stop tween movement
+        tween = transform
+            .DOMove(endTransform.position, tweenTime)
+            .SetLoops(loopCount, loopType)
+            .SetEase(ease)
+            .OnComplete(() =>
+            {
+                EndingAction();
+            });
+        return tween;
     }
 
-    private void OnTweenEnd()
+    public Tween ReverseMovement()
     {
-        if (gameObject.TryGetComponent<Ingredient>(out _))
-        {
-            ResetTransforms();
-            FoodSpawnManager.Instance.RemoveObject(gameObject);
-        }
-        else if (gameObject.TryGetComponent<Creature>(out _))
-        {
-            ResetTransforms();
-            CreatureSpawnManager.Instance.RemoveObject(gameObject);
-        }
-        else if (gameObject.TryGetComponent<Customer>(out _))
-        {
-            ResetTransforms();
-            CustomerSpawnManager.Instance.RemoveObject(gameObject);
-        }
+        tween.Pause().PlayBackwards();
+        return tween;
+    }
+
+    public Tween PauseMovement()
+    {
+        tween.Pause();
+        return tween;
+    }
+
+    public Tween ResumeMovement()
+    {
+        tween.Play();
+        return tween;
     }
 
     private void ResetTransforms()

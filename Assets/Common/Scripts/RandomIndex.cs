@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class RandomIndex : MonoBehaviour
@@ -15,6 +16,21 @@ public class RandomIndex : MonoBehaviour
             return randomIndex - 1;
         }
         lastIndex = randomIndex;
+        return randomIndex;
+    }
+
+    public static int GetUnusedRandomIndex<T>(
+        T[] valueArray,
+        int lastIndex,
+        Dictionary<T, bool> valuesDict
+    )
+        where T : Object
+    {
+        int randomIndex;
+        do
+        {
+            randomIndex = RandomIndex.GetRandomIndex(valueArray, lastIndex);
+        } while (valuesDict[valueArray[randomIndex]]);
         return randomIndex;
     }
 }

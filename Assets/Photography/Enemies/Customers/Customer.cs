@@ -24,8 +24,8 @@ public class Customer : MonoBehaviour
 
         Debug.Log($"Customer with {recipe.recipeName} was stunned!");
 
-        //* Stop tween movement
-        tweenMovement.StopMovement();
+        // Stop tween movement
+        tweenMovement.PauseMovement();
 
         //* Start stun particle effect
 
@@ -33,8 +33,8 @@ public class Customer : MonoBehaviour
 
         //* Stop stun particle effect
 
-        //* Continue tween movement
-        tweenMovement.StartMovement();
+        // Continue tween movement
+        tweenMovement.ResumeMovement();
 
         isStunned = false;
     }

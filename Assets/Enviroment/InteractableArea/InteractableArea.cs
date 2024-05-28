@@ -1,23 +1,28 @@
 using UnityEngine;
 
-public class InteractableArea : MonoBehaviour
+public abstract class InteractableArea : MonoBehaviour
 {
-    [SerializeField]
-    protected bool isInsideTrigger = false;
-
     protected virtual void OnTriggerEnter(Collider collider)
     {
-        if (collider.CompareTag(TagStrings.Player))
+        if (collider.gameObject.CompareTag(TagStrings.Player))
         {
-            isInsideTrigger = true;
+            PlayerController player = collider.gameObject.GetComponentInParent<PlayerController>();
+
+            player.isInsideInteractable = true;
+            player.InteractableAction += Interact;
         }
     }
 
     protected virtual void OnTriggerExit(Collider collider)
     {
-        if (collider.CompareTag(TagStrings.Player))
+        if (collider.gameObject.CompareTag(TagStrings.Player))
         {
-            isInsideTrigger = false;
+            PlayerController player = collider.gameObject.GetComponentInParent<PlayerController>();
+
+            player.isInsideInteractable = false;
+            player.InteractableAction -= Interact;
         }
     }
+
+    protected abstract void Interact();
 }
