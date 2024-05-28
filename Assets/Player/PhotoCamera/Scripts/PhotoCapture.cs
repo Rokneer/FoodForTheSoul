@@ -64,7 +64,7 @@ public class PhotoCapture : MonoBehaviour
     #region Functions
     public IEnumerator CapturePhoto()
     {
-        if (PhotoCameraUIManager.Instance.activePhotoIndex < 3)
+        if (PhotoCameraUIManager.Instance.activePhotoIndex < 2)
         {
             // Checks if cast sphere hits a valid target
             bool hasHit = Physics.SphereCast(

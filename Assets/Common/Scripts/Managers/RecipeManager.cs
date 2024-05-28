@@ -16,20 +16,20 @@ public class RecipeManager : MonoBehaviour
 
     [Header("Recipes")]
     [SerializeField]
-    private List<Recipe> recipes;
+    private List<RecipeData> recipes;
 
     [SerializeField]
     private GameObject recipeUI;
 
-    public List<Recipe> activeRecipes;
+    public List<RecipeData> currentRecipes;
     private int lastIngredientIndex = -1;
+    private int lastRecipeIndex = -1;
 
-    private Dictionary<Recipe, bool> isRecipeDoneDictionary = new();
+    private Dictionary<RecipeData, bool> isRecipeDoneDictionary = new();
 
     [Header("Ingredients")]
     [SerializeField]
     private List<IngredientData> activeIngredients;
-    private int lastIndex = -1;
 
     private void Awake()
     {
@@ -51,7 +51,7 @@ public class RecipeManager : MonoBehaviour
 
         if (currentIngredients.Count >= 3)
         {
-            CompletedRecipe();
+            CompleteRecipe();
         }
     }
 
@@ -60,29 +60,7 @@ public class RecipeManager : MonoBehaviour
         currentIngredients.Clear();
     }
 
-    public Recipe ChooseRecipe()
-    {
-        int randomIndex = RandomIndex.GetRandomIndex(recipes.ToArray(), lastIndex);
-
-        Recipe selectedRecipe = recipes[randomIndex];
-
-        activeRecipes.Add(selectedRecipe);
-        isRecipeDoneDictionary[selectedRecipe] = false;
-        AddIngredients(selectedRecipe);
-
-        Sprite[] recipeIngredientSprites = new Sprite[selectedRecipe.ingredients.Count];
-        for (int i = 0; i < selectedRecipe.ingredients.Count; i++)
-        {
-            IngredientData ingredient = selectedRecipe.ingredients[i];
-            recipeIngredientSprites[i] = (ingredient.sprite);
-        }
-
-        RecipeUIManager.Instance.AddPhoto(selectedRecipe.sprite, recipeIngredientSprites);
-
-        return selectedRecipe;
-    }
-
-    private void AddIngredients(Recipe recipe)
+    private void AddIngredients(RecipeData recipe)
     {
         List<IngredientData> uniqueIngredients = recipe.ingredients.Distinct().ToList();
         foreach (IngredientData uniqueIngredient in uniqueIngredients)
@@ -94,7 +72,7 @@ public class RecipeManager : MonoBehaviour
         }
     }
 
-    private void RemoveIngredients(Recipe recipe)
+    private void RemoveIngredients(RecipeData recipe)
     {
         foreach (IngredientData ingredient in recipe.ingredients)
         {
@@ -115,9 +93,39 @@ public class RecipeManager : MonoBehaviour
         return activeIngredients[randomIndex];
     }
 
-    private void CompletedRecipe()
+    public RecipeData ChooseRecipe(int customerIndex)
     {
-        foreach (Recipe recipe in activeRecipes.ToArray())
+        // Select a random recipe
+        int recipeIndex = RandomIndex.GetRandomIndex(recipes.ToArray(), lastRecipeIndex);
+        RecipeData selectedRecipe = recipes[recipeIndex];
+        selectedRecipe.customerId = customerIndex;
+
+        // Add recipe and its ingredients to currently active
+        currentRecipes.Add(selectedRecipe);
+        isRecipeDoneDictionary[selectedRecipe] = false;
+        AddIngredients(selectedRecipe);
+
+        // Setup recipe's ingredients sprites
+        Sprite[] recipeIngredientSprites = new Sprite[selectedRecipe.ingredients.Count];
+        for (int i = 0; i < selectedRecipe.ingredients.Count; i++)
+        {
+            IngredientData ingredient = selectedRecipe.ingredients[i];
+            recipeIngredientSprites[i] = ingredient.sprite;
+        }
+
+        // Set recipe sprites in UI
+        RecipeUIManager.Instance.AddPhoto(
+            selectedRecipe.sprite,
+            recipeIngredientSprites,
+            customerIndex
+        );
+
+        return selectedRecipe;
+    }
+
+    private void CompleteRecipe()
+    {
+        foreach (RecipeData recipe in currentRecipes.ToArray())
         {
             foreach (IngredientData recipeIngredient in recipe.ingredients)
             {
@@ -126,10 +134,18 @@ public class RecipeManager : MonoBehaviour
             if (isRecipeDoneDictionary[recipe])
             {
                 Debug.Log($"{recipe.recipeName} is ready to serve!");
-                RecipeSpawner.Instance.SpawnRecipe(recipe);
-                activeRecipes.Remove(recipe);
-                RemoveIngredients(recipe);
+                RecipeSpawner.Instance.SpawnCompletedRecipe(recipe);
             }
         }
+    }
+
+    public void RemoveRecipe(RecipeData recipe, int photoIndex)
+    {
+        Debug.Log($"Removed {recipe.recipeName} with on photo {photoIndex}");
+
+        RecipeUIManager.Instance.HidePhoto(photoIndex);
+
+        currentRecipes.Remove(recipe);
+        RemoveIngredients(recipe);
     }
 }

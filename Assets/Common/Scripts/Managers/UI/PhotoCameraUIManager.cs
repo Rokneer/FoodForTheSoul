@@ -27,6 +27,7 @@ public class PhotoCameraUIManager : PhotoUIManager
     #region Functions
     public override void AddPhoto(Sprite photoSprite)
     {
+        activePhotoIndex++;
         displayImages[activePhotoIndex].sprite = photoSprite;
 
         // Slide photo into frame
@@ -36,11 +37,9 @@ public class PhotoCameraUIManager : PhotoUIManager
 
         // Fade photo in
         photoCanvasGroups[activePhotoIndex].DOFade(1, fadeInTime);
-
-        activePhotoIndex++;
     }
 
-    protected override void HidePhoto(int photoIndex)
+    public override void HidePhoto(int photoIndex)
     {
         base.HidePhoto(photoIndex);
 
@@ -53,7 +52,7 @@ public class PhotoCameraUIManager : PhotoUIManager
     public void ResetPhotos()
     {
         // Reset photo to inactive state
-        activePhotoIndex = 0;
+        activePhotoIndex = -1;
         for (int i = 0; i < 3; i++)
         {
             HidePhoto(i);

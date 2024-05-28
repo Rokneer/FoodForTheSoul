@@ -3,7 +3,7 @@ using UnityEngine;
 public class TakeOutArea : InteractableArea
 {
     [SerializeField]
-    private Recipe recipe;
+    private RecipeData recipe;
 
     [SerializeField]
     private bool hasPickedUpRecipe = false;

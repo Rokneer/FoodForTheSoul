@@ -59,7 +59,10 @@ public class FoodSpawnManager : Spawner
             ceilingHooksSpawnPoints[i] = ceilingHooks[i].spawnPoint;
             hooksSpawnPointsDict[ceilingHooks[i].spawnPoint] = false;
         }
+    }
 
+    private void Start()
+    {
         InvokeRepeating(nameof(SpawnFood), firstSpawnTime, spawnTime);
     }
 
@@ -155,16 +158,17 @@ public class FoodSpawnManager : Spawner
     {
         if (canSpawn && currentObjectCount < maxObjectCount)
         {
-            int random = Random.Range(0, 3);
+            SpawnFoodInPath();
+            /* int random = Random.Range(0, 3);
             switch (random)
             {
                 case 0:
-                    Invoke(nameof(SpawnFoodInHook), spawnTime);
+                    SpawnFoodInHook();
                     break;
                 default:
-                    Invoke(nameof(SpawnFoodInPath), spawnTime);
+                    SpawnFoodInPath();
                     break;
-            }
+            } */
         }
     }
 

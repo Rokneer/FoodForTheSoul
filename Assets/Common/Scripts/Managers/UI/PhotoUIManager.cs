@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
@@ -17,8 +18,7 @@ public abstract class PhotoUIManager : MonoBehaviour
     protected readonly List<RectTransform> photoFramesRectTransforms = new();
     protected readonly List<CanvasGroup> photoCanvasGroups = new();
 
-    [HideInInspector]
-    public int activePhotoIndex = 0;
+    public int activePhotoIndex = -1;
 
     [Header("Slide Animation")]
     [SerializeField]
@@ -58,9 +58,12 @@ public abstract class PhotoUIManager : MonoBehaviour
     #region Functions
     public virtual void AddPhoto(Sprite photoSprite) { }
 
-    public virtual void AddPhoto(Sprite photoSprite, Sprite[] ingredientSprites) { }
+    public virtual int AddPhoto(Sprite photoSprite, Sprite[] ingredientSprites, int index)
+    {
+        return index;
+    }
 
-    protected virtual void HidePhoto(int photoIndex)
+    public virtual void HidePhoto(int photoIndex)
     {
         // Fade photo out
         photoCanvasGroups[photoIndex].DOFade(0, fadeOutTime);

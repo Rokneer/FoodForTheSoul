@@ -10,7 +10,8 @@ public class RecipeSpawner : Spawner
     [Header("Spawn Points")]
     [SerializeField]
     private Transform[] recipeSpawnPoints;
-    private Dictionary<Transform, bool> spawnPointsDict = new();
+    private Dictionary<Transform, bool> spawnPointsDict = new(3);
+    private Dictionary<RecipeData, int> completeRecipes = new(3);
 
     private bool IsSpawnFull
     {
@@ -43,7 +44,6 @@ public class RecipeSpawner : Spawner
         {
             spawnPointsDict[spawnPoint] = false;
         }
-        InvokeRepeating(nameof(SpawnRecipe), firstSpawnTime, spawnTime);
     }
 
     protected override GameObject SpawnObject(Transform spawnPoint)
@@ -57,29 +57,36 @@ public class RecipeSpawner : Spawner
         );
     }
 
-    public void SpawnRecipe(Recipe recipe)
+    public void SpawnCompletedRecipe(RecipeData recipe)
     {
         if (canSpawn && !IsSpawnFull)
         {
             // Get a random spawn index that isn't in use
-            randomIndex = RandomIndex.GetUnusedRandomIndex(
+            int spawnIndex = RandomIndex.GetUnusedRandomIndex(
                 recipeSpawnPoints,
                 lastSpawnPointIndex,
                 spawnPointsDict
             );
 
+            // Select spawn point
+            Transform spawnPoint = recipeSpawnPoints[spawnIndex];
+
             // Set selected transform as currently used
-            spawnPointsDict[recipeSpawnPoints[randomIndex]] = true;
+            spawnPointsDict[spawnPoint] = true;
+
+            completeRecipes[recipe] = spawnIndex;
 
             // Spawn completed recipe
-            SpawnObject(recipeSpawnPoints[randomIndex]);
+            SpawnObject(spawnPoint);
         }
     }
 
-    public void RemoveRecipe(GameObject objectToRemove)
+    public void RemoveCompletedRecipe(RecipeData recipeData)
     {
+        Transform recipeTransform = recipeSpawnPoints[completeRecipes[recipeData]];
+
         // Set selected transform as not longer in use
-        spawnPointsDict[recipeSpawnPoints[randomIndex]] = false;
-        base.RemoveObject(objectToRemove);
+        spawnPointsDict[recipeTransform] = false;
+        base.RemoveObject(objectToSpawn);
     }
 }

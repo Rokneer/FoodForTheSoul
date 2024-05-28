@@ -4,7 +4,7 @@ using UnityEngine;
 public class Customer : MonoBehaviour
 {
     [Header("Recipe")]
-    public Recipe recipe;
+    public RecipeData recipe;
 
     [Header("Stun")]
     [SerializeField]

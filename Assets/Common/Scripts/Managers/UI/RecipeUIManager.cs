@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
@@ -56,11 +57,11 @@ public class RecipeUIManager : PhotoUIManager
     }
 
     #region Functions
-    public override void AddPhoto(Sprite photoSprite, Sprite[] ingredientSprites)
+    public override int AddPhoto(Sprite photoSprite, Sprite[] ingredientSprites, int index)
     {
-        displayImages[activePhotoIndex].sprite = photoSprite;
+        displayImages[index].sprite = photoSprite;
 
-        List<Image> currentImages = ingredientDisplayImages[activePhotoIndex].innerList;
+        List<Image> currentImages = ingredientDisplayImages[index].innerList;
         for (int i = 0; i < ingredientSprites.Length; i++)
         {
             Sprite sprite = ingredientSprites[i];
@@ -68,29 +69,28 @@ public class RecipeUIManager : PhotoUIManager
         }
 
         // Slide photo into frame
-        photoFramesRectTransforms[activePhotoIndex]
+        photoFramesRectTransforms[index]
             .DOAnchorPosY(slideInPoint, slideInTime)
             .SetEase(Ease.InOutSine);
 
         // Fade photo and ingredients in
-        photoCanvasGroups[activePhotoIndex].DOFade(1, fadeInTime);
-        List<CanvasGroup> currentCanvasGroups = ingredientCanvasGroups[activePhotoIndex].innerList;
+        photoCanvasGroups[index].DOFade(1, fadeInTime);
+        List<CanvasGroup> currentCanvasGroups = ingredientCanvasGroups[index].innerList;
         foreach (CanvasGroup canvasGroup in currentCanvasGroups)
         {
             canvasGroup.DOFade(1, fadeInTime);
         }
 
-        activePhotoIndex++;
+        return activePhotoIndex;
     }
 
-    protected override void HidePhoto(int photoIndex)
+    public override void HidePhoto(int photoIndex)
     {
-        base.HidePhoto(photoIndex);
-
         // Slide out of frame
         photoFramesRectTransforms[photoIndex]
             .DOAnchorPosY(slideOutPoint, slideOutTime)
             .SetEase(Ease.InOutSine);
+        base.HidePhoto(photoIndex);
     }
     #endregion Functions
 }
