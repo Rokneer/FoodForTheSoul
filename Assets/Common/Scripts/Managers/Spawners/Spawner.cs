@@ -12,7 +12,8 @@ public abstract class Spawner : MonoBehaviour
     [SerializeField]
     protected GameObject objectToSpawn;
 
-    public bool canSpawn = true;
+    public bool isActive = true;
+    protected virtual bool CanSpawn => isActive && currentObjectCount < maxObjectCount;
 
     [Header("Object Data")]
     [SerializeField]

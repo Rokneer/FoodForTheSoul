@@ -78,7 +78,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private float crouchYScale;
     private float originalYScale;
-    bool HasCeilingAbove =>
+
+    private bool HasCeilingAbove =>
         Physics.Raycast(transform.position, Vector3.up, playerHeight * 1f + 0.3f);
 
     [Header("Ground Check")]

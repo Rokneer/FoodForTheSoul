@@ -48,7 +48,7 @@ public class SoundFXManager : MonoBehaviour
         float volume
     )
     {
-        int randomIndex = RandomIndex.GetRandomIndex(audioClips, lastIndex);
-        PlaySoundFXClip(audioClips[randomIndex], spawnTransform, volume);
+        int sfxId = RandomIndex.GetRandomIndex(audioClips, lastIndex);
+        PlaySoundFXClip(audioClips[sfxId], spawnTransform, volume);
     }
 }

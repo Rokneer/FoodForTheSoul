@@ -11,6 +11,10 @@ public class Customer : MonoBehaviour
     private float stunTime;
     public bool isStunned = false;
 
+    [Header("Damage")]
+    [SerializeField]
+    private float damageValue = 25;
+
     private TweenMovement tweenMovement;
 
     private void Awake()
@@ -27,14 +31,20 @@ public class Customer : MonoBehaviour
         // Stop tween movement
         tweenMovement.PauseMovement();
 
+        // Stop timer
+        RecipeUIManager.Instance.PauseTimer(recipe.customerId);
+
         //* Start stun particle effect
 
         yield return new WaitForSeconds(stunTime);
 
         //* Stop stun particle effect
 
-        // Continue tween movement
+        // Resume tween movement
         tweenMovement.ResumeMovement();
+
+        // Resume timer
+        RecipeUIManager.Instance.ResumeTimer(recipe.customerId);
 
         isStunned = false;
     }
@@ -42,5 +52,6 @@ public class Customer : MonoBehaviour
     public void DoDamage()
     {
         Debug.Log($"Customer with {recipe.label} attacked angrily!");
+        GameManager.Instance.DamageBattery(damageValue);
     }
 }

@@ -18,6 +18,7 @@ public class CustomerSpawnManager : Spawner
 
     private readonly Dictionary<Transform, bool> spawnPointsDict = new(3);
     private readonly Dictionary<Customer, int> currentCustomers = new(3);
+    protected override bool CanSpawn => base.CanSpawn && !IsSpawnFull;
     private bool IsSpawnFull
     {
         get
@@ -66,39 +67,40 @@ public class CustomerSpawnManager : Spawner
 
     private void SpawnCustomer()
     {
-        if (canSpawn && !IsSpawnFull)
+        if (CanSpawn)
         {
             // Get a random spawn index that isn't in use
-            int customerIndex = RandomIndex.GetUnusedRandomIndex(
+            int customerId = RandomIndex.GetUnusedRandomIndex(
                 startPoints,
                 lastSpawnPointIndex,
                 spawnPointsDict
             );
 
             // Set selected transform as currently used
-            spawnPointsDict[startPoints[customerIndex]] = true;
+            spawnPointsDict[startPoints[customerId]] = true;
 
             // Select tween start and end point
-            Transform startPoint = startPoints[customerIndex];
-            Transform endPoint = endPoints[customerIndex];
+            Transform startPoint = startPoints[customerId];
+            Transform endPoint = endPoints[customerId];
 
             // Spawn customer
-            GameObject spawnedCustomerObj = SpawnObject(startPoints[customerIndex]);
+            GameObject spawnedCustomerObj = SpawnObject(startPoints[customerId]);
             Customer spawnedCustomer = spawnedCustomerObj.GetComponent<Customer>();
-            currentCustomers[spawnedCustomer] = customerIndex;
+            currentCustomers[spawnedCustomer] = customerId;
 
             // Set customer recipe
-            spawnedCustomer.recipe = RecipeManager.Instance.ChooseRecipe(customerIndex);
+            spawnedCustomer.recipe = RecipeManager.Instance.ChooseRecipe(customerId);
 
             // Set delivery point recipe
-            deliveryAreas[customerIndex].currentRecipe = spawnedCustomer.recipe;
+            deliveryAreas[customerId].currentRecipe = spawnedCustomer.recipe;
 
             // Get tween movement
             TweenMovement tweenMovement = spawnedCustomerObj.GetComponent<TweenMovement>();
 
-            // Set timer
-            tweenMovement.tweenTime = spawnedCustomer.recipe.time;
-            //* Start timer on recipe UI
+            // Set timer on tween and UI
+            float recipeTime = spawnedCustomer.recipe.time;
+            tweenMovement.tweenTime = recipeTime;
+            RecipeUIManager.Instance.SetupTimer(recipeTime, recipeTime, customerId);
 
             // Start movement
             tweenMovement.SetUpMovement(startPoint, endPoint);
@@ -111,19 +113,21 @@ public class CustomerSpawnManager : Spawner
 
     public void RemoveCustomer(Customer customer)
     {
-        int customerIndex = currentCustomers[customer];
+        int customerId = currentCustomers[customer];
 
         // Set selected transform as not longer in use
-        spawnPointsDict[startPoints[customerIndex]] = false;
+        spawnPointsDict[startPoints[customerId]] = false;
 
         // Remove delivery point recipe
-        deliveryAreas[customerIndex].currentRecipe = customer.recipe;
+        deliveryAreas[customerId].currentRecipe = customer.recipe;
 
         // Remove recipe from active
-        RecipeManager.Instance.RemoveRecipe(customer.recipe, customerIndex);
+        RecipeManager.Instance.RemoveRecipe(customer.recipe, customerId);
 
         // Do damage to player
         customer.DoDamage();
+
+        RecipeUIManager.Instance.DisableTimer(customerId);
 
         // Remove from current components
         currentCustomers.Remove(customer);

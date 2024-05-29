@@ -4,26 +4,43 @@ using UnityEngine.UI;
 public class CameraBattery : MonoBehaviour
 {
     [SerializeField]
-    private float cameraBattery = 90;
+    private float maxCameraBattery = 100;
+    public float MaxCameraBatteryValue
+    {
+        get => maxCameraBattery;
+        set
+        {
+            maxCameraBattery = value;
+            batteryGauge.maxValue = maxCameraBattery;
+        }
+    }
+
+    [SerializeField]
+    private float cameraBattery = 100;
     public float CameraBatteryValue
     {
         get => cameraBattery;
         set
         {
-            cameraBattery = value;
+            cameraBattery = Mathf.Clamp(value, 0, maxCameraBattery);
             batteryGauge.value = cameraBattery;
+
+            if (batteryGauge.value == 0)
+            {
+                //* Call GameManager GameOver() method
+                Debug.Log("Out of battery!");
+            }
         }
     }
 
-    private float targetValue = 90;
-
     [SerializeField]
     private Slider batteryGauge;
+    private float targetValue = 100;
     private readonly float lerpSpeed = 2f;
 
     private void Awake()
     {
-        batteryGauge.maxValue = cameraBattery;
+        batteryGauge.maxValue = maxCameraBattery;
         batteryGauge.value = CameraBatteryValue;
     }
 
@@ -34,5 +51,15 @@ public class CameraBattery : MonoBehaviour
             targetValue,
             Time.deltaTime * lerpSpeed
         );
+    }
+
+    internal void LowerBattery(float damageValue)
+    {
+        targetValue -= damageValue;
+    }
+
+    internal void IncreaseBattery(float rechargeValue)
+    {
+        targetValue += rechargeValue;
     }
 }

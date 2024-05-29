@@ -11,7 +11,7 @@ public class RecipeSpawner : Spawner
     private Transform[] recipeSpawnPoints;
     private readonly Dictionary<Transform, bool> spawnPointsDict = new(3);
     private readonly Dictionary<RecipeData, int> completeRecipes = new(3);
-
+    protected override bool CanSpawn => base.CanSpawn && !IsSpawnFull;
     private bool IsSpawnFull
     {
         get
@@ -57,21 +57,21 @@ public class RecipeSpawner : Spawner
 
     public void SpawnCompletedRecipe(RecipeData recipe)
     {
-        if (canSpawn && !IsSpawnFull)
+        if (CanSpawn)
         {
             // Get a random spawn index that isn't in use
-            int spawnIndex = RandomIndex.GetUnusedRandomIndex(
+            int spawnId = RandomIndex.GetUnusedRandomIndex(
                 recipeSpawnPoints,
                 lastSpawnPointIndex,
                 spawnPointsDict
             );
 
             // Select spawn point
-            Transform spawnPoint = recipeSpawnPoints[spawnIndex];
+            Transform spawnPoint = recipeSpawnPoints[spawnId];
 
             // Set selected transform as currently used
             spawnPointsDict[spawnPoint] = true;
-            completeRecipes[recipe] = spawnIndex;
+            completeRecipes[recipe] = spawnId;
 
             // Get take out area
             TakeOutArea takeOutArea = spawnPoint.gameObject.GetComponentInParent<TakeOutArea>();

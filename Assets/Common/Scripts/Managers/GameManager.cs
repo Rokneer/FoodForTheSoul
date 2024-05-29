@@ -1,9 +1,18 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
     private static GameManager _instance;
     public static GameManager Instance => _instance;
+
+    [Header("Photo Camera")]
+    [SerializeField]
+    private CameraBattery cameraBattery;
+
+    [Header("Customers")]
+    [SerializeField]
+    private List<Customer> currentCustomers;
 
     [Header("Spawners")]
     [SerializeField]
@@ -31,6 +40,19 @@ public class GameManager : MonoBehaviour
 
     private void DisableSpawner(Spawner spawner)
     {
-        spawner.canSpawn = false;
+        spawner.isActive = false;
+    }
+
+    public void DamageBattery(float damageValue)
+    {
+        cameraBattery.LowerBattery(damageValue);
+    }
+
+    public void StunCustomers()
+    {
+        foreach (Customer customer in currentCustomers)
+        {
+            StartCoroutine(customer.StunCustomer());
+        }
     }
 }

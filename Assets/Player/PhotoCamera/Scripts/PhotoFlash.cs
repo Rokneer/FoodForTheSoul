@@ -59,14 +59,18 @@ public class PhotoFlash : MonoBehaviour
         // Update flash UI
         targetSliderValue = 0;
 
-        //* Stun enemies with StunCustomer()
-        //? Maybe use a GameManager event to trigger it in all current enemies
+        // Stun all current customers
+        GameManager.Instance.StunCustomers();
 
+        // Play flash SFX
         SoundFXManager.Instance.PlaySoundFXClip(flashSFX, transform, 1);
+
+        // Increase light intensity
         targetIntensity = 4;
 
         yield return new WaitForSeconds(flashDuration);
 
+        // Lower light intensity
         targetIntensity = 0;
 
         // Start flash UI cooldown timer
@@ -74,7 +78,9 @@ public class PhotoFlash : MonoBehaviour
         targetSliderValue = 1;
         yield return new WaitForSeconds(flashCooldown);
 
+        // Play flash recharge SFX
         SoundFXManager.Instance.PlaySoundFXClip(flashRechargeSFX, transform, 1);
+
         sliderLerpSpeed = 20f;
         canUseFlash = true;
     }

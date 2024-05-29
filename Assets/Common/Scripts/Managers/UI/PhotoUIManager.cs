@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public abstract class PhotoUIManager : MonoBehaviour
 {
     #region Variables
-    public int activePhotoIndex = -1;
+    public int activePhotoCount = -1;
 
     [Header("Slide Animation")]
     [SerializeField]
@@ -53,10 +53,10 @@ public abstract class PhotoUIManager : MonoBehaviour
     #endregion Lifecycle
 
     #region Functions
-    public virtual void HidePhoto(int photoIndex)
+    public virtual void HidePhoto(int photoId)
     {
         // Fade photo out
-        photoCanvasGroups[photoIndex].DOFade(0, fadeOutTime);
+        photoCanvasGroups[photoId].DOFade(0, fadeOutTime);
     }
     #endregion Functions
 }

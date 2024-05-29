@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 317452922232108132}
   - component: {fileID: 6628609802551591423}
   m_Layer: 5
-  m_Name: TimerSlider
+  m_Name: TimerSlider_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -81,11 +81,11 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 0}
   m_FillRect: {fileID: 1429281110968790058}
   m_HandleRect: {fileID: 0}
-  m_Direction: 3
+  m_Direction: 2
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0.611
+  m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -150,8 +150,8 @@ RectTransform:
   m_GameObject: {fileID: 5844447182935355956}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 317452922232108132}
   - {fileID: 690296905692231029}
@@ -320,6 +320,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 8539913681133258053}
     m_Modifications:
+    - target: {fileID: 1244635237475312416, guid: 846d44593c0fe4a43bcb93140255135a,
+        type: 3}
+      propertyPath: m_Name
+      value: Ingredient_3_DisplayAreaBG_1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1637189131329826935, guid: 846d44593c0fe4a43bcb93140255135a,
+        type: 3}
+      propertyPath: m_Name
+      value: Ingredient_3_HolderMask_1
+      objectReference: {fileID: 0}
     - target: {fileID: 2275751077952612376, guid: 846d44593c0fe4a43bcb93140255135a,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -460,6 +470,46 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4265947841539907144, guid: 846d44593c0fe4a43bcb93140255135a,
+        type: 3}
+      propertyPath: m_Name
+      value: Ingredient_3_HolderMask_3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4332348461671631490, guid: 846d44593c0fe4a43bcb93140255135a,
+        type: 3}
+      propertyPath: m_Name
+      value: Ingredient_3_DisplayArea_2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4381460403750276383, guid: 846d44593c0fe4a43bcb93140255135a,
+        type: 3}
+      propertyPath: m_Name
+      value: Ingredient_3_DisplayAreaBG_3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787743566022806025, guid: 846d44593c0fe4a43bcb93140255135a,
+        type: 3}
+      propertyPath: m_Name
+      value: PhotoHolderMask_3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4969817987034824053, guid: 846d44593c0fe4a43bcb93140255135a,
+        type: 3}
+      propertyPath: m_Name
+      value: PhotoDisplayAreaBG_3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5844943506896397507, guid: 846d44593c0fe4a43bcb93140255135a,
+        type: 3}
+      propertyPath: m_Name
+      value: Ingredient_3_DisplayArea_3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5894347541387240286, guid: 846d44593c0fe4a43bcb93140255135a,
+        type: 3}
+      propertyPath: m_Name
+      value: Ingredient_3_DisplayAreaBG_2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6210831310743171081, guid: 846d44593c0fe4a43bcb93140255135a,
+        type: 3}
+      propertyPath: m_Name
+      value: Ingredient_3_HolderMask_2
+      objectReference: {fileID: 0}
     - target: {fileID: 8257324981537408601, guid: 846d44593c0fe4a43bcb93140255135a,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -483,7 +533,22 @@ PrefabInstance:
     - target: {fileID: 8705473690588501620, guid: 846d44593c0fe4a43bcb93140255135a,
         type: 3}
       propertyPath: m_Name
-      value: RecipePhotoFrame
+      value: RecipePhotoFrame_3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8891719106586534174, guid: 846d44593c0fe4a43bcb93140255135a,
+        type: 3}
+      propertyPath: m_Name
+      value: Ingredients_3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8977555340310006524, guid: 846d44593c0fe4a43bcb93140255135a,
+        type: 3}
+      propertyPath: m_Name
+      value: Ingredient_3_DisplayArea_1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9212202256506627444, guid: 846d44593c0fe4a43bcb93140255135a,
+        type: 3}
+      propertyPath: m_Name
+      value: PhotoDisplayArea_3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

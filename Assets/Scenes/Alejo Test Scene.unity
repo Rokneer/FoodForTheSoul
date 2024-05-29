@@ -2396,21 +2396,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 124509859}
     m_Modifications:
-    - target: {fileID: 73150994591710713, guid: d1699449bb7254740afc743468d1497c,
-        type: 3}
-      propertyPath: m_Name
-      value: Ingredient_3_DisplayAreaBG_3
-      objectReference: {fileID: 0}
-    - target: {fileID: 131280090767473252, guid: d1699449bb7254740afc743468d1497c,
-        type: 3}
-      propertyPath: m_Name
-      value: Ingredient_3_DisplayArea_2
-      objectReference: {fileID: 0}
-    - target: {fileID: 503912232367156910, guid: d1699449bb7254740afc743468d1497c,
-        type: 3}
-      propertyPath: m_Name
-      value: Ingredient_3_HolderMask_3
-      objectReference: {fileID: 0}
     - target: {fileID: 1140291251693647553, guid: d1699449bb7254740afc743468d1497c,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -2441,16 +2426,6 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1429281110968790058, guid: d1699449bb7254740afc743468d1497c,
-        type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1429281110968790058, guid: d1699449bb7254740afc743468d1497c,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -5.0000076
-      objectReference: {fileID: 0}
     - target: {fileID: 2474981950548383998, guid: d1699449bb7254740afc743468d1497c,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -2470,46 +2445,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2977234295423990877, guid: d1699449bb7254740afc743468d1497c,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -0.017097473
-      objectReference: {fileID: 0}
-    - target: {fileID: 3131558254055260305, guid: d1699449bb7254740afc743468d1497c,
-        type: 3}
-      propertyPath: m_Name
-      value: Ingredient_3_HolderMask_1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3190847243158390854, guid: d1699449bb7254740afc743468d1497c,
-        type: 3}
-      propertyPath: m_Name
-      value: TimerSlider_3
-      objectReference: {fileID: 0}
-    - target: {fileID: 3208854676116411334, guid: d1699449bb7254740afc743468d1497c,
-        type: 3}
-      propertyPath: m_Name
-      value: Ingredient_3_DisplayAreaBG_1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4709461672756361754, guid: d1699449bb7254740afc743468d1497c,
-        type: 3}
-      propertyPath: m_Name
-      value: Ingredient_3_DisplayArea_1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4761888446728000914, guid: d1699449bb7254740afc743468d1497c,
-        type: 3}
-      propertyPath: m_Name
-      value: PhotoDisplayArea_3
-      objectReference: {fileID: 0}
-    - target: {fileID: 4980417440739108498, guid: d1699449bb7254740afc743468d1497c,
-        type: 3}
-      propertyPath: m_Name
-      value: RecipePhotoFrame_3
-      objectReference: {fileID: 0}
-    - target: {fileID: 5091400871783666168, guid: d1699449bb7254740afc743468d1497c,
-        type: 3}
-      propertyPath: m_Name
-      value: Ingredients_3
       objectReference: {fileID: 0}
     - target: {fileID: 5717909230973646527, guid: d1699449bb7254740afc743468d1497c,
         type: 3}
@@ -2535,21 +2470,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: RecipeTimer_3
-      objectReference: {fileID: 0}
-    - target: {fileID: 7781304672573915375, guid: d1699449bb7254740afc743468d1497c,
-        type: 3}
-      propertyPath: m_Name
-      value: Ingredient_3_HolderMask_2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7782533169797272504, guid: d1699449bb7254740afc743468d1497c,
-        type: 3}
-      propertyPath: m_Name
-      value: Ingredient_3_DisplayAreaBG_2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7840934429234713637, guid: d1699449bb7254740afc743468d1497c,
-        type: 3}
-      propertyPath: m_Name
-      value: Ingredient_3_DisplayArea_3
       objectReference: {fileID: 0}
     - target: {fileID: 8539913681133258053, guid: d1699449bb7254740afc743468d1497c,
         type: 3}
@@ -2590,21 +2510,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SizeDelta.y
       value: 246.6
-      objectReference: {fileID: 0}
-    - target: {fileID: 8539913681133258053, guid: d1699449bb7254740afc743468d1497c,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 8539913681133258053, guid: d1699449bb7254740afc743468d1497c,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 8539913681133258053, guid: d1699449bb7254740afc743468d1497c,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: 8539913681133258053, guid: d1699449bb7254740afc743468d1497c,
         type: 3}
@@ -2665,21 +2570,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8539913681133258053, guid: d1699449bb7254740afc743468d1497c,
-        type: 3}
-      propertyPath: m_ConstrainProportionsScale
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8734069932447092115, guid: d1699449bb7254740afc743468d1497c,
-        type: 3}
-      propertyPath: m_Name
-      value: PhotoDisplayAreaBG_3
-      objectReference: {fileID: 0}
-    - target: {fileID: 9204383595413699311, guid: d1699449bb7254740afc743468d1497c,
-        type: 3}
-      propertyPath: m_Name
-      value: PhotoHolderMask_3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6485,6 +6375,18 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!114 &599577651 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6628609802551591423, guid: d1699449bb7254740afc743468d1497c,
+    type: 3}
+  m_PrefabInstance: {fileID: 1725244385}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &610022881 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4532619456069943623, guid: d1699449bb7254740afc743468d1497c,
@@ -6565,7 +6467,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2590963f2bace64daea3df87d3c90b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activePhotoIndex: 0
+  activePhotoCount: -1
   slideInTime: 0.25
   slideOutTime: 0.25
   slideInPoint: -380
@@ -6580,6 +6482,22 @@ MonoBehaviour:
   - {fileID: 610022881}
   - {fileID: 544108189}
   - {fileID: 785085265}
+  recipeTimers:
+  - {fileID: 1749743950}
+  - {fileID: 599577651}
+  - {fileID: 1768483195}
+  targetTimerValues:
+  - 0
+  - 0
+  - 0
+  targetTimerValue:
+  - 0
+  - 0
+  - 0
+  timerLerpSpeeds:
+  - 0
+  - 0
+  - 0
   ingredientFrames:
   - {fileID: 108790205}
   - {fileID: 298807254}
@@ -6614,6 +6532,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentIngredients: []
+  activeIngredients: []
   hasCompleteRecipe: 0
   recipes:
   - {fileID: 11400000, guid: d5f40d7203ddd6542a967d33b7543257, type: 2}
@@ -6621,7 +6540,6 @@ MonoBehaviour:
   recipeUI: {fileID: 8705473690588501620, guid: 846d44593c0fe4a43bcb93140255135a,
     type: 3}
   currentRecipes: []
-  activeIngredients: []
 --- !u!4 &652397981
 Transform:
   m_ObjectHideFlags: 0
@@ -8155,7 +8073,8 @@ Transform:
   m_LocalPosition: {x: 0.8, y: 1.4, z: -10.56}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1506531646}
   m_Father: {fileID: 334911886}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &842191006 stripped
@@ -8647,7 +8566,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b376c8d463441424bb49e6fc6475d1aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activePhotoIndex: -1
+  activePhotoCount: -1
   slideInTime: 0.25
   slideOutTime: 0.25
   slideInPoint: -157
@@ -9846,7 +9765,7 @@ MonoBehaviour:
   spawnTime: 2
   objectToSpawn: {fileID: 7189395298145510373, guid: 9d39b2e87b4e65745883ff36b2847c48,
     type: 3}
-  canSpawn: 1
+  isActive: 1
   currentObjectCount: 0
   maxObjectCount: 20
   ceilingPaths:
@@ -9875,10 +9794,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   firstSpawnTime: 0
-  spawnTime: 15
+  spawnTime: 3
   objectToSpawn: {fileID: 6470931172375832538, guid: 037265a00ccca1344b2e455522cad2ab,
     type: 3}
-  canSpawn: 1
+  isActive: 1
   currentObjectCount: 0
   maxObjectCount: 3
   startPoints:
@@ -9909,7 +9828,7 @@ MonoBehaviour:
   spawnTime: 20
   objectToSpawn: {fileID: 3783829494860762345, guid: c8dd091439d68e341971081692bfc6da,
     type: 3}
-  canSpawn: 1
+  isActive: 1
   currentObjectCount: 0
   maxObjectCount: 6
   spawnPoints: []
@@ -9944,7 +9863,7 @@ MonoBehaviour:
   spawnTime: 0
   objectToSpawn: {fileID: 6385334661117356896, guid: 373fe6b42da53a14aaae29bdb9fb6ad4,
     type: 3}
-  canSpawn: 1
+  isActive: 1
   currentObjectCount: 0
   maxObjectCount: 3
   recipeSpawnPoints:
@@ -13721,7 +13640,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ba02f8e0fff069419273cd66031675b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraBattery: 90
+  maxCameraBattery: 100
+  cameraBattery: 100
   batteryGauge: {fileID: 1398256238}
 --- !u!114 &1468923748 stripped
 MonoBehaviour:
@@ -14197,6 +14117,59 @@ Transform:
   - {fileID: 1723795879}
   m_Father: {fileID: 504660194}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1506531645
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1506531646}
+  - component: {fileID: 1506531647}
+  m_Layer: 0
+  m_Name: Cube
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1506531646
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1506531645}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 4.58, z: -0.854}
+  m_LocalScale: {x: 26, y: 10, z: 1.2}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 840129010}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &1506531647
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1506531645}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1506839273
 GameObject:
   m_ObjectHideFlags: 0
@@ -15901,21 +15874,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 124509859}
     m_Modifications:
-    - target: {fileID: 73150994591710713, guid: d1699449bb7254740afc743468d1497c,
-        type: 3}
-      propertyPath: m_Name
-      value: Ingredient_2_DisplayAreaBG_3
-      objectReference: {fileID: 0}
-    - target: {fileID: 131280090767473252, guid: d1699449bb7254740afc743468d1497c,
-        type: 3}
-      propertyPath: m_Name
-      value: Ingredient_2_DisplayArea_2
-      objectReference: {fileID: 0}
-    - target: {fileID: 503912232367156910, guid: d1699449bb7254740afc743468d1497c,
-        type: 3}
-      propertyPath: m_Name
-      value: Ingredient_2_HolderMask_3
-      objectReference: {fileID: 0}
     - target: {fileID: 1140291251693647553, guid: d1699449bb7254740afc743468d1497c,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -15946,16 +15904,6 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1429281110968790058, guid: d1699449bb7254740afc743468d1497c,
-        type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1429281110968790058, guid: d1699449bb7254740afc743468d1497c,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -5.0000076
-      objectReference: {fileID: 0}
     - target: {fileID: 2474981950548383998, guid: d1699449bb7254740afc743468d1497c,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -15975,46 +15923,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2977234295423990877, guid: d1699449bb7254740afc743468d1497c,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -0.017097473
-      objectReference: {fileID: 0}
-    - target: {fileID: 3131558254055260305, guid: d1699449bb7254740afc743468d1497c,
-        type: 3}
-      propertyPath: m_Name
-      value: Ingredient_2_HolderMask_1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3190847243158390854, guid: d1699449bb7254740afc743468d1497c,
-        type: 3}
-      propertyPath: m_Name
-      value: TimerSlider_2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3208854676116411334, guid: d1699449bb7254740afc743468d1497c,
-        type: 3}
-      propertyPath: m_Name
-      value: Ingredient_2_DisplayAreaBG_1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4709461672756361754, guid: d1699449bb7254740afc743468d1497c,
-        type: 3}
-      propertyPath: m_Name
-      value: Ingredient_2_DisplayArea_1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4761888446728000914, guid: d1699449bb7254740afc743468d1497c,
-        type: 3}
-      propertyPath: m_Name
-      value: PhotoDisplayArea_2
-      objectReference: {fileID: 0}
-    - target: {fileID: 4980417440739108498, guid: d1699449bb7254740afc743468d1497c,
-        type: 3}
-      propertyPath: m_Name
-      value: RecipePhotoFrame_2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5091400871783666168, guid: d1699449bb7254740afc743468d1497c,
-        type: 3}
-      propertyPath: m_Name
-      value: Ingredients_2
       objectReference: {fileID: 0}
     - target: {fileID: 5717909230973646527, guid: d1699449bb7254740afc743468d1497c,
         type: 3}
@@ -16040,21 +15948,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: RecipeTimer_2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7781304672573915375, guid: d1699449bb7254740afc743468d1497c,
-        type: 3}
-      propertyPath: m_Name
-      value: Ingredient_2_HolderMask_2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7782533169797272504, guid: d1699449bb7254740afc743468d1497c,
-        type: 3}
-      propertyPath: m_Name
-      value: Ingredient_2_DisplayAreaBG_2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7840934429234713637, guid: d1699449bb7254740afc743468d1497c,
-        type: 3}
-      propertyPath: m_Name
-      value: Ingredient_2_DisplayArea_3
       objectReference: {fileID: 0}
     - target: {fileID: 8539913681133258053, guid: d1699449bb7254740afc743468d1497c,
         type: 3}
@@ -16095,21 +15988,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SizeDelta.y
       value: 246.6
-      objectReference: {fileID: 0}
-    - target: {fileID: 8539913681133258053, guid: d1699449bb7254740afc743468d1497c,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 8539913681133258053, guid: d1699449bb7254740afc743468d1497c,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 8539913681133258053, guid: d1699449bb7254740afc743468d1497c,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: 8539913681133258053, guid: d1699449bb7254740afc743468d1497c,
         type: 3}
@@ -16170,21 +16048,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8539913681133258053, guid: d1699449bb7254740afc743468d1497c,
-        type: 3}
-      propertyPath: m_ConstrainProportionsScale
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8734069932447092115, guid: d1699449bb7254740afc743468d1497c,
-        type: 3}
-      propertyPath: m_Name
-      value: PhotoDisplayAreaBG_2
-      objectReference: {fileID: 0}
-    - target: {fileID: 9204383595413699311, guid: d1699449bb7254740afc743468d1497c,
-        type: 3}
-      propertyPath: m_Name
-      value: PhotoHolderMask_2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -16796,6 +16659,30 @@ Transform:
   m_Children: []
   m_Father: {fileID: 829824297}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1749743950 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6628609802551591423, guid: d1699449bb7254740afc743468d1497c,
+    type: 3}
+  m_PrefabInstance: {fileID: 1117981986073862664}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1768483195 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6628609802551591423, guid: d1699449bb7254740afc743468d1497c,
+    type: 3}
+  m_PrefabInstance: {fileID: 244218204}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1768577697
 GameObject:
   m_ObjectHideFlags: 0
@@ -18776,6 +18663,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9d364d1e1fc48a49ab0a1b4cb504cc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cameraBattery: {fileID: 1466127989}
+  currentCustomers: []
   spawnManager: {fileID: 1046215989}
 --- !u!4 &1956599633
 Transform:
@@ -20260,21 +20149,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 124509859}
     m_Modifications:
-    - target: {fileID: 73150994591710713, guid: d1699449bb7254740afc743468d1497c,
-        type: 3}
-      propertyPath: m_Name
-      value: Ingredient_1_DisplayAreaBG_3
-      objectReference: {fileID: 0}
-    - target: {fileID: 131280090767473252, guid: d1699449bb7254740afc743468d1497c,
-        type: 3}
-      propertyPath: m_Name
-      value: Ingredient_1_DisplayArea_2
-      objectReference: {fileID: 0}
-    - target: {fileID: 503912232367156910, guid: d1699449bb7254740afc743468d1497c,
-        type: 3}
-      propertyPath: m_Name
-      value: Ingredient_1_HolderMask_3
-      objectReference: {fileID: 0}
     - target: {fileID: 1140291251693647553, guid: d1699449bb7254740afc743468d1497c,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -20305,16 +20179,6 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1429281110968790058, guid: d1699449bb7254740afc743468d1497c,
-        type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1429281110968790058, guid: d1699449bb7254740afc743468d1497c,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -5.0000076
-      objectReference: {fileID: 0}
     - target: {fileID: 2474981950548383998, guid: d1699449bb7254740afc743468d1497c,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -20334,46 +20198,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2977234295423990877, guid: d1699449bb7254740afc743468d1497c,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -0.017097473
-      objectReference: {fileID: 0}
-    - target: {fileID: 3131558254055260305, guid: d1699449bb7254740afc743468d1497c,
-        type: 3}
-      propertyPath: m_Name
-      value: Ingredient_1_HolderMask_1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3190847243158390854, guid: d1699449bb7254740afc743468d1497c,
-        type: 3}
-      propertyPath: m_Name
-      value: TimerSlider_1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3208854676116411334, guid: d1699449bb7254740afc743468d1497c,
-        type: 3}
-      propertyPath: m_Name
-      value: Ingredient_1_DisplayAreaBG_1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4709461672756361754, guid: d1699449bb7254740afc743468d1497c,
-        type: 3}
-      propertyPath: m_Name
-      value: Ingredient_1_DisplayArea_1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4761888446728000914, guid: d1699449bb7254740afc743468d1497c,
-        type: 3}
-      propertyPath: m_Name
-      value: PhotoDisplayArea_1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4980417440739108498, guid: d1699449bb7254740afc743468d1497c,
-        type: 3}
-      propertyPath: m_Name
-      value: RecipePhotoFrame_1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5091400871783666168, guid: d1699449bb7254740afc743468d1497c,
-        type: 3}
-      propertyPath: m_Name
-      value: Ingredients_1
       objectReference: {fileID: 0}
     - target: {fileID: 5717909230973646527, guid: d1699449bb7254740afc743468d1497c,
         type: 3}
@@ -20399,31 +20223,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: RecipeTimer_1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7096321087930692658, guid: d1699449bb7254740afc743468d1497c,
-        type: 3}
-      propertyPath: m_Interactable
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7096321087930692658, guid: d1699449bb7254740afc743468d1497c,
-        type: 3}
-      propertyPath: m_BlocksRaycasts
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7781304672573915375, guid: d1699449bb7254740afc743468d1497c,
-        type: 3}
-      propertyPath: m_Name
-      value: Ingredient_1_HolderMask_2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7782533169797272504, guid: d1699449bb7254740afc743468d1497c,
-        type: 3}
-      propertyPath: m_Name
-      value: Ingredient_1_DisplayAreaBG_2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7840934429234713637, guid: d1699449bb7254740afc743468d1497c,
-        type: 3}
-      propertyPath: m_Name
-      value: Ingredient_1_DisplayArea_3
       objectReference: {fileID: 0}
     - target: {fileID: 8539913681133258053, guid: d1699449bb7254740afc743468d1497c,
         type: 3}
@@ -20464,21 +20263,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SizeDelta.y
       value: 246.59998
-      objectReference: {fileID: 0}
-    - target: {fileID: 8539913681133258053, guid: d1699449bb7254740afc743468d1497c,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 8539913681133258053, guid: d1699449bb7254740afc743468d1497c,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 8539913681133258053, guid: d1699449bb7254740afc743468d1497c,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: 8539913681133258053, guid: d1699449bb7254740afc743468d1497c,
         type: 3}
@@ -20539,21 +20323,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8539913681133258053, guid: d1699449bb7254740afc743468d1497c,
-        type: 3}
-      propertyPath: m_ConstrainProportionsScale
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8734069932447092115, guid: d1699449bb7254740afc743468d1497c,
-        type: 3}
-      propertyPath: m_Name
-      value: PhotoDisplayAreaBG_1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9204383595413699311, guid: d1699449bb7254740afc743468d1497c,
-        type: 3}
-      propertyPath: m_Name
-      value: PhotoHolderMask_1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

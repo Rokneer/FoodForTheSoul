@@ -19,5 +19,5 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 133b4b12667edee4db7af83832491ca2, type: 2}
   - {fileID: 11400000, guid: 133b4b12667edee4db7af83832491ca2, type: 2}
   - {fileID: 11400000, guid: 133b4b12667edee4db7af83832491ca2, type: 2}
-  time: 40
-  customerId: 0
+  time: 70
+  customerId: 1

@@ -26,7 +26,7 @@ public class FirstPersonCamera : MonoBehaviour
     #endregion Variables
 
     #region Lifecycle
-    void Awake()
+    private void Awake()
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -37,7 +37,7 @@ public class FirstPersonCamera : MonoBehaviour
         lookAction = PlayerController.Instance.playerInput.actions[PlayerActionStrings.Look];
     }
 
-    void Update()
+    private void Update()
     {
         Vector2 mouseInput = lookAction.ReadValue<Vector2>().normalized;
         float mouseX = mouseInput.x * sensX;

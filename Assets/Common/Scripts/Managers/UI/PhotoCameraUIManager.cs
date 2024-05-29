@@ -34,29 +34,29 @@ public class PhotoCameraUIManager : PhotoUIManager
     {
         photoLabel ??= "Nothing :c";
 
-        activePhotoIndex++;
+        activePhotoCount++;
 
         // Set photo sprite
-        displayImages[activePhotoIndex].sprite = photoSprite;
+        displayImages[activePhotoCount].sprite = photoSprite;
 
         // Set ingredient label
-        ingredientText[activePhotoIndex].text = photoLabel;
+        ingredientText[activePhotoCount].text = photoLabel;
 
         // Slide photo into frame
-        photoFramesRectTransforms[activePhotoIndex]
+        photoFramesRectTransforms[activePhotoCount]
             .DOAnchorPosX(slideInPoint, slideInTime)
             .SetEase(Ease.InOutSine);
 
         // Fade photo in
-        photoCanvasGroups[activePhotoIndex].DOFade(1, fadeInTime);
+        photoCanvasGroups[activePhotoCount].DOFade(1, fadeInTime);
     }
 
-    public override void HidePhoto(int photoIndex)
+    public override void HidePhoto(int photoId)
     {
-        base.HidePhoto(photoIndex);
+        base.HidePhoto(photoId);
 
         // Slide out of frame
-        photoFramesRectTransforms[photoIndex]
+        photoFramesRectTransforms[photoId]
             .DOAnchorPosX(slideOutPoint, slideOutTime)
             .SetEase(Ease.InOutSine);
     }
@@ -64,7 +64,7 @@ public class PhotoCameraUIManager : PhotoUIManager
     public void ResetPhotos()
     {
         // Reset photo to inactive state
-        activePhotoIndex = -1;
+        activePhotoCount = -1;
         for (int i = 0; i < 3; i++)
         {
             HidePhoto(i);
