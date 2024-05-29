@@ -22,7 +22,7 @@ public class Customer : MonoBehaviour
     {
         isStunned = true;
 
-        Debug.Log($"Customer with {recipe.recipeName} was stunned!");
+        Debug.Log($"Customer with {recipe.label} was stunned!");
 
         // Stop tween movement
         tweenMovement.PauseMovement();
@@ -41,6 +41,6 @@ public class Customer : MonoBehaviour
 
     public void DoDamage()
     {
-        Debug.Log($"Customer with {recipe.recipeName} attacked angrily!");
+        Debug.Log($"Customer with {recipe.label} attacked angrily!");
     }
 }

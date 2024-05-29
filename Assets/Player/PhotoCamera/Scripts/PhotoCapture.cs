@@ -128,8 +128,7 @@ public class PhotoCapture : MonoBehaviour
             // Releases temporary render texture
             RenderTexture.ReleaseTemporary(textureTemporary);
 
-            // Adds photo to UI
-            PhotoCameraUIManager.Instance.AddPhoto(photoSprite);
+            string label = null;
 
             if (hasHit)
             {
@@ -139,9 +138,20 @@ public class PhotoCapture : MonoBehaviour
                     || photoHit.collider.gameObject.CompareTag(TagStrings.Food)
                 )
                 {
-                    photoHit.collider.gameObject.GetComponent<PhotoObject>().WasPhotographed();
+                    PhotoObject photoObject = photoHit
+                        .collider
+                        .gameObject
+                        .GetComponent<PhotoObject>();
+
+                    photoObject.WasPhotographed();
+
+                    label = photoObject.data.label;
                 }
             }
+
+            // Adds photo to UI
+            PhotoCameraUIManager.Instance.AddPhoto(photoSprite, label);
+
             // Waits for a delay to restore ability take photos
             yield return new WaitForSeconds(photoDelay);
             canTakePhoto = true;

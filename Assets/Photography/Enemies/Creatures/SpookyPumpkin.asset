@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d6ee7102500491438fc0173b4d931dc, type: 3}
   m_Name: SpookyPumpkin
   m_EditorClassIdentifier: 
-  objectName: Spooky Pumpkin
+  label: Spooky Pumpkin
   model: {fileID: 919132149155446097, guid: 6737fe8d0c0f98048b703da97d699db1, type: 3}

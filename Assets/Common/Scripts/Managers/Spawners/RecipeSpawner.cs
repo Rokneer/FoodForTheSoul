@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,8 +9,8 @@ public class RecipeSpawner : Spawner
     [Header("Spawn Points")]
     [SerializeField]
     private Transform[] recipeSpawnPoints;
-    private Dictionary<Transform, bool> spawnPointsDict = new(3);
-    private Dictionary<RecipeData, int> completeRecipes = new(3);
+    private readonly Dictionary<Transform, bool> spawnPointsDict = new(3);
+    private readonly Dictionary<RecipeData, int> completeRecipes = new(3);
 
     private bool IsSpawnFull
     {
@@ -27,7 +26,6 @@ public class RecipeSpawner : Spawner
             return true;
         }
     }
-    private int randomIndex;
 
     private void Awake()
     {
@@ -53,7 +51,7 @@ public class RecipeSpawner : Spawner
             objectToSpawn,
             spawnPoint.position,
             Quaternion.identity,
-            PoolType.GameObjects
+            PoolType.Recipes
         );
     }
 
@@ -73,11 +71,18 @@ public class RecipeSpawner : Spawner
 
             // Set selected transform as currently used
             spawnPointsDict[spawnPoint] = true;
-
             completeRecipes[recipe] = spawnIndex;
 
+            // Get take out area
+            TakeOutArea takeOutArea = spawnPoint.gameObject.GetComponentInParent<TakeOutArea>();
+
+            // Set take out area recipe
+            takeOutArea.recipe = recipe;
+
             // Spawn completed recipe
-            SpawnObject(spawnPoint);
+            GameObject spawnedRecipe = SpawnObject(spawnPoint);
+
+            SetupRecipe(spawnedRecipe, recipe);
         }
     }
 
@@ -88,5 +93,15 @@ public class RecipeSpawner : Spawner
         // Set selected transform as not longer in use
         spawnPointsDict[recipeTransform] = false;
         base.RemoveObject(objectToSpawn);
+    }
+
+    private void SetupRecipe(GameObject spawnedRecipe, RecipeData recipeData)
+    {
+        // Get current recipe data
+        Recipe recipe = spawnedRecipe.GetComponent<Recipe>();
+        recipe.data = recipeData;
+
+        // Setup current mesh filter and renderer
+        recipe.SetMeshData();
     }
 }

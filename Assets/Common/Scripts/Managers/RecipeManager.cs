@@ -22,10 +22,10 @@ public class RecipeManager : MonoBehaviour
     private GameObject recipeUI;
 
     public List<RecipeData> currentRecipes;
-    private int lastIngredientIndex = -1;
-    private int lastRecipeIndex = -1;
+    private readonly int lastIngredientIndex = -1;
+    private readonly int lastRecipeIndex = -1;
 
-    private Dictionary<RecipeData, bool> isRecipeDoneDictionary = new();
+    private readonly Dictionary<RecipeData, bool> isRecipeDoneDictionary = new();
 
     [Header("Ingredients")]
     [SerializeField]
@@ -46,7 +46,7 @@ public class RecipeManager : MonoBehaviour
 
     public void AddToCurrentIngredients(IngredientData ingredient)
     {
-        Debug.Log($"Added {ingredient.objectName} to current recipe");
+        Debug.Log($"Added {ingredient.label} to current recipe");
         currentIngredients.Add(ingredient);
 
         if (currentIngredients.Count >= 3)
@@ -114,38 +114,47 @@ public class RecipeManager : MonoBehaviour
         }
 
         // Set recipe sprites in UI
-        RecipeUIManager.Instance.AddPhoto(
-            selectedRecipe.sprite,
-            recipeIngredientSprites,
-            customerIndex
-        );
+        RecipeUIManager
+            .Instance
+            .AddPhoto(selectedRecipe.sprite, recipeIngredientSprites, customerIndex);
 
         return selectedRecipe;
     }
 
     private void CompleteRecipe()
     {
+        bool spawnedRecipe = false;
         foreach (RecipeData recipe in currentRecipes.ToArray())
         {
-            foreach (IngredientData recipeIngredient in recipe.ingredients)
+            //! TODO: Check for ingredient quantity
+            isRecipeDoneDictionary[recipe] = currentIngredients.ContainsAllItems(
+                recipe.ingredients
+            );
+
+            if (isRecipeDoneDictionary[recipe] && !spawnedRecipe)
             {
-                isRecipeDoneDictionary[recipe] = currentIngredients.Contains(recipeIngredient);
-            }
-            if (isRecipeDoneDictionary[recipe])
-            {
-                Debug.Log($"{recipe.recipeName} is ready to serve!");
+                Debug.Log($"{recipe.label} is ready to serve!");
                 RecipeSpawner.Instance.SpawnCompletedRecipe(recipe);
+                spawnedRecipe = true;
             }
         }
     }
 
     public void RemoveRecipe(RecipeData recipe, int photoIndex)
     {
-        Debug.Log($"Removed {recipe.recipeName} with on photo {photoIndex}");
+        Debug.Log($"Removed {recipe.label} with on photo {photoIndex}");
 
         RecipeUIManager.Instance.HidePhoto(photoIndex);
 
         currentRecipes.Remove(recipe);
         RemoveIngredients(recipe);
+    }
+}
+
+public static class LinqExtras
+{
+    public static bool ContainsAllItems<T>(this IEnumerable<T> a, IEnumerable<T> b)
+    {
+        return !b.Except(a).Any();
     }
 }

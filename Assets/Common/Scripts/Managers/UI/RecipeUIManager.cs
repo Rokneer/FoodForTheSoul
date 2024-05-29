@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
@@ -57,7 +56,7 @@ public class RecipeUIManager : PhotoUIManager
     }
 
     #region Functions
-    public override int AddPhoto(Sprite photoSprite, Sprite[] ingredientSprites, int index)
+    public int AddPhoto(Sprite photoSprite, Sprite[] ingredientSprites, int index)
     {
         displayImages[index].sprite = photoSprite;
 

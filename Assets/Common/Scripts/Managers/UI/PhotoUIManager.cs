@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,17 +6,6 @@ using UnityEngine.UI;
 public abstract class PhotoUIManager : MonoBehaviour
 {
     #region Variables
-
-    [Header("Photo Frames")]
-    [SerializeField]
-    protected GameObject[] photoFrames;
-
-    [SerializeField]
-    protected List<Image> displayImages;
-
-    protected readonly List<RectTransform> photoFramesRectTransforms = new();
-    protected readonly List<CanvasGroup> photoCanvasGroups = new();
-
     public int activePhotoIndex = -1;
 
     [Header("Slide Animation")]
@@ -41,6 +29,15 @@ public abstract class PhotoUIManager : MonoBehaviour
     [SerializeField]
     protected float fadeOutTime = 0.1f;
 
+    [Header("Photo Frames")]
+    [SerializeField]
+    protected GameObject[] photoFrames;
+
+    [SerializeField]
+    protected List<Image> displayImages;
+
+    protected readonly List<RectTransform> photoFramesRectTransforms = new();
+    protected readonly List<CanvasGroup> photoCanvasGroups = new();
     #endregion Variables
 
     #region Lifecycle
@@ -56,13 +53,6 @@ public abstract class PhotoUIManager : MonoBehaviour
     #endregion Lifecycle
 
     #region Functions
-    public virtual void AddPhoto(Sprite photoSprite) { }
-
-    public virtual int AddPhoto(Sprite photoSprite, Sprite[] ingredientSprites, int index)
-    {
-        return index;
-    }
-
     public virtual void HidePhoto(int photoIndex)
     {
         // Fade photo out

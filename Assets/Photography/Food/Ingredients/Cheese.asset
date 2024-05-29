@@ -12,10 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d7d5c7a72561ac4083482350ce7f2fe, type: 3}
   m_Name: Cheese
   m_EditorClassIdentifier: 
-  objectName: Cheese
+  label: Cheese
   model: {fileID: 919132149155446097, guid: cdbebec9da2fbde46866d9b421536997, type: 3}
-  meshFilter: {fileID: -5754084199372789682, guid: cdbebec9da2fbde46866d9b421536997,
-    type: 3}
-  meshRenderer: {fileID: -7511558181221131132, guid: cdbebec9da2fbde46866d9b421536997,
-    type: 3}
   sprite: {fileID: 21300000, guid: 0e65fdacdcc7cfe499bb44a0ca02a874, type: 3}

@@ -2,8 +2,7 @@ using UnityEngine;
 
 public class DeliveryArea : InteractableArea
 {
-    [SerializeField]
-    private RecipeData currentRecipe;
+    public RecipeData currentRecipe;
 
     [SerializeField]
     private bool isCurrentRecipeComplete = false;
@@ -13,6 +12,7 @@ public class DeliveryArea : InteractableArea
         if (isCurrentRecipeComplete)
         {
             Debug.Log($"Delivery - Interacted with {gameObject.name}");
+            isCurrentRecipeComplete = true;
         }
     }
 }

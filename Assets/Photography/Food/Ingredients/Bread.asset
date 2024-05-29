@@ -12,10 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d7d5c7a72561ac4083482350ce7f2fe, type: 3}
   m_Name: Bread
   m_EditorClassIdentifier: 
-  objectName: Bread
+  label: Bread
   model: {fileID: 919132149155446097, guid: cd8bc891bb9bfb4459e7c57337451312, type: 3}
-  meshFilter: {fileID: -5754084199372789682, guid: cd8bc891bb9bfb4459e7c57337451312,
-    type: 3}
-  meshRenderer: {fileID: -7511558181221131132, guid: cd8bc891bb9bfb4459e7c57337451312,
-    type: 3}
   sprite: {fileID: 21300000, guid: 44152906c46374649a47d2d334b608cb, type: 3}

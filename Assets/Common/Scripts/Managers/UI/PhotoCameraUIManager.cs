@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using DG.Tweening;
+using TMPro;
 using UnityEngine;
 
 public class PhotoCameraUIManager : PhotoUIManager
@@ -6,6 +8,9 @@ public class PhotoCameraUIManager : PhotoUIManager
     #region Variables
     private static PhotoCameraUIManager _instance;
     public static PhotoCameraUIManager Instance => _instance;
+
+    [SerializeField]
+    private List<TMP_Text> ingredientText;
     #endregion Variables
 
     #region Lifecycle
@@ -25,10 +30,17 @@ public class PhotoCameraUIManager : PhotoUIManager
     #endregion Lifecycle
 
     #region Functions
-    public override void AddPhoto(Sprite photoSprite)
+    public void AddPhoto(Sprite photoSprite, string photoLabel)
     {
+        photoLabel ??= "Nothing :c";
+
         activePhotoIndex++;
+
+        // Set photo sprite
         displayImages[activePhotoIndex].sprite = photoSprite;
+
+        // Set ingredient label
+        ingredientText[activePhotoIndex].text = photoLabel;
 
         // Slide photo into frame
         photoFramesRectTransforms[activePhotoIndex]

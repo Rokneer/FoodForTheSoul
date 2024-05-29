@@ -10,6 +10,6 @@ public class Creature : PhotoObject
 
     private void KillCreature()
     {
-        Debug.Log($"Killed {data.objectName}!");
+        Debug.Log($"Killed {data.label}!");
     }
 }

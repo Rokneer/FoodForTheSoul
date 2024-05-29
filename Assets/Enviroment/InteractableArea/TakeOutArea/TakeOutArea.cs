@@ -2,8 +2,7 @@ using UnityEngine;
 
 public class TakeOutArea : InteractableArea
 {
-    [SerializeField]
-    private RecipeData recipe;
+    public RecipeData recipe;
 
     [SerializeField]
     private bool hasPickedUpRecipe = false;
@@ -12,7 +11,8 @@ public class TakeOutArea : InteractableArea
     {
         if (!hasPickedUpRecipe)
         {
-            Debug.Log($"Take Out - Interacted with {gameObject.name}");
+            Debug.Log($"Take Out - Interacted with {recipe.label}");
+            hasPickedUpRecipe = true;
         }
     }
 }

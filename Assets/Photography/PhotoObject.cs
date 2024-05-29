@@ -8,25 +8,20 @@ public abstract class PhotoObject : MonoBehaviour
     private MeshRenderer meshRenderer;
     #endregion Variables
 
-    #region Lifecycle
-
-    #endregion Lifecycle
-
     #region Functions
     public void SetMeshData()
     {
         meshFilter = GetComponent<MeshFilter>();
         meshRenderer = GetComponent<MeshRenderer>();
 
-        meshFilter.mesh = data.meshFilter.GetComponent<MeshFilter>().sharedMesh;
+        meshFilter.mesh = data.model.GetComponent<MeshFilter>().sharedMesh;
 
-        meshRenderer.materials = data.meshFilter.GetComponent<MeshRenderer>().sharedMaterials;
+        meshRenderer.materials = data.model.GetComponent<MeshRenderer>().sharedMaterials;
     }
 
     public virtual void WasPhotographed()
     {
         ObjectPoolManager.ReturnToPool(gameObject);
     }
-
     #endregion Functions
 }

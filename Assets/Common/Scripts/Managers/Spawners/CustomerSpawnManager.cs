@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class CustomerSpawnManager : Spawner
@@ -14,8 +13,11 @@ public class CustomerSpawnManager : Spawner
     [SerializeField]
     private Transform[] endPoints = new Transform[3];
 
-    private Dictionary<Transform, bool> spawnPointsDict = new(3);
-    private Dictionary<Customer, int> currentCustomers = new(3);
+    [SerializeField]
+    private DeliveryArea[] deliveryAreas = new DeliveryArea[3];
+
+    private readonly Dictionary<Transform, bool> spawnPointsDict = new(3);
+    private readonly Dictionary<Customer, int> currentCustomers = new(3);
     private bool IsSpawnFull
     {
         get
@@ -83,11 +85,13 @@ public class CustomerSpawnManager : Spawner
             // Spawn customer
             GameObject spawnedCustomerObj = SpawnObject(startPoints[customerIndex]);
             Customer spawnedCustomer = spawnedCustomerObj.GetComponent<Customer>();
-
             currentCustomers[spawnedCustomer] = customerIndex;
 
             // Set customer recipe
             spawnedCustomer.recipe = RecipeManager.Instance.ChooseRecipe(customerIndex);
+
+            // Set delivery point recipe
+            deliveryAreas[customerIndex].currentRecipe = spawnedCustomer.recipe;
 
             // Get tween movement
             TweenMovement tweenMovement = spawnedCustomerObj.GetComponent<TweenMovement>();
@@ -112,11 +116,14 @@ public class CustomerSpawnManager : Spawner
         // Set selected transform as not longer in use
         spawnPointsDict[startPoints[customerIndex]] = false;
 
-        // Do damage to player
-        customer.DoDamage();
+        // Remove delivery point recipe
+        deliveryAreas[customerIndex].currentRecipe = customer.recipe;
 
         // Remove recipe from active
         RecipeManager.Instance.RemoveRecipe(customer.recipe, customerIndex);
+
+        // Do damage to player
+        customer.DoDamage();
 
         // Remove from current components
         currentCustomers.Remove(customer);

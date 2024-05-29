@@ -11,7 +11,8 @@ public class ObjectPoolManager : MonoBehaviour
     public static List<PooledObjectInfo> ObjectPools = new();
     private GameObject objectPoolEmptyHolder;
     private static GameObject gameObjectsEmpty;
-    private static GameObject ingredientEmpty;
+    private static GameObject ingredientsEmpty;
+    private static GameObject recipesEmpty;
     private static GameObject creaturesEmpty;
     private static GameObject customersEmpty;
 
@@ -35,17 +36,14 @@ public class ObjectPoolManager : MonoBehaviour
     {
         objectPoolEmptyHolder = new GameObject(PoolStrings.PooledObjects);
 
-        /*  foreach (string poolName in PoolStrings.PoolStringsArray)
-         {
-             gameObjectsEmpty = new GameObject(poolName);
-             gameObjectsEmpty.transform.SetParent(objectPoolEmptyHolder.transform);
-         } */
-
         gameObjectsEmpty = new GameObject(PoolStrings.GameObjects);
         gameObjectsEmpty.transform.SetParent(objectPoolEmptyHolder.transform);
 
-        ingredientEmpty = new GameObject(PoolStrings.Ingredients);
-        ingredientEmpty.transform.SetParent(objectPoolEmptyHolder.transform);
+        recipesEmpty = new GameObject(PoolStrings.Recipes);
+        recipesEmpty.transform.SetParent(objectPoolEmptyHolder.transform);
+
+        ingredientsEmpty = new GameObject(PoolStrings.Ingredients);
+        ingredientsEmpty.transform.SetParent(objectPoolEmptyHolder.transform);
 
         creaturesEmpty = new GameObject(PoolStrings.Creatures);
         creaturesEmpty.transform.SetParent(objectPoolEmptyHolder.transform);
@@ -152,7 +150,8 @@ public class ObjectPoolManager : MonoBehaviour
     {
         return poolType switch
         {
-            PoolType.Ingredient => ingredientEmpty,
+            PoolType.Ingredients => ingredientsEmpty,
+            PoolType.Recipes => recipesEmpty,
             PoolType.Creatures => creaturesEmpty,
             PoolType.Customers => customersEmpty,
             PoolType.GameObjects => gameObjectsEmpty,
@@ -170,7 +169,8 @@ public class PooledObjectInfo
 public enum PoolType
 {
     GameObjects,
-    Ingredient,
+    Ingredients,
+    Recipes,
     Creatures,
     Customers,
     None

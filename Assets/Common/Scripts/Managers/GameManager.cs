@@ -28,4 +28,9 @@ public class GameManager : MonoBehaviour
         creatureSpawnManager = spawnManager.GetComponent<CreatureSpawnManager>();
         customerSpawnManager = spawnManager.GetComponent<CustomerSpawnManager>();
     }
+
+    private void DisableSpawner(Spawner spawner)
+    {
+        spawner.canSpawn = false;
+    }
 }

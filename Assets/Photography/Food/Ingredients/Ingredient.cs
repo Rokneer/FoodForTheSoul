@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public class Ingredient : PhotoObject
 {
     public override void WasPhotographed()

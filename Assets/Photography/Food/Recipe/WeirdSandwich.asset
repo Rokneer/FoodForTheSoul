@@ -12,11 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7ee9588b2808ec47af957cce8794633, type: 3}
   m_Name: WeirdSandwich
   m_EditorClassIdentifier: 
-  customerId: 2
-  recipeName: Weird Sandwich
-  time: 55
-  sprite: {fileID: 21300000, guid: ab2e664fa4aa99d469c12ee021bdb3a9, type: 3}
+  label: Weird Sandwich
+  model: {fileID: 919132149155446097, guid: 587ccc533b51b3445bb1d9a0f02764ae, type: 3}
+  sprite: {fileID: 21300000, guid: 98bf3239e1998744a81ef19e3f5ed761, type: 3}
   ingredients:
   - {fileID: 11400000, guid: 133b4b12667edee4db7af83832491ca2, type: 2}
   - {fileID: 11400000, guid: db59ae687a95a414eb2799f277214c31, type: 2}
   - {fileID: 11400000, guid: 2f55d05485589f64d93eecbd52308ed5, type: 2}
+  time: 55
+  customerId: 2
