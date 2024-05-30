@@ -1,3 +1,4 @@
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -35,8 +36,7 @@ public class CameraBattery : MonoBehaviour
 
     [SerializeField]
     private Slider batteryGauge;
-    private float targetValue = 100;
-    private readonly float lerpSpeed = 2f;
+    private readonly float tweenDuration = 0.2f;
 
     private void Awake()
     {
@@ -44,22 +44,25 @@ public class CameraBattery : MonoBehaviour
         batteryGauge.value = CameraBatteryValue;
     }
 
-    private void Update()
-    {
-        CameraBatteryValue = Mathf.Lerp(
-            CameraBatteryValue,
-            targetValue,
-            Time.deltaTime * lerpSpeed
-        );
-    }
-
     internal void LowerBattery(float damageValue)
     {
-        targetValue -= damageValue;
+        ChangeBatteryValue(-damageValue);
     }
 
     internal void IncreaseBattery(float rechargeValue)
     {
-        targetValue += rechargeValue;
+        ChangeBatteryValue(rechargeValue);
+    }
+
+    internal void ChangeBatteryValue(float value)
+    {
+        DOTween
+            .To(
+                () => CameraBatteryValue,
+                x => CameraBatteryValue = x,
+                CameraBatteryValue + value,
+                tweenDuration
+            )
+            .SetEase(Ease.OutExpo);
     }
 }

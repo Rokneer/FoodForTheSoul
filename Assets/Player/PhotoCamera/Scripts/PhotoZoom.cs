@@ -1,3 +1,4 @@
+using DG.Tweening;
 using UnityEngine;
 
 public class PhotoZoom : MonoBehaviour
@@ -65,7 +66,7 @@ public class PhotoZoom : MonoBehaviour
 
     private float mainCameraTargetFOV;
     private float photoCameraTargetFOV;
-    private readonly float lerpSpeed = 10f;
+    private readonly float tweenDuration = 0.2f;
     #endregion Variables
 
     #region Lifecycle
@@ -82,28 +83,16 @@ public class PhotoZoom : MonoBehaviour
         basePhotoCameraFOV = photoCamera.fieldOfView;
         photoCameraTargetFOV = basePhotoCameraFOV;
     }
-
-    private void Update()
-    {
-        Camera.main.fieldOfView = Mathf.Lerp(
-            Camera.main.fieldOfView,
-            mainCameraTargetFOV,
-            Time.deltaTime * lerpSpeed
-        );
-        photoCamera.fieldOfView = Mathf.Lerp(
-            photoCamera.fieldOfView,
-            photoCameraTargetFOV,
-            Time.deltaTime * lerpSpeed
-        );
-    }
     #endregion Lifecycle
 
     #region Functions
     public void ZoomCamera(float mainFOV, float photoFOV, float senX, float senY, AudioClip sfx)
     {
         SoundFXManager.Instance.PlaySoundFXClip(sfx, transform, 1);
-        mainCameraTargetFOV = mainFOV;
-        photoCameraTargetFOV = photoFOV;
+
+        Camera.main.DOFieldOfView(mainFOV, tweenDuration);
+        photoCamera.DOFieldOfView(photoFOV, tweenDuration);
+
         cameraController.sensX = senX;
         cameraController.sensY = senY;
     }

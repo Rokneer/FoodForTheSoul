@@ -5,9 +5,8 @@ using UnityEngine;
 public class RecipeData : PhotoObjectData
 {
     public Sprite sprite;
-    public List<IngredientData> ingredients;
+    public List<RecipeIngredient> ingredients;
 
     [Header("Data")]
     public float time;
-    public int customerId;
 }

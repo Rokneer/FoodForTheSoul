@@ -11,7 +11,10 @@ public class RecipeUIManager : PhotoUIManager
 
     [Header("Timer")]
     [SerializeField]
-    private List<Slider> recipeTimers = new(3);
+    private Slider[] recipeTimers = new Slider[3];
+
+    [SerializeField]
+    private Tween[] timerTweens = new Tween[3];
 
     [SerializeField]
     private float[] targetTimerValues = new float[3];
@@ -20,8 +23,8 @@ public class RecipeUIManager : PhotoUIManager
     private float[] targetTimerValue = new float[3];
 
     [SerializeField]
-    private float[] timerLerpSpeeds = new float[3];
-    private Dictionary<int, bool> activeTimers = new();
+    private float[] timerDurations = new float[3];
+    private readonly Dictionary<int, bool> activeTimers = new();
 
     [Header("Ingredient Frames")]
     [SerializeField]
@@ -67,14 +70,6 @@ public class RecipeUIManager : PhotoUIManager
                 ingredientCanvasGroups[i].innerList.Add(canvasGroup);
             }
         }
-
-        for (int i = 0; i < recipeTimers.Count; i++)
-        {
-            activeTimers[i] = false;
-            targetTimerValues[i] = 0;
-            targetTimerValue[i] = 0;
-            timerLerpSpeeds[i] = 100;
-        }
     }
     #endregion Lifecycle
 
@@ -115,10 +110,10 @@ public class RecipeUIManager : PhotoUIManager
         base.HidePhoto(photoId);
     }
 
-    public void SetupTimer(float timerValue, float lerpSpeed, int id)
+    public void SetupTimer(float timerValue, float tweenDuration, int id)
     {
-        // Set lerp speed
-        timerLerpSpeeds[id] = lerpSpeed;
+        // Set tween duration
+        timerDurations[id] = tweenDuration;
 
         // Set slider max and current value
         recipeTimers[id].maxValue = timerValue;
@@ -133,30 +128,27 @@ public class RecipeUIManager : PhotoUIManager
 
     public void StartTimer(int id)
     {
-        recipeTimers[id].DOValue(targetTimerValues[id], timerLerpSpeeds[id]);
+        timerTweens[id] = recipeTimers[id]
+            .DOValue(targetTimerValues[id], timerDurations[id])
+            .SetEase(Ease.InOutSine)
+            .SetAutoKill(false);
     }
 
     public void PauseTimer(int id)
     {
-        targetTimerValues[id] = recipeTimers[id].value;
+        timerTweens[id].Pause();
     }
 
     public void ResumeTimer(int id)
     {
-        targetTimerValues[id] = 0;
+        timerTweens[id].Play();
     }
 
     public void DisableTimer(int id)
     {
         PauseTimer(id);
+        timerTweens[id].Kill(false);
         activeTimers[id] = false;
     }
     #endregion Functions
-}
-
-[System.Serializable]
-public class ListWrapper<T> : List<T>
-    where T : Object
-{
-    public List<T> innerList;
 }

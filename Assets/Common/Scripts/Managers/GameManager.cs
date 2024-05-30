@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -10,16 +11,8 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private CameraBattery cameraBattery;
 
-    [Header("Customers")]
-    [SerializeField]
-    private List<Customer> currentCustomers;
-
-    [Header("Spawners")]
-    [SerializeField]
-    private GameObject spawnManager;
-    private FoodSpawnManager foodSpawnManager;
-    private CreatureSpawnManager creatureSpawnManager;
-    private CustomerSpawnManager customerSpawnManager;
+    private List<Customer> Customers =>
+        CustomerSpawnManager.Instance.currentCustomers.Keys.ToList();
 
     private void Awake()
     {
@@ -32,10 +25,6 @@ public class GameManager : MonoBehaviour
         {
             _instance = this;
         }
-
-        foodSpawnManager = spawnManager.GetComponent<FoodSpawnManager>();
-        creatureSpawnManager = spawnManager.GetComponent<CreatureSpawnManager>();
-        customerSpawnManager = spawnManager.GetComponent<CustomerSpawnManager>();
     }
 
     private void DisableSpawner(Spawner spawner)
@@ -50,7 +39,7 @@ public class GameManager : MonoBehaviour
 
     public void StunCustomers()
     {
-        foreach (Customer customer in currentCustomers)
+        foreach (Customer customer in Customers)
         {
             StartCoroutine(customer.StunCustomer());
         }

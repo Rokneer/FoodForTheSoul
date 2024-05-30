@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RandomIndex : MonoBehaviour
+public class RandomIndex
 {
     public static int GetRandomIndex<T>(T[] valueArray, int lastIndex)
         where T : Object

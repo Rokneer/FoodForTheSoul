@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class Customer : MonoBehaviour
 {
+    public int id;
+
     [Header("Recipe")]
     public RecipeData recipe;
 
@@ -15,24 +17,24 @@ public class Customer : MonoBehaviour
     [SerializeField]
     private float damageValue = 25;
 
-    private TweenMovement tweenMovement;
+    public TweenMovement movement;
 
     private void Awake()
     {
-        tweenMovement = GetComponent<TweenMovement>();
+        movement = GetComponent<TweenMovement>();
     }
 
     public IEnumerator StunCustomer()
     {
         isStunned = true;
 
-        Debug.Log($"Customer with {recipe.label} was stunned!");
+        Debug.Log($"Customer with {recipe.label} was stunned for {stunTime} seconds!");
 
         // Stop tween movement
-        tweenMovement.PauseMovement();
+        movement.PauseMovement();
 
         // Stop timer
-        RecipeUIManager.Instance.PauseTimer(recipe.customerId);
+        RecipeUIManager.Instance.PauseTimer(id);
 
         //* Start stun particle effect
 
@@ -41,10 +43,10 @@ public class Customer : MonoBehaviour
         //* Stop stun particle effect
 
         // Resume tween movement
-        tweenMovement.ResumeMovement();
+        movement.ResumeMovement();
 
         // Resume timer
-        RecipeUIManager.Instance.ResumeTimer(recipe.customerId);
+        RecipeUIManager.Instance.ResumeTimer(id);
 
         isStunned = false;
     }

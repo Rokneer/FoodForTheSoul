@@ -9,9 +9,7 @@ public class RecipeManager : MonoBehaviour
 
     [Header("Ingredients")]
     public List<IngredientData> currentIngredients;
-
-    [SerializeField]
-    private List<IngredientData> activeIngredients;
+    public List<IngredientData> activeIngredients;
 
     [SerializeField]
     private bool hasCompleteRecipe;
@@ -60,20 +58,24 @@ public class RecipeManager : MonoBehaviour
 
     private void AddIngredients(RecipeData recipe)
     {
-        List<IngredientData> uniqueIngredients = recipe.ingredients.Distinct().ToList();
-        foreach (IngredientData uniqueIngredient in uniqueIngredients)
+        List<RecipeIngredient> uniqueIngredients = recipe.ingredients.Distinct().ToList();
+        foreach (RecipeIngredient uniqueIngredient in uniqueIngredients)
         {
-            if (!activeIngredients.Contains(uniqueIngredient))
+            if (!activeIngredients.Contains(uniqueIngredient.ingredient))
             {
-                activeIngredients.Add(uniqueIngredient);
+                activeIngredients.Add(uniqueIngredient.ingredient);
             }
         }
     }
 
     private void RemoveIngredients(RecipeData recipe)
     {
-        List<IngredientData> uniqueIngredients = recipe.ingredients.Distinct().ToList();
-        List<IngredientData> ingredientsToRemove = uniqueIngredients
+        List<RecipeIngredient> uniqueIngredients = recipe.ingredients.Distinct().ToList();
+
+        List<IngredientData> uniqueIngredientsData = new();
+        uniqueIngredientsData.AddRange(uniqueIngredients.Select(data => data.ingredient));
+
+        List<IngredientData> ingredientsToRemove = uniqueIngredientsData
             .Except(activeIngredients)
             .ToList();
 
@@ -99,7 +101,6 @@ public class RecipeManager : MonoBehaviour
         // Select a random recipe
         int recipeId = RandomIndex.GetRandomIndex(recipes.ToArray(), lastRecipeIndex);
         RecipeData selectedRecipe = recipes[recipeId];
-        selectedRecipe.customerId = customerId;
 
         // Add recipe and its ingredients to currently active
         currentRecipes.Add(selectedRecipe);
@@ -110,16 +111,14 @@ public class RecipeManager : MonoBehaviour
         Sprite[] recipeIngredientSprites = new Sprite[selectedRecipe.ingredients.Count];
         for (int i = 0; i < selectedRecipe.ingredients.Count; i++)
         {
-            IngredientData ingredient = selectedRecipe.ingredients[i];
-            recipeIngredientSprites[i] = ingredient.sprite;
+            RecipeIngredient ingredient = selectedRecipe.ingredients[i];
+            recipeIngredientSprites[i] = ingredient.ingredient.sprite;
         }
 
         // Set recipe sprites in UI
-        RecipeUIManager.Instance.AddPhoto(
-            selectedRecipe.sprite,
-            recipeIngredientSprites,
-            customerId
-        );
+        RecipeUIManager
+            .Instance
+            .AddPhoto(selectedRecipe.sprite, recipeIngredientSprites, customerId);
 
         return selectedRecipe;
     }
@@ -130,9 +129,7 @@ public class RecipeManager : MonoBehaviour
         foreach (RecipeData recipe in currentRecipes.ToArray())
         {
             //! TODO: Check for ingredient quantity
-            isRecipeDoneDictionary[recipe] = currentIngredients.ContainsAllItems(
-                recipe.ingredients
-            );
+            isRecipeDoneDictionary[recipe] = CheckCurrentIngredients(recipe);
 
             if (isRecipeDoneDictionary[recipe] && !spawnedRecipe)
             {
@@ -143,6 +140,28 @@ public class RecipeManager : MonoBehaviour
         }
     }
 
+    private bool CheckCurrentIngredients(RecipeData recipe)
+    {
+        List<IngredientData> recipeIngredientsData = new();
+
+        recipeIngredientsData.AddRange(recipe.ingredients.Select(data => data.ingredient));
+
+        bool containsAllIngredients = currentIngredients.ContainsAllItems<IngredientData>(
+            recipeIngredientsData
+        );
+
+        if (containsAllIngredients)
+        {
+            List<RecipeIngredient> currentIngredientGroups = currentIngredients
+                .GroupBy(group => group)
+                .Select(group => new RecipeIngredient(group.Key, group.Count()))
+                .ToList();
+
+            return true;
+        }
+        return false;
+    }
+
     public void RemoveRecipe(RecipeData recipe, int photoId)
     {
         Debug.Log($"Removed {recipe.label} with on photo {photoId}");
@@ -151,13 +170,5 @@ public class RecipeManager : MonoBehaviour
 
         currentRecipes.Remove(recipe);
         RemoveIngredients(recipe);
-    }
-}
-
-public static class LinqExtras
-{
-    public static bool ContainsAllItems<T>(this IEnumerable<T> a, IEnumerable<T> b)
-    {
-        return !b.Except(a).Any();
     }
 }

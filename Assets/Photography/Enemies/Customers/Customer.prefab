@@ -382,8 +382,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   recipe: {fileID: 0}
-  stunTime: 0
+  stunTime: 5
   isStunned: 0
+  damageValue: 25
+  movement: {fileID: 0}
 --- !u!114 &1173493453207395330
 MonoBehaviour:
   m_ObjectHideFlags: 0

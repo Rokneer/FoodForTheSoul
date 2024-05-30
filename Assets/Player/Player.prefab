@@ -247,6 +247,7 @@ GameObject:
   - component: {fileID: 2525709132196320571}
   - component: {fileID: 1801895719408437159}
   - component: {fileID: 7970660567053698347}
+  - component: {fileID: 5310444945516156385}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -399,6 +400,21 @@ MonoBehaviour:
   maxSlopeAngle: 40
   orientation: {fileID: 7144500513795248948}
   isInsideInteractable: 0
+--- !u!114 &5310444945516156385
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6805741352481833747}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ba02f8e0fff069419273cd66031675b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxCameraBattery: 100
+  cameraBattery: 100
+  batteryGauge: {fileID: 0}
 --- !u!1 &6824720454272320020
 GameObject:
   m_ObjectHideFlags: 0
@@ -774,7 +790,7 @@ PrefabInstance:
     - target: {fileID: 1787524338754266190, guid: b26534fa77565e24795adbc3dbe81d2e,
         type: 3}
       propertyPath: m_VersionIndex
-      value: 6438
+      value: 6441
       objectReference: {fileID: 0}
     - target: {fileID: 2257948835597662213, guid: b26534fa77565e24795adbc3dbe81d2e,
         type: 3}
@@ -784,7 +800,7 @@ PrefabInstance:
     - target: {fileID: 2507246718413917618, guid: b26534fa77565e24795adbc3dbe81d2e,
         type: 3}
       propertyPath: m_VersionIndex
-      value: 854
+      value: 857
       objectReference: {fileID: 0}
     - target: {fileID: 2586191692839669186, guid: b26534fa77565e24795adbc3dbe81d2e,
         type: 3}
@@ -924,7 +940,7 @@ PrefabInstance:
     - target: {fileID: 7832702999985031228, guid: b26534fa77565e24795adbc3dbe81d2e,
         type: 3}
       propertyPath: m_VersionIndex
-      value: 2392
+      value: 2395
       objectReference: {fileID: 0}
     - target: {fileID: 8041723188580848114, guid: b26534fa77565e24795adbc3dbe81d2e,
         type: 3}
@@ -1057,7 +1073,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   flash: {fileID: 7686393653791343731}
   flashDuration: 0.17
-  flashDelay: 1.6
+  flashCooldown: 1.6
+  flashCooldownSlider: {fileID: 0}
   canUseFlash: 1
   flashSFX: {fileID: 8300000, guid: 8a1f1ffe497e30342ba6af1f54cf7c79, type: 3}
   flashRechargeSFX: {fileID: 8300000, guid: 8a1f1ffe497e30342ba6af1f54cf7c79, type: 3}

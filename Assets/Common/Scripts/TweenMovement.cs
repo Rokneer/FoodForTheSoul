@@ -41,42 +41,29 @@ public class TweenMovement : MonoBehaviour
             .DOMove(endTransform.position, tweenTime)
             .SetLoops(loopCount, loopType)
             .SetEase(ease)
-            .OnComplete(ResetTransforms);
+            .SetAutoKill(false)
+            .OnComplete(FinishTween);
     }
 
-    public Tween StartMovement(
-        TweenCallback EndingAction,
-        Ease ease = Ease.InOutSine,
-        LoopType loopType = LoopType.Yoyo
-    )
-    {
-        tween = transform
-            .DOMove(endTransform.position, tweenTime)
-            .SetLoops(loopCount, loopType)
-            .SetEase(ease)
-            .OnComplete(() =>
-            {
-                EndingAction();
-            });
-        return tween;
-    }
-
-    public Tween ReverseMovement()
+    public void ReverseMovement()
     {
         tween.Pause().PlayBackwards();
-        return tween;
     }
 
-    public Tween PauseMovement()
+    public void PauseMovement()
     {
         tween.Pause();
-        return tween;
     }
 
-    public Tween ResumeMovement()
+    public void ResumeMovement()
     {
         tween.Play();
-        return tween;
+    }
+
+    private void FinishTween()
+    {
+        tween.Kill();
+        ResetTransforms();
     }
 
     private void ResetTransforms()

@@ -1,4 +1,5 @@
 using System.Collections;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,11 +8,6 @@ public class PhotoFlash : MonoBehaviour
     #region Variables
     [SerializeField]
     private Light flash;
-    private float targetIntensity = 0;
-    private float targetSliderValue = 1;
-
-    private readonly float intensitylerpSpeed = 20f;
-    private float sliderLerpSpeed = 20f;
 
     [Header("Flash Timers")]
     [SerializeField]
@@ -34,30 +30,13 @@ public class PhotoFlash : MonoBehaviour
     private AudioClip flashRechargeSFX;
     #endregion Variables
 
-    #region Lifecycle
-    private void Update()
-    {
-        flash.intensity = Mathf.Lerp(
-            flash.intensity,
-            targetIntensity,
-            Time.deltaTime * intensitylerpSpeed
-        );
-
-        flashCooldownSlider.value = Mathf.Lerp(
-            flashCooldownSlider.value,
-            targetSliderValue,
-            Time.deltaTime * sliderLerpSpeed
-        );
-    }
-    #endregion Lifecycle
-
     #region Functions
     internal IEnumerator ActivateFlash()
     {
         canUseFlash = false;
 
         // Update flash UI
-        targetSliderValue = 0;
+        flashCooldownSlider.DOValue(0, flashDuration).SetEase(Ease.Flash);
 
         // Stun all current customers
         GameManager.Instance.StunCustomers();
@@ -66,22 +45,20 @@ public class PhotoFlash : MonoBehaviour
         SoundFXManager.Instance.PlaySoundFXClip(flashSFX, transform, 1);
 
         // Increase light intensity
-        targetIntensity = 4;
+        flash.DOIntensity(4, flashDuration).SetEase(Ease.Flash);
 
         yield return new WaitForSeconds(flashDuration);
 
         // Lower light intensity
-        targetIntensity = 0;
+        flash.DOIntensity(0, 0.2f).SetEase(Ease.Flash);
 
         // Start flash UI cooldown timer
-        sliderLerpSpeed = flashCooldown;
-        targetSliderValue = 1;
+        flashCooldownSlider.DOValue(1, flashCooldown).SetEase(Ease.Flash);
         yield return new WaitForSeconds(flashCooldown);
 
         // Play flash recharge SFX
         SoundFXManager.Instance.PlaySoundFXClip(flashRechargeSFX, transform, 1);
 
-        sliderLerpSpeed = 20f;
         canUseFlash = true;
     }
     #endregion Functions

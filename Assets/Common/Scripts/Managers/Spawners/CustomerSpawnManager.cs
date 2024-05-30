@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 
 public class CustomerSpawnManager : Spawner
@@ -17,7 +18,7 @@ public class CustomerSpawnManager : Spawner
     private DeliveryArea[] deliveryAreas = new DeliveryArea[3];
 
     private readonly Dictionary<Transform, bool> spawnPointsDict = new(3);
-    private readonly Dictionary<Customer, int> currentCustomers = new(3);
+    public readonly Dictionary<Customer, int> currentCustomers = new(3);
     protected override bool CanSpawn => base.CanSpawn && !IsSpawnFull;
     private bool IsSpawnFull
     {
@@ -86,6 +87,7 @@ public class CustomerSpawnManager : Spawner
             // Spawn customer
             GameObject spawnedCustomerObj = SpawnObject(startPoints[customerId]);
             Customer spawnedCustomer = spawnedCustomerObj.GetComponent<Customer>();
+            spawnedCustomer.id = customerId;
             currentCustomers[spawnedCustomer] = customerId;
 
             // Set customer recipe
@@ -95,19 +97,18 @@ public class CustomerSpawnManager : Spawner
             deliveryAreas[customerId].currentRecipe = spawnedCustomer.recipe;
 
             // Get tween movement
-            TweenMovement tweenMovement = spawnedCustomerObj.GetComponent<TweenMovement>();
+            TweenMovement movement = spawnedCustomer.movement;
 
             // Set timer on tween and UI
             float recipeTime = spawnedCustomer.recipe.time;
-            tweenMovement.tweenTime = recipeTime;
+            movement.tweenTime = recipeTime;
             RecipeUIManager.Instance.SetupTimer(recipeTime, recipeTime, customerId);
+            RecipeUIManager.Instance.StartTimer(customerId);
 
             // Start movement
-            tweenMovement.SetUpMovement(startPoint, endPoint);
-            tweenMovement.StartMovement(() =>
-            {
-                RemoveCustomer(spawnedCustomer);
-            });
+            movement.SetUpMovement(startPoint, endPoint);
+            movement.StartMovement();
+            movement.tween.OnComplete(() => RemoveCustomer(spawnedCustomer));
         }
     }
 
