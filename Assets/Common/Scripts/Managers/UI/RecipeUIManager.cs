@@ -12,19 +12,11 @@ public class RecipeUIManager : PhotoUIManager
     [Header("Timer")]
     [SerializeField]
     private Slider[] recipeTimers = new Slider[3];
-
-    [SerializeField]
-    private Tween[] timerTweens = new Tween[3];
-
-    [SerializeField]
-    private float[] targetTimerValues = new float[3];
-
-    [SerializeField]
-    private float[] targetTimerValue = new float[3];
-
-    [SerializeField]
-    private float[] timerDurations = new float[3];
-    private readonly Dictionary<int, bool> activeTimers = new();
+    private readonly Tween[] timerTweens = new Tween[3];
+    private readonly float[] targetTimerValues = new float[3];
+    private readonly float[] targetTimerValue = new float[3];
+    private readonly float[] timerDurations = new float[3];
+    private readonly Dictionary<int, bool> activeTimers = new(3);
 
     [Header("Ingredient Frames")]
     [SerializeField]
@@ -74,12 +66,12 @@ public class RecipeUIManager : PhotoUIManager
     #endregion Lifecycle
 
     #region Functions
-    public int AddPhoto(Sprite photoSprite, Sprite[] ingredientSprites, int id)
+    public int AddPhoto(Sprite photoSprite, List<Sprite> ingredientSprites, int id)
     {
         displayImages[id].sprite = photoSprite;
 
         List<Image> currentImages = ingredientDisplayImages[id].innerList;
-        for (int i = 0; i < ingredientSprites.Length; i++)
+        for (int i = 0; i < ingredientSprites.Count; i++)
         {
             Sprite sprite = ingredientSprites[i];
             currentImages[i].sprite = sprite;

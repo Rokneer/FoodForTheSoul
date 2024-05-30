@@ -4,6 +4,7 @@ public class Creature : PhotoObject
 {
     public override void WasPhotographed()
     {
+        base.WasPhotographed();
         KillCreature();
         CreatureSpawnManager.Instance.RemoveObject(gameObject);
     }

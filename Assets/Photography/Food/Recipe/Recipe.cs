@@ -24,12 +24,25 @@ public class Recipe : MonoBehaviour
 [System.Serializable]
 public class RecipeIngredient
 {
-    public IngredientData ingredient;
-    public int count;
+    [SerializeReference]
+    private IngredientData data;
+    public IngredientData Data
+    {
+        get => data;
+        set => data = value;
+    }
+
+    [SerializeField]
+    private int count;
+    public int Count
+    {
+        get => count;
+        set => count = value;
+    }
 
     public RecipeIngredient(IngredientData ingredient, int count)
     {
-        this.ingredient = ingredient;
+        this.Data = ingredient;
         this.count = count;
     }
 }

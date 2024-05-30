@@ -60,7 +60,7 @@ public class TweenMovement : MonoBehaviour
         tween.Play();
     }
 
-    private void FinishTween()
+    public void FinishTween()
     {
         tween.Kill();
         ResetTransforms();

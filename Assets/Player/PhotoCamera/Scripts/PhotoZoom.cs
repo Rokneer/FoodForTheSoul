@@ -4,10 +4,7 @@ using UnityEngine;
 public class PhotoZoom : MonoBehaviour
 {
     #region Variables
-    [Header("Cameras")]
-    [SerializeField]
     private Camera photoCamera;
-
     private FirstPersonCamera cameraController;
 
     [Header("Positions")]
@@ -80,6 +77,7 @@ public class PhotoZoom : MonoBehaviour
         baseMainCameraFOV = Camera.main.fieldOfView;
         mainCameraTargetFOV = baseMainCameraFOV;
 
+        photoCamera = GetComponentInChildren<Camera>();
         basePhotoCameraFOV = photoCamera.fieldOfView;
         photoCameraTargetFOV = basePhotoCameraFOV;
     }

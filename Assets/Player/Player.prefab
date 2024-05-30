@@ -1024,12 +1024,6 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 886693282581255001}
   m_SourcePrefab: {fileID: 100100000, guid: b26534fa77565e24795adbc3dbe81d2e, type: 3}
---- !u!20 &673709593890974130 stripped
-Camera:
-  m_CorrespondingSourceObject: {fileID: 8065727842766952695, guid: b26534fa77565e24795adbc3dbe81d2e,
-    type: 3}
-  m_PrefabInstance: {fileID: 7401182147886641477}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &3079952307604872246 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5478760602364030323, guid: b26534fa77565e24795adbc3dbe81d2e,
@@ -1073,7 +1067,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   flash: {fileID: 7686393653791343731}
   flashDuration: 0.17
-  flashCooldown: 1.6
+  flashCooldown: 10
   flashCooldownSlider: {fileID: 0}
   canUseFlash: 1
   flashSFX: {fileID: 8300000, guid: 8a1f1ffe497e30342ba6af1f54cf7c79, type: 3}
@@ -1090,7 +1084,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7213bb403173e9d45b37321c0b59fcc7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  photoCamera: {fileID: 673709593890974130}
   basePosition: {x: 0.23, y: -0.141, z: 0.738}
   zoomPosition: {x: 0.364, y: -0.339, z: 0.734}
   isZooming: 0

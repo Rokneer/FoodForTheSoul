@@ -3,8 +3,8 @@ using System.Linq;
 
 public static class LinqExtras
 {
-    public static bool ContainsAllItems<T>(this IEnumerable<T> a, IEnumerable<T> b)
+    public static bool ContainsAllItems<T>(this IEnumerable<T> first, IEnumerable<T> second)
     {
-        return !b.Except(a).Any();
+        return !second.Except(first).Any();
     }
 }

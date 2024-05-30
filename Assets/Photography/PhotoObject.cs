@@ -21,7 +21,10 @@ public abstract class PhotoObject : MonoBehaviour
 
     public virtual void WasPhotographed()
     {
-        ObjectPoolManager.ReturnToPool(gameObject);
+        if (TryGetComponent<TweenMovement>(out TweenMovement tweenMovement))
+        {
+            tweenMovement.FinishTween();
+        }
     }
     #endregion Functions
 }

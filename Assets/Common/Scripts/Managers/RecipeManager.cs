@@ -61,9 +61,9 @@ public class RecipeManager : MonoBehaviour
         List<RecipeIngredient> uniqueIngredients = recipe.ingredients.Distinct().ToList();
         foreach (RecipeIngredient uniqueIngredient in uniqueIngredients)
         {
-            if (!activeIngredients.Contains(uniqueIngredient.ingredient))
+            if (!activeIngredients.Contains(uniqueIngredient.Data))
             {
-                activeIngredients.Add(uniqueIngredient.ingredient);
+                activeIngredients.Add(uniqueIngredient.Data);
             }
         }
     }
@@ -73,7 +73,7 @@ public class RecipeManager : MonoBehaviour
         List<RecipeIngredient> uniqueIngredients = recipe.ingredients.Distinct().ToList();
 
         List<IngredientData> uniqueIngredientsData = new();
-        uniqueIngredientsData.AddRange(uniqueIngredients.Select(data => data.ingredient));
+        uniqueIngredientsData.AddRange(uniqueIngredients.Select(data => data.Data));
 
         List<IngredientData> ingredientsToRemove = uniqueIngredientsData
             .Except(activeIngredients)
@@ -108,58 +108,66 @@ public class RecipeManager : MonoBehaviour
         AddIngredients(selectedRecipe);
 
         // Setup recipe's ingredients sprites
-        Sprite[] recipeIngredientSprites = new Sprite[selectedRecipe.ingredients.Count];
-        for (int i = 0; i < selectedRecipe.ingredients.Count; i++)
+        List<Sprite> recipeIngredientSprites = new(selectedRecipe.ingredients.Count);
+
+        foreach (RecipeIngredient ingredient in selectedRecipe.ingredients)
         {
-            RecipeIngredient ingredient = selectedRecipe.ingredients[i];
-            recipeIngredientSprites[i] = ingredient.ingredient.sprite;
+            for (int i = 0; i < ingredient.Count; i++)
+            {
+                recipeIngredientSprites.Add(ingredient.Data.sprite);
+            }
         }
 
         // Set recipe sprites in UI
-        RecipeUIManager
-            .Instance
-            .AddPhoto(selectedRecipe.sprite, recipeIngredientSprites, customerId);
+        RecipeUIManager.Instance.AddPhoto(
+            selectedRecipe.sprite,
+            recipeIngredientSprites,
+            customerId
+        );
 
         return selectedRecipe;
     }
 
     private void CompleteRecipe()
     {
-        bool spawnedRecipe = false;
+        bool hasSpawnedRecipe = false;
         foreach (RecipeData recipe in currentRecipes.ToArray())
         {
-            //! TODO: Check for ingredient quantity
             isRecipeDoneDictionary[recipe] = CheckCurrentIngredients(recipe);
 
-            if (isRecipeDoneDictionary[recipe] && !spawnedRecipe)
+            if (isRecipeDoneDictionary[recipe] && !hasSpawnedRecipe)
             {
                 Debug.Log($"{recipe.label} is ready to serve!");
                 RecipeSpawner.Instance.SpawnCompletedRecipe(recipe);
-                spawnedRecipe = true;
+                hasSpawnedRecipe = true;
             }
         }
     }
 
     private bool CheckCurrentIngredients(RecipeData recipe)
     {
-        List<IngredientData> recipeIngredientsData = new();
+        List<RecipeIngredient> currentIngredientsFixed = currentIngredients
+            .GroupBy(ingredientData => ingredientData)
+            .Select(ingredientData => new RecipeIngredient(
+                ingredientData.Key,
+                ingredientData.Count()
+            ))
+            .ToList();
 
-        recipeIngredientsData.AddRange(recipe.ingredients.Select(data => data.ingredient));
-
-        bool containsAllIngredients = currentIngredients.ContainsAllItems<IngredientData>(
-            recipeIngredientsData
-        );
-
-        if (containsAllIngredients)
+        List<bool> containsAllIngredients = new();
+        for (int i = 0; i < recipe.ingredients.Count; i++)
         {
-            List<RecipeIngredient> currentIngredientGroups = currentIngredients
-                .GroupBy(group => group)
-                .Select(group => new RecipeIngredient(group.Key, group.Count()))
-                .ToList();
+            RecipeIngredient ingredient = recipe.ingredients[i];
+            RecipeIngredient currentIngredient = currentIngredientsFixed[i];
 
-            return true;
+            bool containsIngredient =
+                currentIngredient.Data == ingredient.Data
+                && currentIngredient.Count == ingredient.Count;
+
+            containsAllIngredients.Add(containsIngredient);
         }
-        return false;
+
+        return !containsAllIngredients.Contains(false);
     }
 
     public void RemoveRecipe(RecipeData recipe, int photoId)
