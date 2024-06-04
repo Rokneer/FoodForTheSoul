@@ -1,13 +1,17 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class FirstPersonCamera : MonoBehaviour
 {
-    [SerializeField]
-    private float sensX;
+    #region Variables
+    [Header("Sensbility")]
+    [Range(0.1f, 10f)]
+    public float sensX;
 
-    [SerializeField]
-    private float sensY;
+    [Range(0.1f, 10f)]
+    public float sensY;
 
+    [Header("Positions")]
     [SerializeField]
     private Transform orientation;
 
@@ -17,17 +21,27 @@ public class FirstPersonCamera : MonoBehaviour
     private float xRotation;
     private float yRotation;
 
-    void Awake()
+    private InputAction lookAction;
+
+    #endregion Variables
+
+    #region Lifecycle
+    private void Awake()
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
 
-    void Update()
+    private void Start()
     {
-        Vector2 mouseInputs = PlayerController.Instance.lookAction.ReadValue<Vector2>().normalized;
-        float mouseX = mouseInputs.x * sensX;
-        float mouseY = mouseInputs.y * sensY;
+        lookAction = PlayerController.Instance.playerInput.actions[PlayerActionStrings.Look];
+    }
+
+    private void Update()
+    {
+        Vector2 mouseInput = lookAction.ReadValue<Vector2>().normalized;
+        float mouseX = mouseInput.x * sensX;
+        float mouseY = mouseInput.y * sensY;
 
         yRotation += mouseX;
         xRotation -= mouseY;
@@ -37,4 +51,5 @@ public class FirstPersonCamera : MonoBehaviour
         orientation.rotation = Quaternion.Euler(0, yRotation, 0);
         player.rotation = Quaternion.Euler(0, yRotation, 0);
     }
+    #endregion Lifecycle
 }
