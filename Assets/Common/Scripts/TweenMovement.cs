@@ -14,9 +14,6 @@ public class TweenMovement : MonoBehaviour
     [Header("Setup")]
     public float tweenTime;
 
-    [SerializeField]
-    private int loopCount;
-
     public Tween tween;
     #endregion Variables
 
@@ -35,7 +32,11 @@ public class TweenMovement : MonoBehaviour
         }
     }
 
-    public void StartMovement(Ease ease = Ease.InOutSine, LoopType loopType = LoopType.Yoyo)
+    public void StartMovement(
+        Ease ease = Ease.InOutSine,
+        int loopCount = 0,
+        LoopType loopType = LoopType.Yoyo
+    )
     {
         tween = transform
             .DOMove(endTransform.position, tweenTime)

@@ -26,7 +26,7 @@ public abstract class Spawner : MonoBehaviour
 
     protected abstract GameObject SpawnObject(Transform spawnPoint);
 
-    protected GameObject SpawnObject(Transform spawnPoint, Transform parentTransform)
+    protected GameObject SpawnObjectWithParent(Transform parentTransform)
     {
         currentObjectCount++;
         return ObjectPoolManager.SpawnObject(objectToSpawn, parentTransform);

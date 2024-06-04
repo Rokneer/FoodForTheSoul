@@ -11,26 +11,22 @@ public class FoodSpawnManager : Spawner
 
     [Header("Spawn Points")]
     [SerializeField]
-    private CeilingPath[] ceilingPaths;
-    private readonly Transform[] ceilingPathsStartPoints = new Transform[4];
-    private readonly Transform[] ceilingPathsEndPoints = new Transform[4];
+    private List<CeilingPath> ceilingPaths;
     private readonly int lastPathIndex = -1;
 
     [SerializeField]
-    private CeilingHook[] ceilingHooks;
-    private readonly Transform[] ceilingHooksSpawnPoints = new Transform[7];
+    private List<CeilingHook> ceilingHooks;
     private readonly int lastHookIndex = -1;
-    private readonly Dictionary<Transform, bool> hooksSpawnPointsDict = new(7);
-    private readonly Dictionary<CeilingHook, int> hooksIdDict = new(7);
-    protected override bool CanSpawn =>
-        base.CanSpawn && RecipeManager.Instance.activeIngredients.Count != 0;
-    private bool IsSpawnFull
+    private readonly Dictionary<CeilingHook, bool> hooksDict = new();
+    private readonly Dictionary<CeilingHook, int> hooksIdDict = new();
+
+    private bool AreHooksFull
     {
         get
         {
-            foreach (Transform spawnPoint in ceilingHooksSpawnPoints)
+            foreach (CeilingHook hook in ceilingHooks)
             {
-                if (!hooksSpawnPointsDict[spawnPoint])
+                if (!hooksDict[hook])
                 {
                     return false;
                 }
@@ -38,6 +34,9 @@ public class FoodSpawnManager : Spawner
             return true;
         }
     }
+
+    protected override bool CanSpawn =>
+        base.CanSpawn && RecipeManager.Instance.activeIngredients.Count != 0;
     #endregion Variables
     #region Lifecycle
     private void Awake()
@@ -52,16 +51,9 @@ public class FoodSpawnManager : Spawner
             _instance = this;
         }
 
-        for (int i = 0; i < ceilingPaths.Length; i++)
+        foreach (CeilingHook hook in ceilingHooks)
         {
-            ceilingPathsStartPoints[i] = ceilingPaths[i].startPoint;
-            ceilingPathsEndPoints[i] = ceilingPaths[i].endPoint;
-        }
-
-        for (int i = 0; i < ceilingHooks.Length; i++)
-        {
-            ceilingHooksSpawnPoints[i] = ceilingHooks[i].spawnPoint;
-            hooksSpawnPointsDict[ceilingHooks[i].spawnPoint] = false;
+            hooksDict[hook] = false;
         }
     }
 
@@ -113,9 +105,10 @@ public class FoodSpawnManager : Spawner
     #region Paths
     private void SpawnFoodInPath()
     {
-        int foodSpawnId = RandomIndex.GetRandomIndex(ceilingPathsStartPoints, lastPathIndex);
-        Transform startPoint = ceilingPathsStartPoints[foodSpawnId];
-        Transform endPoint = ceilingPathsEndPoints[foodSpawnId];
+        int foodSpawnId = RandomIndex.GetRandomIndex(ceilingPaths.ToArray(), lastPathIndex);
+        Transform startPoint = ceilingPaths[foodSpawnId].startPoint;
+        Transform endPoint = ceilingPaths[foodSpawnId].endPoint;
+        int loopCount = ceilingPaths[foodSpawnId].loopCount;
 
         GameObject spawnedIngredient = SpawnObject(startPoint);
         SetupIngredient(spawnedIngredient);
@@ -123,34 +116,31 @@ public class FoodSpawnManager : Spawner
         // Setup movement
         TweenMovement tweenMovement = spawnedIngredient.GetComponent<TweenMovement>();
         tweenMovement.SetUpMovement(startPoint, endPoint);
-        tweenMovement.StartMovement();
+        tweenMovement.StartMovement(Ease.InOutSine, loopCount);
         tweenMovement.tween.OnComplete(() => RemoveObject(spawnedIngredient));
     }
     #endregion Paths
     #region Hooks
     private void SpawnFoodInHook()
     {
-        if (!IsSpawnFull)
+        if (!AreHooksFull)
         {
             // Get a random spawn index that isn't in use
             int hookSpawnId = RandomIndex.GetUnusedRandomIndex(
-                ceilingHooksSpawnPoints,
+                ceilingHooks.ToArray(),
                 lastHookIndex,
-                hooksSpawnPointsDict
+                hooksDict
             );
-
-            // Set selected transform as currently used
-            hooksSpawnPointsDict[ceilingHooksSpawnPoints[hookSpawnId]] = true;
-            ceilingHooks[hookSpawnId].isActive = hooksSpawnPointsDict[
-                ceilingHooksSpawnPoints[hookSpawnId]
-            ];
 
             CeilingHook currentCeilingHook = ceilingHooks[hookSpawnId];
             hooksIdDict[currentCeilingHook] = hookSpawnId;
+            Transform spawnPoint = currentCeilingHook.spawnPoint;
 
-            Transform spawnPoint = ceilingHooksSpawnPoints[hookSpawnId];
+            // Set selected transform as currently used
+            hooksDict[currentCeilingHook] = true;
+            currentCeilingHook.isActive = hooksDict[ceilingHooks[hookSpawnId]];
 
-            GameObject spawnedIngredient = SpawnObject(spawnPoint, spawnPoint);
+            GameObject spawnedIngredient = SpawnObjectWithParent(spawnPoint);
             SetupIngredient(spawnedIngredient);
 
             TweenMovement tweenMovement = currentCeilingHook.GetComponent<TweenMovement>();
@@ -182,7 +172,7 @@ public class FoodSpawnManager : Spawner
 
         int hookId = hooksIdDict[ceilingHook];
 
-        hooksSpawnPointsDict[ceilingHooksSpawnPoints[hookId]] = false;
+        hooksDict[ceilingHooks[hookId]] = false;
 
         RemoveObject(ingredientObj);
     }

@@ -8,9 +8,9 @@ public class RecipeSpawner : Spawner
 
     [Header("Spawn Points")]
     [SerializeField]
-    private Transform[] recipeSpawnPoints;
-    private readonly Dictionary<Transform, bool> spawnPointsDict = new(3);
-    private readonly Dictionary<RecipeData, int> completeRecipes = new(3);
+    private List<Transform> recipeSpawnPoints;
+    private readonly Dictionary<Transform, bool> spawnPointsDict = new();
+    private readonly Dictionary<RecipeData, int> completeRecipes = new();
     protected override bool CanSpawn => base.CanSpawn && !IsSpawnFull;
     private bool IsSpawnFull
     {
@@ -61,7 +61,7 @@ public class RecipeSpawner : Spawner
         {
             // Get a random spawn index that isn't in use
             int spawnId = RandomIndex.GetUnusedRandomIndex(
-                recipeSpawnPoints,
+                recipeSpawnPoints.ToArray(),
                 lastSpawnPointIndex,
                 spawnPointsDict
             );
@@ -80,19 +80,25 @@ public class RecipeSpawner : Spawner
             takeOutArea.recipe = recipe;
 
             // Spawn completed recipe
-            GameObject spawnedRecipe = SpawnObject(spawnPoint);
+            GameObject spawnedRecipe = SpawnObjectWithParent(spawnPoint);
+
+            spawnedRecipe.SetActive(true);
 
             SetupRecipe(spawnedRecipe, recipe);
         }
     }
 
-    public void RemoveCompletedRecipe(RecipeData recipeData)
+    public void RemoveCompletedRecipe(RecipeData recipe)
     {
-        Transform recipeTransform = recipeSpawnPoints[completeRecipes[recipeData]];
+        Transform spawnTransform = recipeSpawnPoints[completeRecipes[recipe]];
 
         // Set selected transform as not longer in use
-        spawnPointsDict[recipeTransform] = false;
-        base.RemoveObject(objectToSpawn);
+        spawnPointsDict[spawnTransform] = false;
+
+        GameObject recipeObj = spawnTransform.GetComponentInChildren<Recipe>().gameObject;
+
+        Debug.Log($"Removed {recipe.label}");
+        base.RemoveObject(recipeObj);
     }
 
     private void SetupRecipe(GameObject spawnedRecipe, RecipeData recipeData)

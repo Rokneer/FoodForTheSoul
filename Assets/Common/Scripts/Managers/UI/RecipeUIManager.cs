@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using DG.Tweening;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,9 +15,29 @@ public class RecipeUIManager : PhotoUIManager
     private Slider[] recipeTimers = new Slider[3];
     private readonly Tween[] timerTweens = new Tween[3];
     private readonly float[] targetTimerValues = new float[3];
-    private readonly float[] targetTimerValue = new float[3];
     private readonly float[] timerDurations = new float[3];
     private readonly Dictionary<int, bool> activeTimers = new(3);
+
+    [Header("Completed Recipe Frame")]
+    public RecipeData equipedRecipe;
+
+    [SerializeField]
+    private float slideInRecipePoint;
+
+    [SerializeField]
+    private float slideOutRecipePoint;
+
+    [SerializeField]
+    private Image completedRecipeDisplayImage;
+
+    [SerializeField]
+    private CanvasGroup completedRecipeCanvasGroup;
+
+    [SerializeField]
+    private RectTransform completedRecipeRectTransform;
+
+    [SerializeField]
+    private TMP_Text completedRecipeText;
 
     [Header("Ingredient Frames")]
     [SerializeField]
@@ -66,6 +87,34 @@ public class RecipeUIManager : PhotoUIManager
     #endregion Lifecycle
 
     #region Functions
+    public void ShowRecipePhoto(RecipeData recipe)
+    {
+        equipedRecipe = recipe;
+
+        // Set recipe sprite
+        completedRecipeDisplayImage.sprite = recipe.sprite;
+
+        // Set recipe label
+        completedRecipeText.text = recipe.label;
+
+        completedRecipeRectTransform
+            .DOAnchorPosY(slideInRecipePoint, slideInTime)
+            .SetEase(Ease.InOutSine);
+
+        // Fade recipe photo in
+        completedRecipeCanvasGroup.DOFade(1, fadeInTime);
+    }
+
+    public void HideRecipePhoto()
+    {
+        completedRecipeRectTransform
+            .DOAnchorPosY(slideOutRecipePoint, slideOutTime)
+            .SetEase(Ease.InOutSine);
+
+        // Fade recipe photo in
+        completedRecipeCanvasGroup.DOFade(1, fadeOutTime);
+    }
+
     public int AddPhoto(Sprite photoSprite, List<Sprite> ingredientSprites, int id)
     {
         displayImages[id].sprite = photoSprite;

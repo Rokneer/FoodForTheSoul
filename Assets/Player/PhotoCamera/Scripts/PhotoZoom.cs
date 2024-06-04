@@ -61,8 +61,6 @@ public class PhotoZoom : MonoBehaviour
     [SerializeField]
     private AudioClip zoomOutSFX;
 
-    private float mainCameraTargetFOV;
-    private float photoCameraTargetFOV;
     private readonly float tweenDuration = 0.2f;
     #endregion Variables
 
@@ -75,11 +73,9 @@ public class PhotoZoom : MonoBehaviour
         baseSenYValue = cameraController.sensY;
 
         baseMainCameraFOV = Camera.main.fieldOfView;
-        mainCameraTargetFOV = baseMainCameraFOV;
 
         photoCamera = GetComponentInChildren<Camera>();
         basePhotoCameraFOV = photoCamera.fieldOfView;
-        photoCameraTargetFOV = basePhotoCameraFOV;
     }
     #endregion Lifecycle
 
@@ -97,6 +93,9 @@ public class PhotoZoom : MonoBehaviour
 
     public void ZoomIn()
     {
+        UIManager.Instance.HideUI(UITypes.Recipes);
+        UIManager.Instance.ShowUI(UITypes.Zoom);
+
         transform.localPosition = basePosition;
         ZoomCamera(
             mainCameraZoomInValue,
@@ -109,6 +108,8 @@ public class PhotoZoom : MonoBehaviour
 
     public void ExtraZoomIn()
     {
+        UIManager.Instance.HideUI(UITypes.Zoom);
+
         ZoomCamera(
             mainCameraExtraZoomValue,
             photoCameraExtraZoomValue,
@@ -120,6 +121,9 @@ public class PhotoZoom : MonoBehaviour
 
     public void ZoomOut()
     {
+        UIManager.Instance.HideUI(UITypes.Zoom);
+        UIManager.Instance.ShowUI(UITypes.Recipes);
+
         transform.localPosition = zoomPosition;
         ZoomCamera(baseMainCameraFOV, basePhotoCameraFOV, baseSenXValue, baseSenYValue, zoomOutSFX);
     }

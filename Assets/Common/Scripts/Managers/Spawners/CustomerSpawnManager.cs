@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using DG.Tweening;
+using UnityEditor.Rendering;
 using UnityEngine;
 
 public class CustomerSpawnManager : Spawner
@@ -9,16 +10,16 @@ public class CustomerSpawnManager : Spawner
 
     [Header("Spawn Points")]
     [SerializeField]
-    private Transform[] startPoints = new Transform[3];
+    private List<Transform> startPoints = new();
 
     [SerializeField]
-    private Transform[] endPoints = new Transform[3];
+    private List<Transform> endPoints = new();
 
     [SerializeField]
-    private DeliveryArea[] deliveryAreas = new DeliveryArea[3];
+    private List<DeliveryArea> deliveryAreas = new();
 
-    private readonly Dictionary<Transform, bool> spawnPointsDict = new(3);
-    public readonly Dictionary<Customer, int> currentCustomers = new(3);
+    private readonly Dictionary<Transform, bool> spawnPointsDict = new();
+    public readonly Dictionary<Customer, int> currentCustomers = new();
     protected override bool CanSpawn => base.CanSpawn && !IsSpawnFull;
     private bool IsSpawnFull
     {
@@ -72,7 +73,7 @@ public class CustomerSpawnManager : Spawner
         {
             // Get a random spawn index that isn't in use
             int customerId = RandomIndex.GetUnusedRandomIndex(
-                startPoints,
+                startPoints.ToArray(),
                 lastSpawnPointIndex,
                 spawnPointsDict
             );
@@ -94,7 +95,7 @@ public class CustomerSpawnManager : Spawner
             spawnedCustomer.recipe = RecipeManager.Instance.ChooseRecipe(customerId);
 
             // Set delivery point recipe
-            deliveryAreas[customerId].currentRecipe = spawnedCustomer.recipe;
+            deliveryAreas[customerId].currentCustomer = spawnedCustomer;
 
             // Get tween movement
             TweenMovement movement = spawnedCustomer.movement;
@@ -108,7 +109,7 @@ public class CustomerSpawnManager : Spawner
             // Start movement
             movement.SetUpMovement(startPoint, endPoint);
             movement.StartMovement();
-            movement.tween.OnComplete(() => RemoveCustomer(spawnedCustomer));
+            movement.tween.OnComplete(() => DamagePlayer(spawnedCustomer));
         }
     }
 
@@ -116,22 +117,31 @@ public class CustomerSpawnManager : Spawner
     {
         int customerId = currentCustomers[customer];
 
+        // End tween movement
+        customer.movement.FinishTween();
+
         // Set selected transform as not longer in use
         spawnPointsDict[startPoints[customerId]] = false;
 
         // Remove delivery point recipe
-        deliveryAreas[customerId].currentRecipe = customer.recipe;
+        deliveryAreas[customerId].currentCustomer = customer;
 
         // Remove recipe from active
         RecipeManager.Instance.RemoveRecipe(customer.recipe, customerId);
-
-        // Do damage to player
-        customer.DoDamage();
 
         RecipeUIManager.Instance.DisableTimer(customerId);
 
         // Remove from current components
         currentCustomers.Remove(customer);
         base.RemoveObject(customer.gameObject);
+    }
+
+    private void DamagePlayer(Customer customer)
+    {
+        // Do damage to player
+        customer.DoDamage();
+
+        // Remove customer
+        RemoveCustomer(customer);
     }
 }

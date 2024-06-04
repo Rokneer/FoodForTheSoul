@@ -4,15 +4,17 @@ public class TakeOutArea : InteractableArea
 {
     public RecipeData recipe;
 
-    [SerializeField]
-    private bool hasPickedUpRecipe = false;
-
     protected override void Interact()
     {
-        if (!hasPickedUpRecipe)
+        if (recipe != null)
         {
-            Debug.Log($"Take Out - Interacted with {recipe.label}");
-            hasPickedUpRecipe = true;
+            Debug.Log($"Picked up {recipe.label}");
+
+            RecipeUIManager.Instance.ShowRecipePhoto(recipe);
+
+            RecipeSpawner.Instance.RemoveCompletedRecipe(recipe);
+
+            recipe = null;
         }
     }
 }

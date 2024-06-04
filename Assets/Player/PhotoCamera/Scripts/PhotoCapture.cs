@@ -6,13 +6,13 @@ public class PhotoCapture : MonoBehaviour
     #region Variables
     [Header("Photo Taker")]
     [SerializeField]
-    private Transform cameraBarrelRaycast;
-
-    [SerializeField]
     private float photoDelay;
     public bool canTakePhoto = true;
 
     [Header("Raycasting")]
+    [SerializeField]
+    private Transform cameraBarrelRaycast;
+
     [SerializeField]
     private float sphereCastRadius;
 
@@ -138,8 +138,10 @@ public class PhotoCapture : MonoBehaviour
                     || photoHit.collider.gameObject.CompareTag(TagStrings.Food)
                 )
                 {
-                    PhotoObject photoObject =
-                        photoHit.collider.gameObject.GetComponent<PhotoObject>();
+                    PhotoObject photoObject = photoHit
+                        .collider
+                        .gameObject
+                        .GetComponent<PhotoObject>();
 
                     photoObject.WasPhotographed();
 
