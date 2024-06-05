@@ -106,12 +106,16 @@ public class RecipeUIManager : PhotoUIManager
 
     internal void HideRecipePhoto()
     {
-        completedRecipeRectTransform
-            .DOAnchorPosY(slideOutRecipePoint, slideOutTime)
-            .SetEase(Ease.InOutSine);
+        if (equipedRecipe != null)
+        {
+            equipedRecipe = null;
+            completedRecipeRectTransform
+                .DOAnchorPosY(slideOutRecipePoint, slideOutTime)
+                .SetEase(Ease.InOutSine);
 
-        // Fade recipe photo in
-        completedRecipeCanvasGroup.DOFade(1, fadeOutTime);
+            // Fade recipe photo in
+            completedRecipeCanvasGroup.DOFade(1, fadeOutTime);
+        }
     }
 
     internal int AddPhoto(Sprite photoSprite, List<Sprite> ingredientSprites, int id)
