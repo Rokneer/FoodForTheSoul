@@ -22,7 +22,7 @@ public abstract class Spawner : MonoBehaviour
     [SerializeField]
     protected int maxObjectCount;
 
-    protected int lastSpawnPointIndex = -1;
+    protected int currentId = -1;
 
     protected abstract GameObject SpawnObject(Transform spawnPoint);
 

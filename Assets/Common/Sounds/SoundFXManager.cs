@@ -7,7 +7,7 @@ public class SoundFXManager : MonoBehaviour
     [SerializeField]
     private GameObject soundFXObject;
 
-    private readonly int lastIndex = -1;
+    private int currentId = -1;
 
     private void Awake()
     {
@@ -47,7 +47,9 @@ public class SoundFXManager : MonoBehaviour
         float volume
     )
     {
-        int sfxId = RandomIndex.GetRandomIndex(audioClips, lastIndex);
+        int sfxId = RandomIndex.GetRandomIndex(audioClips, currentId);
+        currentId = sfxId;
+
         PlaySoundFXClip(audioClips[sfxId], spawnTransform, volume);
     }
 }

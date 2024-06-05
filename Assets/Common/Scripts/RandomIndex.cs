@@ -3,21 +3,33 @@ using UnityEngine;
 
 public class RandomIndex
 {
-    public static int GetRandomIndex<T>(T[] valueArray, int lastIndex)
-        where T : Object
+    private static int InternalRandomIndex(int length, int lastIndex)
     {
-        int randomIndex = Random.Range(0, valueArray.Length);
-        if (randomIndex == 0 && randomIndex == lastIndex)
+        if (length == 1)
         {
-            return randomIndex + 1;
+            return 0;
         }
-        else if (randomIndex > 0 && randomIndex <= valueArray.Length && randomIndex == lastIndex)
+
+        int randomIndex = Random.Range(0, length);
+        if (randomIndex == lastIndex)
         {
-            return randomIndex - 1;
+            if (randomIndex == 0)
+            {
+                return randomIndex + 1;
+            }
+            else if (randomIndex != 0 && randomIndex <= length)
+            {
+                return randomIndex - 1;
+            }
         }
-        lastIndex = randomIndex;
         return randomIndex;
     }
+
+    public static int GetRandomIndex<T>(T[] valueArray, int lastIndex)
+        where T : Object => InternalRandomIndex(valueArray.Length, lastIndex);
+
+    public static int GetRandomIndex<T>(List<T> valueList, int lastIndex)
+        where T : Object => InternalRandomIndex(valueList.Count, lastIndex);
 
     public static int GetUnusedRandomIndex<T>(
         T[] valueArray,
@@ -29,8 +41,25 @@ public class RandomIndex
         int randomIndex;
         do
         {
-            randomIndex = RandomIndex.GetRandomIndex(valueArray, lastIndex);
+            randomIndex = GetRandomIndex(valueArray, lastIndex);
+            lastIndex = randomIndex;
         } while (valuesDict[valueArray[randomIndex]]);
+        return randomIndex;
+    }
+
+    public static int GetUnusedRandomIndex<T>(
+        List<T> valueList,
+        int lastIndex,
+        Dictionary<T, bool> valuesDict
+    )
+        where T : Object
+    {
+        int randomIndex;
+        do
+        {
+            randomIndex = GetRandomIndex(valueList, lastIndex);
+            lastIndex = randomIndex;
+        } while (valuesDict[valueList[randomIndex]]);
         return randomIndex;
     }
 }

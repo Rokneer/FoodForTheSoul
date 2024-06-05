@@ -21,8 +21,9 @@ public class RecipeManager : MonoBehaviour
     private GameObject recipeUI;
 
     public List<RecipeData> currentRecipes;
-    private readonly int lastIngredientIndex = -1;
-    private readonly int lastRecipeIndex = -1;
+
+    private int currentIngredientId = -1;
+    private int currentRecipeId = -1;
 
     private readonly Dictionary<RecipeData, bool> isRecipeDoneDictionary = new();
 
@@ -86,19 +87,17 @@ public class RecipeManager : MonoBehaviour
 
     internal IngredientData ChooseRandomIngredient()
     {
-        int ingredientId = RandomIndex.GetRandomIndex(
-            activeIngredients.ToArray(),
-            lastIngredientIndex
-        );
+        currentIngredientId = RandomIndex.GetRandomIndex(activeIngredients, currentIngredientId);
 
-        return activeIngredients[ingredientId];
+        return activeIngredients[currentIngredientId];
     }
 
     internal RecipeData ChooseRecipe(int customerId)
     {
         // Select a random recipe
-        int recipeId = RandomIndex.GetRandomIndex(recipes.ToArray(), lastRecipeIndex);
-        RecipeData selectedRecipe = recipes[recipeId];
+        currentRecipeId = RandomIndex.GetRandomIndex(recipes, currentRecipeId);
+
+        RecipeData selectedRecipe = recipes[currentRecipeId];
 
         // Add recipe and its ingredients to currently active
         currentRecipes.Add(selectedRecipe);

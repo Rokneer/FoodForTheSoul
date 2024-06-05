@@ -26,6 +26,13 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        StartCoroutine(CustomerSpawnManager.Instance.SpawnCustomer());
+
+        StartCoroutine(FoodSpawnManager.Instance.SpawnFoodInPath());
+    }
+
     private void DisableSpawner(Spawner spawner)
     {
         spawner.isActive = false;

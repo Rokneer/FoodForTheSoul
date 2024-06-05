@@ -59,18 +59,18 @@ public class RecipeSpawner : Spawner
         if (CanSpawn)
         {
             // Get a random spawn index that isn't in use
-            int spawnId = RandomIndex.GetUnusedRandomIndex(
+            currentId = RandomIndex.GetUnusedRandomIndex(
                 recipeSpawnPoints.ToArray(),
-                lastSpawnPointIndex,
+                currentId,
                 spawnPointsDict
             );
 
             // Select spawn point
-            Transform spawnPoint = recipeSpawnPoints[spawnId];
+            Transform spawnPoint = recipeSpawnPoints[currentId];
 
             // Set selected transform as currently used
             spawnPointsDict[spawnPoint] = true;
-            completeRecipes[recipe] = spawnId;
+            completeRecipes[recipe] = currentId;
 
             // Get take out area
             TakeOutArea takeOutArea = spawnPoint.gameObject.GetComponentInParent<TakeOutArea>();

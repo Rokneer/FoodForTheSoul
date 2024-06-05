@@ -1,6 +1,6 @@
+using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
-using UnityEditor.Rendering;
 using UnityEngine;
 
 public class CustomerSpawnManager : Spawner
@@ -51,8 +51,6 @@ public class CustomerSpawnManager : Spawner
         {
             spawnPointsDict[spawnPoint] = false;
         }
-
-        InvokeRepeating(nameof(SpawnCustomer), firstSpawnTime, spawnTime);
     }
 
     protected override GameObject SpawnObject(Transform spawnPoint)
@@ -66,50 +64,59 @@ public class CustomerSpawnManager : Spawner
         );
     }
 
-    private void SpawnCustomer()
+    internal IEnumerator SpawnCustomer()
     {
         if (CanSpawn)
         {
             // Get a random spawn index that isn't in use
-            int customerId = RandomIndex.GetUnusedRandomIndex(
+            currentId = RandomIndex.GetUnusedRandomIndex(
                 startPoints.ToArray(),
-                lastSpawnPointIndex,
+                currentId,
                 spawnPointsDict
             );
 
-            // Set selected transform as currently used
-            spawnPointsDict[startPoints[customerId]] = true;
+            CreateCustomer(currentId);
 
-            // Select tween start and end point
-            Transform startPoint = startPoints[customerId];
-            Transform endPoint = endPoints[customerId];
+            yield return new WaitForSeconds(spawnTime);
 
-            // Spawn customer
-            GameObject spawnedCustomerObj = SpawnObject(startPoints[customerId]);
-            Customer spawnedCustomer = spawnedCustomerObj.GetComponent<Customer>();
-            spawnedCustomer.id = customerId;
-            currentCustomers[spawnedCustomer] = customerId;
-
-            // Set customer recipe
-            spawnedCustomer.recipe = RecipeManager.Instance.ChooseRecipe(customerId);
-
-            // Set delivery point recipe
-            deliveryAreas[customerId].currentCustomer = spawnedCustomer;
-
-            // Get tween movement
-            TweenMovement movement = spawnedCustomer.movement;
-
-            // Set timer on tween and UI
-            float recipeTime = spawnedCustomer.recipe.time;
-            movement.tweenTime = recipeTime;
-            RecipeUIManager.Instance.SetupTimer(recipeTime, recipeTime, customerId);
-            RecipeUIManager.Instance.StartTimer(customerId);
-
-            // Start movement
-            movement.SetUpMovement(startPoint, endPoint);
-            movement.StartMovement();
-            movement.tween.OnComplete(() => DamagePlayer(spawnedCustomer));
+            StartCoroutine(SpawnCustomer());
         }
+    }
+
+    private void CreateCustomer(int customerId)
+    {
+        // Set selected transform as currently used
+        spawnPointsDict[startPoints[customerId]] = true;
+
+        // Select tween start and end point
+        Transform startPoint = startPoints[customerId];
+        Transform endPoint = endPoints[customerId];
+
+        // Spawn customer
+        Customer spawnedCustomer = SpawnObject(startPoints[customerId]).GetComponent<Customer>();
+
+        spawnedCustomer.id = customerId;
+        currentCustomers[spawnedCustomer] = customerId;
+
+        // Set customer recipe
+        spawnedCustomer.recipe = RecipeManager.Instance.ChooseRecipe(customerId);
+
+        // Set delivery point recipe
+        deliveryAreas[customerId].currentCustomer = spawnedCustomer;
+
+        // Get tween movement
+        TweenMovement movement = spawnedCustomer.movement;
+
+        // Set timer on tween and UI
+        float recipeTime = spawnedCustomer.recipe.time;
+        movement.tweenTime = recipeTime;
+        RecipeUIManager.Instance.SetupTimer(recipeTime, recipeTime, customerId);
+        RecipeUIManager.Instance.StartTimer(customerId);
+
+        // Start movement
+        movement.SetUpMovement(startPoint, endPoint);
+        movement.StartMovement();
+        movement.tween.OnComplete(() => DamagePlayer(spawnedCustomer));
     }
 
     internal void RemoveCustomer(Customer customer)

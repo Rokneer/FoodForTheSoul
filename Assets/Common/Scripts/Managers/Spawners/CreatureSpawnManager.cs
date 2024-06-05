@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class CreatureSpawnManager : Spawner
@@ -6,7 +7,7 @@ public class CreatureSpawnManager : Spawner
 
     [Header("Spawn Points")]
     [SerializeField]
-    private Transform[] spawnPoints;
+    private List<Transform> spawnPoints;
 
     private void Awake()
     {
