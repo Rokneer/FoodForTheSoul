@@ -94,6 +94,7 @@ public class PhotoZoom : MonoBehaviour
     internal void ZoomIn()
     {
         UIManager.Instance.HideUI(UITypes.Recipes);
+        UIManager.Instance.HideUI(UITypes.Score);
         UIManager.Instance.ShowUI(UITypes.Zoom);
 
         transform.localPosition = basePosition;
@@ -123,6 +124,7 @@ public class PhotoZoom : MonoBehaviour
     {
         UIManager.Instance.HideUI(UITypes.Zoom);
         UIManager.Instance.ShowUI(UITypes.Recipes);
+        UIManager.Instance.ShowUI(UITypes.Score);
 
         transform.localPosition = zoomPosition;
         ZoomCamera(baseMainCameraFOV, basePhotoCameraFOV, baseSenXValue, baseSenYValue, zoomOutSFX);

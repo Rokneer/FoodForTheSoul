@@ -6,6 +6,10 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
+    [Header("Game Over")]
+    [SerializeField]
+    private GameObject gameOverUI;
+
     [Header("Photo Camera")]
     [SerializeField]
     private CameraBattery cameraBattery;
@@ -33,14 +37,21 @@ public class GameManager : MonoBehaviour
         StartCoroutine(FoodSpawnManager.Instance.SpawnFoodInPath());
     }
 
-    private void DisableSpawner(Spawner spawner)
+    internal void GameOver()
     {
-        spawner.isActive = false;
+        PauseManager.Instance.PauseGame();
+        PauseManager.Instance.ManageMouseVisibility(true);
+        gameOverUI.SetActive(true);
     }
 
     internal void DamageBattery(float damageValue)
     {
         cameraBattery.LowerBattery(damageValue);
+    }
+
+    private void DisableSpawner(Spawner spawner)
+    {
+        spawner.isActive = false;
     }
 
     internal void StunCustomers()

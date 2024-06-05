@@ -3,12 +3,14 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
+    #region Variables
     public static UIManager Instance { get; private set; }
 
     [Header("UI")]
     [SerializeField]
     private List<UI> UserInterfaces;
     private readonly Dictionary<UITypes, GameObject> UIDict = new();
+    #endregion Variables
 
     #region Lifecycle
     private void Awake()
@@ -29,6 +31,7 @@ public class UIManager : MonoBehaviour
     }
     #endregion Lifecycle
 
+    #region Functions
     internal void ShowUI(UITypes type)
     {
         UIDict[type].SetActive(true);
@@ -38,6 +41,7 @@ public class UIManager : MonoBehaviour
     {
         UIDict[type].SetActive(false);
     }
+    #endregion Functions
 }
 
 [System.Serializable]
@@ -62,5 +66,6 @@ public enum UITypes
     Ingredients,
     EquipedRecipe,
     Recipes,
-    Zoom
+    Zoom,
+    Score,
 }

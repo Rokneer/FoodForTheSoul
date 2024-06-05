@@ -10,12 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7ee9588b2808ec47af957cce8794633, type: 3}
-  m_Name: BigBanana
+  m_Name: BandejaPaisa
   m_EditorClassIdentifier: 
-  label: Big Banana
-  model: {fileID: 919132149155446097, guid: 69d66603dc4b74340ba23e1c459199da, type: 3}
-  sprite: {fileID: 21300000, guid: 10cbe39038b9c134a9750c33a5465ed0, type: 3}
-  ingredients:
-  - data: {fileID: 11400000, guid: 133b4b12667edee4db7af83832491ca2, type: 2}
-    count: 3
-  time: 1
+  label: Bandeja Paisa
+  model: {fileID: 0}
+  sprite: {fileID: 0}
+  ingredients: []
+  time: 0

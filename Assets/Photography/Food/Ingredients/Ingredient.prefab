@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 6758263260894355768}
   - component: {fileID: 1220107280182164806}
   - component: {fileID: 7431504231615347660}
+  - component: {fileID: 6020226326266963998}
   m_Layer: 7
   m_Name: Ingredient
   m_TagString: Food
@@ -136,4 +137,15 @@ MonoBehaviour:
   endTransform: {fileID: 0}
   currentPosition: {x: 0, y: 0, z: 0}
   tweenTime: 5
-  loopCount: 0
+--- !u!114 &6020226326266963998
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7189395298145510373}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2bf111b623f7b9840a62f206afe52ee9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -5,31 +5,32 @@ using UnityEngine.UI;
 public class CameraBattery : MonoBehaviour
 {
     [SerializeField]
-    private float maxCameraBattery = 100;
-    public float MaxCameraBatteryValue
+    private float maxBattery = 100;
+    public float MaxBattery
     {
-        get => maxCameraBattery;
+        get => maxBattery;
         set
         {
-            maxCameraBattery = value;
-            batteryGauge.maxValue = maxCameraBattery;
+            maxBattery = value;
+            batteryGauge.maxValue = maxBattery;
         }
     }
 
     [SerializeField]
-    private float cameraBattery = 100;
-    public float CameraBatteryValue
+    private float battery = 100;
+    public float Battery
     {
-        get => cameraBattery;
+        get => battery;
         set
         {
-            cameraBattery = Mathf.Clamp(value, 0, maxCameraBattery);
-            batteryGauge.value = cameraBattery;
+            battery = Mathf.Clamp(value, 0, maxBattery);
+            batteryGauge.value = battery;
 
-            if (batteryGauge.value == 0)
+            if (battery == 0)
             {
-                //* Call GameManager GameOver() method
                 Debug.Log("Out of battery!");
+                PlayerController.Instance.canPause = false;
+                GameManager.Instance.GameOver();
             }
         }
     }
@@ -40,8 +41,8 @@ public class CameraBattery : MonoBehaviour
 
     private void Awake()
     {
-        batteryGauge.maxValue = maxCameraBattery;
-        batteryGauge.value = CameraBatteryValue;
+        batteryGauge.maxValue = maxBattery;
+        batteryGauge.value = Battery;
     }
 
     internal void LowerBattery(float damageValue)
@@ -57,12 +58,7 @@ public class CameraBattery : MonoBehaviour
     internal void ChangeBatteryValue(float value)
     {
         DOTween
-            .To(
-                () => CameraBatteryValue,
-                x => CameraBatteryValue = x,
-                CameraBatteryValue + value,
-                tweenDuration
-            )
+            .To(() => Battery, value => Battery = value, Battery + value, tweenDuration)
             .SetEase(Ease.OutExpo);
     }
 }
