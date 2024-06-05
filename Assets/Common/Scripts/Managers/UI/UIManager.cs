@@ -3,8 +3,7 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
-    private static UIManager _instance;
-    public static UIManager Instance => _instance;
+    public static UIManager Instance { get; private set; }
 
     [Header("UI")]
     [SerializeField]
@@ -15,13 +14,13 @@ public class UIManager : MonoBehaviour
     private void Awake()
     {
         // Checks if there is only one instance of the script in the scene
-        if (_instance != null && _instance != this)
+        if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
         }
         else
         {
-            _instance = this;
+            Instance = this;
         }
         foreach (UI userInterface in UserInterfaces)
         {

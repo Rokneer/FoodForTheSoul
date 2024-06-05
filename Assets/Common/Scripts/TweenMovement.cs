@@ -18,7 +18,7 @@ public class TweenMovement : MonoBehaviour
     #endregion Variables
 
     #region Functions
-    public void SetUpMovement(Transform startPoint, Transform endPoint)
+    internal void SetUpMovement(Transform startPoint, Transform endPoint)
     {
         if (endPoint != null)
         {
@@ -32,7 +32,7 @@ public class TweenMovement : MonoBehaviour
         }
     }
 
-    public void StartMovement(
+    internal void StartMovement(
         Ease ease = Ease.InOutSine,
         int loopCount = 0,
         LoopType loopType = LoopType.Yoyo
@@ -46,22 +46,22 @@ public class TweenMovement : MonoBehaviour
             .OnComplete(FinishTween);
     }
 
-    public void ReverseMovement()
+    internal void ReverseMovement()
     {
         tween.Pause().PlayBackwards();
     }
 
-    public void PauseMovement()
+    internal void PauseMovement()
     {
         tween.Pause();
     }
 
-    public void ResumeMovement()
+    internal void ResumeMovement()
     {
         tween.Play();
     }
 
-    public void FinishTween()
+    internal void FinishTween()
     {
         tween.Kill();
         ResetTransforms();

@@ -62,7 +62,7 @@ public class PhotoCapture : MonoBehaviour
     #endregion Lifecycle
 
     #region Functions
-    public IEnumerator CapturePhoto()
+    internal IEnumerator CapturePhoto()
     {
         if (PhotoCameraUIManager.Instance.activePhotoCount < 2)
         {

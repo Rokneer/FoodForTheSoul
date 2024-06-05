@@ -5,8 +5,7 @@ using UnityEngine;
 
 public class CustomerSpawnManager : Spawner
 {
-    private static CustomerSpawnManager _instance;
-    public static CustomerSpawnManager Instance => _instance;
+    public static CustomerSpawnManager Instance { get; private set; }
 
     [Header("Spawn Points")]
     [SerializeField]
@@ -19,7 +18,7 @@ public class CustomerSpawnManager : Spawner
     private List<DeliveryArea> deliveryAreas = new();
 
     private readonly Dictionary<Transform, bool> spawnPointsDict = new();
-    public readonly Dictionary<Customer, int> currentCustomers = new();
+    internal readonly Dictionary<Customer, int> currentCustomers = new();
     protected override bool CanSpawn => base.CanSpawn && !IsSpawnFull;
     private bool IsSpawnFull
     {
@@ -39,13 +38,13 @@ public class CustomerSpawnManager : Spawner
     private void Awake()
     {
         // Checks if there is only one instance of the script in the scene
-        if (_instance != null && _instance != this)
+        if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
         }
         else
         {
-            _instance = this;
+            Instance = this;
         }
 
         foreach (Transform spawnPoint in startPoints)
@@ -113,7 +112,7 @@ public class CustomerSpawnManager : Spawner
         }
     }
 
-    public void RemoveCustomer(Customer customer)
+    internal void RemoveCustomer(Customer customer)
     {
         int customerId = currentCustomers[customer];
 

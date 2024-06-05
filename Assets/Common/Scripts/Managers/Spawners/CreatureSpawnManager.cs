@@ -2,8 +2,7 @@ using UnityEngine;
 
 public class CreatureSpawnManager : Spawner
 {
-    private static CreatureSpawnManager _instance;
-    public static CreatureSpawnManager Instance => _instance;
+    public static CreatureSpawnManager Instance { get; private set; }
 
     [Header("Spawn Points")]
     [SerializeField]
@@ -12,13 +11,13 @@ public class CreatureSpawnManager : Spawner
     private void Awake()
     {
         // Checks if there is only one instance of the script in the scene
-        if (_instance != null && _instance != this)
+        if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
         }
         else
         {
-            _instance = this;
+            Instance = this;
         }
     }
 

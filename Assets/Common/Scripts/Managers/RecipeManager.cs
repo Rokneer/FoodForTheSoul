@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class RecipeManager : MonoBehaviour
 {
-    private static RecipeManager _instance;
-    public static RecipeManager Instance => _instance;
+    public static RecipeManager Instance { get; private set; }
 
     [Header("Ingredients")]
     public List<IngredientData> currentIngredients;
@@ -30,17 +29,17 @@ public class RecipeManager : MonoBehaviour
     private void Awake()
     {
         // Checks if there is only one instance of the script in the scene
-        if (_instance != null && _instance != this)
+        if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
         }
         else
         {
-            _instance = this;
+            Instance = this;
         }
     }
 
-    public void AddToCurrentIngredients(IngredientData ingredient)
+    internal void AddToCurrentIngredients(IngredientData ingredient)
     {
         Debug.Log($"Added {ingredient.label} to current recipe");
         currentIngredients.Add(ingredient);
@@ -50,7 +49,7 @@ public class RecipeManager : MonoBehaviour
         }
     }
 
-    public void ResetCurrentIngredients()
+    internal void ResetCurrentIngredients()
     {
         currentIngredients.Clear();
     }
@@ -85,7 +84,7 @@ public class RecipeManager : MonoBehaviour
         }
     }
 
-    public IngredientData ChooseRandomIngredient()
+    internal IngredientData ChooseRandomIngredient()
     {
         int ingredientId = RandomIndex.GetRandomIndex(
             activeIngredients.ToArray(),
@@ -95,7 +94,7 @@ public class RecipeManager : MonoBehaviour
         return activeIngredients[ingredientId];
     }
 
-    public RecipeData ChooseRecipe(int customerId)
+    internal RecipeData ChooseRecipe(int customerId)
     {
         // Select a random recipe
         int recipeId = RandomIndex.GetRandomIndex(recipes.ToArray(), lastRecipeIndex);
@@ -169,7 +168,7 @@ public class RecipeManager : MonoBehaviour
         return !containsAllIngredients.Contains(false);
     }
 
-    public void RemoveRecipe(RecipeData recipe, int photoId)
+    internal void RemoveRecipe(RecipeData recipe, int photoId)
     {
         Debug.Log($"Removed {recipe.label} on photo {photoId}");
 

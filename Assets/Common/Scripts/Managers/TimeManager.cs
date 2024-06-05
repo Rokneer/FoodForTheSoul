@@ -3,8 +3,7 @@ using UnityEngine;
 
 public class TimeManager : MonoBehaviour
 {
-    private static TimeManager _instance;
-    public static TimeManager Instance => _instance;
+    public static TimeManager Instance { get; private set; }
 
     public bool isTimerActive = false;
     private float totalTime = 0;
@@ -12,13 +11,13 @@ public class TimeManager : MonoBehaviour
 
     private void Awake()
     {
-        if (_instance != null && _instance != this)
+        if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
         }
         else
         {
-            _instance = this;
+            Instance = this;
         }
     }
 
@@ -37,7 +36,7 @@ public class TimeManager : MonoBehaviour
         }
     }
 
-    public void DisplayTime()
+    internal void DisplayTime()
     {
         if (totalTime < 0)
         {

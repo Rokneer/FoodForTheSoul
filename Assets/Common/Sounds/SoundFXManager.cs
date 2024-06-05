@@ -2,8 +2,7 @@ using UnityEngine;
 
 public class SoundFXManager : MonoBehaviour
 {
-    private static SoundFXManager _instance;
-    public static SoundFXManager Instance => _instance;
+    public static SoundFXManager Instance { get; private set; }
 
     [SerializeField]
     private GameObject soundFXObject;
@@ -12,13 +11,13 @@ public class SoundFXManager : MonoBehaviour
 
     private void Awake()
     {
-        if (_instance != null && _instance != this)
+        if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
         }
         else
         {
-            _instance = this;
+            Instance = this;
         }
     }
 

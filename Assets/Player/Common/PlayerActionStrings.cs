@@ -11,4 +11,5 @@ internal class PlayerActionStrings
     internal static string Jump = "Jump";
     internal static string Crouch = "Crouch";
     internal static string Interact = "Interact";
+    internal static string Pause = "Pause";
 }

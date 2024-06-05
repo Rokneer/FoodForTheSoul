@@ -53,7 +53,7 @@ public abstract class PhotoUIManager : MonoBehaviour
     #endregion Lifecycle
 
     #region Functions
-    public virtual void HidePhoto(int photoId)
+    internal virtual void HidePhoto(int photoId)
     {
         // Fade photo out
         photoCanvasGroups[photoId].DOFade(0, fadeOutTime);

@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    private static GameManager _instance;
-    public static GameManager Instance => _instance;
+    public static GameManager Instance { get; private set; }
 
     [Header("Photo Camera")]
     [SerializeField]
@@ -17,13 +16,13 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         // Checks if there is only one instance of the script in the scene
-        if (_instance != null && _instance != this)
+        if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
         }
         else
         {
-            _instance = this;
+            Instance = this;
         }
     }
 
@@ -32,12 +31,12 @@ public class GameManager : MonoBehaviour
         spawner.isActive = false;
     }
 
-    public void DamageBattery(float damageValue)
+    internal void DamageBattery(float damageValue)
     {
         cameraBattery.LowerBattery(damageValue);
     }
 
-    public void StunCustomers()
+    internal void StunCustomers()
     {
         foreach (Customer customer in Customers)
         {

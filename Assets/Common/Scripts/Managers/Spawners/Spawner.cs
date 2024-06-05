@@ -32,7 +32,7 @@ public abstract class Spawner : MonoBehaviour
         return ObjectPoolManager.SpawnObject(objectToSpawn, parentTransform);
     }
 
-    public virtual void RemoveObject(GameObject objectToRemove)
+    internal virtual void RemoveObject(GameObject objectToRemove)
     {
         currentObjectCount--;
         ObjectPoolManager.ReturnToPool(objectToRemove);

@@ -6,8 +6,7 @@ using UnityEngine;
 public class FoodSpawnManager : Spawner
 {
     #region Variables
-    private static FoodSpawnManager _instance;
-    public static FoodSpawnManager Instance => _instance;
+    public static FoodSpawnManager Instance { get; private set; }
 
     [Header("Spawn Points")]
     [SerializeField]
@@ -42,13 +41,13 @@ public class FoodSpawnManager : Spawner
     private void Awake()
     {
         // Checks if there is only one instance of the script in the scene
-        if (_instance != null && _instance != this)
+        if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
         }
         else
         {
-            _instance = this;
+            Instance = this;
         }
 
         foreach (CeilingHook hook in ceilingHooks)

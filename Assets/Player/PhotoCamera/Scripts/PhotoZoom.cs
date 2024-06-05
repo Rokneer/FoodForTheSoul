@@ -80,7 +80,7 @@ public class PhotoZoom : MonoBehaviour
     #endregion Lifecycle
 
     #region Functions
-    public void ZoomCamera(float mainFOV, float photoFOV, float senX, float senY, AudioClip sfx)
+    internal void ZoomCamera(float mainFOV, float photoFOV, float senX, float senY, AudioClip sfx)
     {
         SoundFXManager.Instance.PlaySoundFXClip(sfx, transform, 1);
 
@@ -91,7 +91,7 @@ public class PhotoZoom : MonoBehaviour
         cameraController.sensY = senY;
     }
 
-    public void ZoomIn()
+    internal void ZoomIn()
     {
         UIManager.Instance.HideUI(UITypes.Recipes);
         UIManager.Instance.ShowUI(UITypes.Zoom);
@@ -106,7 +106,7 @@ public class PhotoZoom : MonoBehaviour
         );
     }
 
-    public void ExtraZoomIn()
+    internal void ExtraZoomIn()
     {
         UIManager.Instance.HideUI(UITypes.Zoom);
 
@@ -119,7 +119,7 @@ public class PhotoZoom : MonoBehaviour
         );
     }
 
-    public void ZoomOut()
+    internal void ZoomOut()
     {
         UIManager.Instance.HideUI(UITypes.Zoom);
         UIManager.Instance.ShowUI(UITypes.Recipes);

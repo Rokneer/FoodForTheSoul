@@ -39,17 +39,20 @@ public class FirstPersonCamera : MonoBehaviour
 
     private void Update()
     {
-        Vector2 mouseInput = lookAction.ReadValue<Vector2>().normalized;
-        float mouseX = mouseInput.x * sensX;
-        float mouseY = mouseInput.y * sensY;
+        if (!PauseManager.Instance.IsPaused)
+        {
+            Vector2 mouseInput = lookAction.ReadValue<Vector2>().normalized;
+            float mouseX = mouseInput.x * sensX;
+            float mouseY = mouseInput.y * sensY;
 
-        yRotation += mouseX;
-        xRotation -= mouseY;
-        xRotation = Mathf.Clamp(xRotation, -90f, 90f);
+            yRotation += mouseX;
+            xRotation -= mouseY;
+            xRotation = Mathf.Clamp(xRotation, -90f, 90f);
 
-        transform.rotation = Quaternion.Euler(xRotation, yRotation, 0);
-        orientation.rotation = Quaternion.Euler(0, yRotation, 0);
-        player.rotation = Quaternion.Euler(0, yRotation, 0);
+            transform.rotation = Quaternion.Euler(xRotation, yRotation, 0);
+            orientation.rotation = Quaternion.Euler(0, yRotation, 0);
+            player.rotation = Quaternion.Euler(0, yRotation, 0);
+        }
     }
     #endregion Lifecycle
 }
