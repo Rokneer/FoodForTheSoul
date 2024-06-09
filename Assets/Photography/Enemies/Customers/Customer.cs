@@ -3,7 +3,11 @@ using UnityEngine;
 
 public class Customer : MonoBehaviour
 {
+    [Header("Data")]
     public int id;
+
+    [SerializeField]
+    private GameObject skin;
 
     [Header("Recipe")]
     public RecipeData recipe;
@@ -24,7 +28,7 @@ public class Customer : MonoBehaviour
         movement = GetComponent<TweenMovement>();
     }
 
-    public IEnumerator StunCustomer()
+    internal IEnumerator StunCustomer()
     {
         isStunned = true;
 
@@ -51,7 +55,7 @@ public class Customer : MonoBehaviour
         isStunned = false;
     }
 
-    public void DoDamage()
+    internal void DoDamage()
     {
         Debug.Log($"Customer with {recipe.label} attacked angrily!");
         GameManager.Instance.DamageBattery(damageValue);

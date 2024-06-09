@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    private static GameManager _instance;
-    public static GameManager Instance => _instance;
+    public static GameManager Instance { get; private set; }
+
+    [Header("Game Over")]
+    [SerializeField]
+    private GameObject gameOverUI;
 
     [Header("Photo Camera")]
     [SerializeField]
@@ -17,14 +20,33 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         // Checks if there is only one instance of the script in the scene
-        if (_instance != null && _instance != this)
+        if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
         }
         else
         {
-            _instance = this;
+            Instance = this;
         }
+    }
+
+    private void Start()
+    {
+        StartCoroutine(CustomerSpawnManager.Instance.SpawnCustomer());
+
+        StartCoroutine(FoodSpawnManager.Instance.SpawnFoodInPath());
+    }
+
+    internal void GameOver()
+    {
+        PauseManager.Instance.PauseGame();
+        PauseManager.Instance.ManageMouseVisibility(true);
+        gameOverUI.SetActive(true);
+    }
+
+    internal void DamageBattery(float damageValue)
+    {
+        cameraBattery.LowerBattery(damageValue);
     }
 
     private void DisableSpawner(Spawner spawner)
@@ -32,12 +54,7 @@ public class GameManager : MonoBehaviour
         spawner.isActive = false;
     }
 
-    public void DamageBattery(float damageValue)
-    {
-        cameraBattery.LowerBattery(damageValue);
-    }
-
-    public void StunCustomers()
+    internal void StunCustomers()
     {
         foreach (Customer customer in Customers)
         {

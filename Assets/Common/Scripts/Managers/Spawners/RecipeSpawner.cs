@@ -3,8 +3,7 @@ using UnityEngine;
 
 public class RecipeSpawner : Spawner
 {
-    private static RecipeSpawner _instance;
-    public static RecipeSpawner Instance => _instance;
+    public static RecipeSpawner Instance { get; private set; }
 
     [Header("Spawn Points")]
     [SerializeField]
@@ -30,13 +29,13 @@ public class RecipeSpawner : Spawner
     private void Awake()
     {
         // Checks if there is only one instance of the script in the scene
-        if (_instance != null && _instance != this)
+        if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
         }
         else
         {
-            _instance = this;
+            Instance = this;
         }
         foreach (Transform spawnPoint in recipeSpawnPoints)
         {
@@ -55,23 +54,23 @@ public class RecipeSpawner : Spawner
         );
     }
 
-    public void SpawnCompletedRecipe(RecipeData recipe)
+    internal void SpawnCompletedRecipe(RecipeData recipe)
     {
         if (CanSpawn)
         {
             // Get a random spawn index that isn't in use
-            int spawnId = RandomIndex.GetUnusedRandomIndex(
+            currentId = RandomIndex.GetUnusedRandomIndex(
                 recipeSpawnPoints.ToArray(),
-                lastSpawnPointIndex,
+                currentId,
                 spawnPointsDict
             );
 
             // Select spawn point
-            Transform spawnPoint = recipeSpawnPoints[spawnId];
+            Transform spawnPoint = recipeSpawnPoints[currentId];
 
             // Set selected transform as currently used
             spawnPointsDict[spawnPoint] = true;
-            completeRecipes[recipe] = spawnId;
+            completeRecipes[recipe] = currentId;
 
             // Get take out area
             TakeOutArea takeOutArea = spawnPoint.gameObject.GetComponentInParent<TakeOutArea>();
@@ -88,7 +87,7 @@ public class RecipeSpawner : Spawner
         }
     }
 
-    public void RemoveCompletedRecipe(RecipeData recipe)
+    internal void RemoveCompletedRecipe(RecipeData recipe)
     {
         Transform spawnTransform = recipeSpawnPoints[completeRecipes[recipe]];
 

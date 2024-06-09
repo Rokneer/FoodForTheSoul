@@ -5,8 +5,7 @@ using UnityEngine;
 
 public class ObjectPoolManager : MonoBehaviour
 {
-    private static ObjectPoolManager _instance;
-    public static ObjectPoolManager Instance => _instance;
+    public static ObjectPoolManager Instance { get; private set; }
 
     public static List<PooledObjectInfo> ObjectPools = new();
     private GameObject objectPoolEmptyHolder;
@@ -21,13 +20,13 @@ public class ObjectPoolManager : MonoBehaviour
     private void Awake()
     {
         // Checks if there is only one instance of the script in the scene
-        if (_instance != null && _instance != this)
+        if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
         }
         else
         {
-            _instance = this;
+            Instance = this;
         }
         SetupEmpties();
     }

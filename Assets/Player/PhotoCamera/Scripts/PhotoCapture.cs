@@ -29,6 +29,7 @@ public class PhotoCapture : MonoBehaviour
     private RenderTexture cameraRenderTexture;
 
     private Texture2D screenCapture;
+    private Vector2Int photoSize = new(1024, 1024);
 
     [Header("Audio")]
     [SerializeField]
@@ -62,7 +63,7 @@ public class PhotoCapture : MonoBehaviour
     #endregion Lifecycle
 
     #region Functions
-    public IEnumerator CapturePhoto()
+    internal IEnumerator CapturePhoto()
     {
         if (PhotoCameraUIManager.Instance.activePhotoCount < 2)
         {
@@ -83,12 +84,7 @@ public class PhotoCapture : MonoBehaviour
             yield return new WaitForEndOfFrame();
 
             // Creates a new texture 2D to store photo information
-            screenCapture = new Texture2D(
-                cameraRenderTexture.width,
-                cameraRenderTexture.height,
-                TextureFormat.RGBAHalf,
-                false
-            );
+            screenCapture = new Texture2D(photoSize.x, photoSize.y, TextureFormat.RGBAHalf, false);
 
             // Gets temporary texture information from the camera render texture
             RenderTexture textureTemporary = RenderTexture.GetTemporary(
@@ -108,7 +104,7 @@ public class PhotoCapture : MonoBehaviour
             Graphics.Blit(cameraRenderTexture, textureTemporary);
 
             // Defines the size of the texture
-            Rect regionToRead = new(0, 0, cameraRenderTexture.width, cameraRenderTexture.height);
+            Rect regionToRead = new(0, 0, photoSize.x, photoSize.y);
 
             // Copies and applies texture data from render texture area
             screenCapture.ReadPixels(regionToRead, 0, 0, false);

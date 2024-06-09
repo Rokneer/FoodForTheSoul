@@ -22,4 +22,5 @@ MonoBehaviour:
     count: 1
   - data: {fileID: 11400000, guid: 2f55d05485589f64d93eecbd52308ed5, type: 2}
     count: 1
-  time: 30
+  points: 200
+  time: 50

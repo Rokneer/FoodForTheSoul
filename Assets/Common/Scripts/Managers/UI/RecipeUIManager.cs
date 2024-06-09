@@ -7,8 +7,7 @@ using UnityEngine.UI;
 public class RecipeUIManager : PhotoUIManager
 {
     #region Variables
-    private static RecipeUIManager _instance;
-    public static RecipeUIManager Instance => _instance;
+    public static RecipeUIManager Instance { get; private set; }
 
     [Header("Timer")]
     [SerializeField]
@@ -55,13 +54,13 @@ public class RecipeUIManager : PhotoUIManager
     protected override void Awake()
     {
         // Checks if there is only one instance of the script in the scene
-        if (_instance != null && _instance != this)
+        if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
         }
         else
         {
-            _instance = this;
+            Instance = this;
         }
 
         base.Awake();
@@ -87,7 +86,7 @@ public class RecipeUIManager : PhotoUIManager
     #endregion Lifecycle
 
     #region Functions
-    public void ShowRecipePhoto(RecipeData recipe)
+    internal void ShowRecipePhoto(RecipeData recipe)
     {
         equipedRecipe = recipe;
 
@@ -105,17 +104,21 @@ public class RecipeUIManager : PhotoUIManager
         completedRecipeCanvasGroup.DOFade(1, fadeInTime);
     }
 
-    public void HideRecipePhoto()
+    internal void HideRecipePhoto()
     {
-        completedRecipeRectTransform
-            .DOAnchorPosY(slideOutRecipePoint, slideOutTime)
-            .SetEase(Ease.InOutSine);
+        if (equipedRecipe != null)
+        {
+            equipedRecipe = null;
+            completedRecipeRectTransform
+                .DOAnchorPosY(slideOutRecipePoint, slideOutTime)
+                .SetEase(Ease.InOutSine);
 
-        // Fade recipe photo in
-        completedRecipeCanvasGroup.DOFade(1, fadeOutTime);
+            // Fade recipe photo in
+            completedRecipeCanvasGroup.DOFade(1, fadeOutTime);
+        }
     }
 
-    public int AddPhoto(Sprite photoSprite, List<Sprite> ingredientSprites, int id)
+    internal int AddPhoto(Sprite photoSprite, List<Sprite> ingredientSprites, int id)
     {
         displayImages[id].sprite = photoSprite;
 
@@ -142,7 +145,7 @@ public class RecipeUIManager : PhotoUIManager
         return activePhotoCount;
     }
 
-    public override void HidePhoto(int photoId)
+    internal override void HidePhoto(int photoId)
     {
         // Slide out of frame
         photoFramesRectTransforms[photoId]
@@ -151,7 +154,7 @@ public class RecipeUIManager : PhotoUIManager
         base.HidePhoto(photoId);
     }
 
-    public void SetupTimer(float timerValue, float tweenDuration, int id)
+    internal void SetupTimer(float timerValue, float tweenDuration, int id)
     {
         // Set tween duration
         timerDurations[id] = tweenDuration;
@@ -167,7 +170,7 @@ public class RecipeUIManager : PhotoUIManager
         activeTimers[id] = true;
     }
 
-    public void StartTimer(int id)
+    internal void StartTimer(int id)
     {
         timerTweens[id] = recipeTimers[id]
             .DOValue(targetTimerValues[id], timerDurations[id])
@@ -175,17 +178,17 @@ public class RecipeUIManager : PhotoUIManager
             .SetAutoKill(false);
     }
 
-    public void PauseTimer(int id)
+    internal void PauseTimer(int id)
     {
         timerTweens[id].Pause();
     }
 
-    public void ResumeTimer(int id)
+    internal void ResumeTimer(int id)
     {
         timerTweens[id].Play();
     }
 
-    public void DisableTimer(int id)
+    internal void DisableTimer(int id)
     {
         PauseTimer(id);
         timerTweens[id].Kill(false);

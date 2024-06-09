@@ -9,7 +9,7 @@ public class Recipe : MonoBehaviour
     #endregion Variables
 
     #region Functions
-    public void SetMeshData()
+    internal void SetMeshData()
     {
         meshFilter = GetComponent<MeshFilter>();
         meshRenderer = GetComponent<MeshRenderer>();

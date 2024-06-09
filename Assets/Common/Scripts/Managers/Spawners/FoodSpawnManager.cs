@@ -6,62 +6,45 @@ using UnityEngine;
 public class FoodSpawnManager : Spawner
 {
     #region Variables
-    private static FoodSpawnManager _instance;
-    public static FoodSpawnManager Instance => _instance;
+    public static FoodSpawnManager Instance { get; private set; }
 
     [Header("Spawn Points")]
     [SerializeField]
     private List<CeilingPath> ceilingPaths;
-    private readonly int lastPathIndex = -1;
+    private int currentFoodId = -1;
+    internal bool canSpawnInPath = true;
 
-    [SerializeField]
+    /* [SerializeField]
     private List<CeilingHook> ceilingHooks;
-    private readonly int lastHookIndex = -1;
+    private int currentHookId = -1;
     private readonly Dictionary<CeilingHook, bool> hooksDict = new();
     private readonly Dictionary<CeilingHook, int> hooksIdDict = new();
-
-    private bool AreHooksFull
-    {
-        get
-        {
-            foreach (CeilingHook hook in ceilingHooks)
-            {
-                if (!hooksDict[hook])
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
-    }
+    private bool AreHooksFull => hooksDict.ContainsValue(false); */
 
     protected override bool CanSpawn =>
         base.CanSpawn && RecipeManager.Instance.activeIngredients.Count != 0;
     #endregion Variables
+
     #region Lifecycle
     private void Awake()
     {
         // Checks if there is only one instance of the script in the scene
-        if (_instance != null && _instance != this)
+        if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
         }
         else
         {
-            _instance = this;
+            Instance = this;
         }
 
-        foreach (CeilingHook hook in ceilingHooks)
+        /* foreach (CeilingHook hook in ceilingHooks)
         {
             hooksDict[hook] = false;
-        }
-    }
-
-    private void Start()
-    {
-        InvokeRepeating(nameof(SpawnFood), firstSpawnTime, spawnTime);
+        } */
     }
     #endregion Lifecycle
+
     #region Functions
     protected override GameObject SpawnObject(Transform spawnPoint)
     {
@@ -69,27 +52,9 @@ public class FoodSpawnManager : Spawner
         return ObjectPoolManager.SpawnObject(
             objectToSpawn,
             spawnPoint.position,
-            Quaternion.identity,
+            objectToSpawn.transform.rotation,
             PoolType.Ingredients
         );
-    }
-
-    private void SpawnFood()
-    {
-        if (CanSpawn)
-        {
-            SpawnFoodInPath();
-            /* int random = Random.Range(0, 3);
-            switch (random)
-            {
-                case 0:
-                    SpawnFoodInHook();
-                    break;
-                default:
-                    SpawnFoodInPath();
-                    break;
-            } */
-        }
     }
 
     private void SetupIngredient(GameObject spawnedIngredient)
@@ -103,9 +68,22 @@ public class FoodSpawnManager : Spawner
     }
 
     #region Paths
-    private void SpawnFoodInPath()
+    internal IEnumerator SpawnFoodInPath()
     {
-        int foodSpawnId = RandomIndex.GetRandomIndex(ceilingPaths.ToArray(), lastPathIndex);
+        if (CanSpawn && canSpawnInPath)
+        {
+            currentFoodId = RandomIndex.GetRandomIndex(ceilingPaths, currentFoodId);
+
+            CreateFoodInPath(currentFoodId);
+
+            canSpawnInPath = false;
+            yield return new WaitForSeconds(spawnTime);
+            canSpawnInPath = true;
+        }
+    }
+
+    private void CreateFoodInPath(int foodSpawnId)
+    {
         Transform startPoint = ceilingPaths[foodSpawnId].startPoint;
         Transform endPoint = ceilingPaths[foodSpawnId].endPoint;
         int loopCount = ceilingPaths[foodSpawnId].loopCount;
@@ -120,57 +98,63 @@ public class FoodSpawnManager : Spawner
         tweenMovement.tween.OnComplete(() => RemoveObject(spawnedIngredient));
     }
     #endregion Paths
-    #region Hooks
-    private void SpawnFoodInHook()
+
+    /* #region Hooks
+    internal IEnumerator SpawnFoodInHook()
     {
-        if (!AreHooksFull)
+        if (CanSpawn && AreHooksFull)
         {
             // Get a random spawn index that isn't in use
-            int hookSpawnId = RandomIndex.GetUnusedRandomIndex(
+            currentHookId = RandomIndex.GetUnusedRandomIndex(
                 ceilingHooks.ToArray(),
-                lastHookIndex,
+                currentHookId,
                 hooksDict
             );
 
-            CeilingHook currentCeilingHook = ceilingHooks[hookSpawnId];
-            hooksIdDict[currentCeilingHook] = hookSpawnId;
-            Transform spawnPoint = currentCeilingHook.spawnPoint;
+            CreateFoodInHook(currentHookId);
 
-            // Set selected transform as currently used
-            hooksDict[currentCeilingHook] = true;
-            currentCeilingHook.isActive = hooksDict[ceilingHooks[hookSpawnId]];
+            yield return new WaitForSeconds(spawnTime);
 
-            GameObject spawnedIngredient = SpawnObjectWithParent(spawnPoint);
-            SetupIngredient(spawnedIngredient);
-
-            TweenMovement tweenMovement = currentCeilingHook.GetComponent<TweenMovement>();
-            currentCeilingHook.isActive = true;
-            tweenMovement.StartMovement();
-            tweenMovement
-                .tween
-                .OnComplete(
-                    () =>
-                        StartCoroutine(
-                            DelayHookRetraction(
-                                tweenMovement,
-                                currentCeilingHook,
-                                spawnedIngredient
-                            )
-                        )
-                );
+            StartCoroutine(SpawnFoodInHook());
         }
+    }
+
+    private void CreateFoodInHook(int hookId)
+    {
+        CeilingHook currentHook = ceilingHooks[hookId];
+        hooksIdDict[currentHook] = hookId;
+
+        // Set selected transform as currently used
+        hooksDict[currentHook] = true;
+        currentHook.isActive = hooksDict[ceilingHooks[hookId]];
+
+        Transform spawnPoint = currentHook.spawnPoint;
+        GameObject spawnedIngredient = SpawnObjectWithParent(spawnPoint);
+        SetupIngredient(spawnedIngredient);
+
+        TweenMovement tweenMovement = currentHook.GetComponent<TweenMovement>();
+        currentHook.isActive = true;
+        tweenMovement.StartMovement();
+        tweenMovement
+            .tween
+            .OnComplete(
+                () =>
+                    StartCoroutine(
+                        DelayHookRetraction(tweenMovement, currentHook, spawnedIngredient)
+                    )
+            );
     }
 
     private void RetractHook(
         TweenMovement tweenMovement,
-        CeilingHook ceilingHook,
+        CeilingHook hook,
         GameObject ingredientObj
     )
     {
         tweenMovement.ReverseMovement();
-        ceilingHook.isActive = false;
+        hook.isActive = false;
 
-        int hookId = hooksIdDict[ceilingHook];
+        int hookId = hooksIdDict[hook];
 
         hooksDict[ceilingHooks[hookId]] = false;
 
@@ -186,6 +170,6 @@ public class FoodSpawnManager : Spawner
         yield return new WaitForSeconds(ceilingHook.delay);
         RetractHook(tweenMovement, ceilingHook, ingredientObj);
     }
-    #endregion Hooks
+    #endregion Hooks */
     #endregion Functions
 }

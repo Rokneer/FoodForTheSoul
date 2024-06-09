@@ -5,11 +5,9 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     #region Variables
-    private static PlayerController _instance;
-    public static PlayerController Instance => _instance;
+    public static PlayerController Instance { get; private set; }
 
-    [HideInInspector]
-    public PlayerInput playerInput;
+    internal PlayerInput playerInput;
     private Rigidbody rb;
 
     private PhotoCapture photoCapture;
@@ -26,6 +24,7 @@ public class PlayerController : MonoBehaviour
     private InputAction jumpAction;
     private InputAction crouchAction;
     private InputAction interactAction;
+    private InputAction pauseAction;
 
     [Header("Player")]
     [SerializeField]
@@ -115,13 +114,13 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         // Checks if there is only one instance of the script in the scene
-        if (_instance != null && _instance != this)
+        if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
         }
         else
         {
-            _instance = this;
+            Instance = this;
         }
 
         playerInput = GetComponent<PlayerInput>();
@@ -143,6 +142,7 @@ public class PlayerController : MonoBehaviour
         jumpAction = playerInput.actions[PlayerActionStrings.Jump];
         crouchAction = playerInput.actions[PlayerActionStrings.Crouch];
         interactAction = playerInput.actions[PlayerActionStrings.Interact];
+        pauseAction = playerInput.actions[PlayerActionStrings.Pause];
     }
 
     private void Start()
@@ -168,6 +168,7 @@ public class PlayerController : MonoBehaviour
         crouchAction.started += OnCrouch;
         crouchAction.canceled += OnCrouch;
         interactAction.started += OnInteract;
+        pauseAction.started += OnPause;
     }
 
     private void OnDisable()
@@ -184,6 +185,7 @@ public class PlayerController : MonoBehaviour
         crouchAction.started -= OnCrouch;
         crouchAction.canceled -= OnCrouch;
         interactAction.started -= OnInteract;
+        pauseAction.started -= OnPause;
     }
 
     private void Update()
@@ -425,5 +427,12 @@ public class PlayerController : MonoBehaviour
         return Vector3.ProjectOnPlane(moveDirection, slopeHit.normal).normalized;
     }
 
+    private void OnPause(InputAction.CallbackContext context)
+    {
+        if (context.started && PauseManager.Instance.canPause)
+        {
+            PauseManager.Instance.ManagePauseMenu();
+        }
+    }
     #endregion Functions
 }

@@ -8,5 +8,6 @@ public class RecipeData : PhotoObjectData
     public List<RecipeIngredient> ingredients;
 
     [Header("Data")]
+    public int points;
     public float time;
 }

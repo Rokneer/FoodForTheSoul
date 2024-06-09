@@ -9,7 +9,10 @@ public class PhotoFlash : MonoBehaviour
     [SerializeField]
     private Light flash;
 
-    [Header("Flash Timers")]
+    [Header("Flash Values")]
+    [SerializeField]
+    private float flashIntensity;
+
     [SerializeField]
     private float flashDuration;
 
@@ -45,7 +48,7 @@ public class PhotoFlash : MonoBehaviour
         SoundFXManager.Instance.PlaySoundFXClip(flashSFX, transform, 1);
 
         // Increase light intensity
-        flash.DOIntensity(4, flashDuration).SetEase(Ease.Flash);
+        flash.DOIntensity(flashIntensity, flashDuration).SetEase(Ease.OutExpo);
 
         yield return new WaitForSeconds(flashDuration);
 
@@ -53,7 +56,7 @@ public class PhotoFlash : MonoBehaviour
         flash.DOIntensity(0, 0.2f).SetEase(Ease.Flash);
 
         // Start flash UI cooldown timer
-        flashCooldownSlider.DOValue(1, flashCooldown).SetEase(Ease.Flash);
+        flashCooldownSlider.DOValue(1, flashCooldown).SetEase(Ease.OutExpo);
         yield return new WaitForSeconds(flashCooldown);
 
         // Play flash recharge SFX

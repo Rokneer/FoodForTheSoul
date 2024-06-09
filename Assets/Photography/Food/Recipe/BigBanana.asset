@@ -18,4 +18,5 @@ MonoBehaviour:
   ingredients:
   - data: {fileID: 11400000, guid: 133b4b12667edee4db7af83832491ca2, type: 2}
     count: 3
+  points: 120
   time: 40

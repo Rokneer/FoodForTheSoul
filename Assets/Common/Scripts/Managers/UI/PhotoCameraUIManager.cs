@@ -6,8 +6,7 @@ using UnityEngine;
 public class PhotoCameraUIManager : PhotoUIManager
 {
     #region Variables
-    private static PhotoCameraUIManager _instance;
-    public static PhotoCameraUIManager Instance => _instance;
+    public static PhotoCameraUIManager Instance { get; private set; }
 
     [SerializeField]
     private List<TMP_Text> ingredientText;
@@ -17,20 +16,20 @@ public class PhotoCameraUIManager : PhotoUIManager
     protected override void Awake()
     {
         // Checks if there is only one instance of the script in the scene
-        if (_instance != null && _instance != this)
+        if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
         }
         else
         {
-            _instance = this;
+            Instance = this;
         }
         base.Awake();
     }
     #endregion Lifecycle
 
     #region Functions
-    public void AddPhoto(Sprite photoSprite, string photoLabel)
+    internal void AddPhoto(Sprite photoSprite, string photoLabel)
     {
         photoLabel ??= "Nothing :c";
 
@@ -51,7 +50,7 @@ public class PhotoCameraUIManager : PhotoUIManager
         photoCanvasGroups[activePhotoCount].DOFade(1, fadeInTime);
     }
 
-    public override void HidePhoto(int photoId)
+    internal override void HidePhoto(int photoId)
     {
         base.HidePhoto(photoId);
 
@@ -61,7 +60,7 @@ public class PhotoCameraUIManager : PhotoUIManager
             .SetEase(Ease.InOutSine);
     }
 
-    public void ResetPhotos()
+    internal void ResetPhotos()
     {
         // Reset photo to inactive state
         activePhotoCount = -1;
