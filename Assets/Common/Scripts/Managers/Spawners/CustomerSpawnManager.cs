@@ -7,7 +7,12 @@ public class CustomerSpawnManager : Spawner
 {
     public static CustomerSpawnManager Instance { get; private set; }
 
-    [Header("Spawn Points")]
+    [Header("Skins")]
+    [SerializeField]
+    private List<GameObject> customerSkins = new();
+    private int currentSkinId;
+
+    [Header("Rows")]
     [SerializeField]
     private List<Transform> startPoints = new();
 
@@ -59,7 +64,18 @@ public class CustomerSpawnManager : Spawner
         return ObjectPoolManager.SpawnObject(
             objectToSpawn,
             spawnPoint.position,
-            new Quaternion(0, 180, 0, 0),
+            objectToSpawn.transform.rotation,
+            PoolType.Customers
+        );
+    }
+
+    protected GameObject SpawnObject(Transform spawnPoint, GameObject obj)
+    {
+        currentObjectCount++;
+        return ObjectPoolManager.SpawnObject(
+            obj,
+            spawnPoint.position,
+            obj.transform.rotation,
             PoolType.Customers
         );
     }
@@ -83,6 +99,18 @@ public class CustomerSpawnManager : Spawner
         }
     }
 
+    private Customer SetupCustomer(int customerId)
+    {
+        // Select a random skin
+        currentSkinId = RandomIndex.GetRandomIndex(customerSkins, currentSkinId);
+        GameObject customerSkin = customerSkins[currentSkinId];
+
+        // Spawn customer
+        GameObject customerObj = SpawnObject(startPoints[customerId], customerSkin);
+
+        return customerObj.GetComponent<Customer>();
+    }
+
     private void CreateCustomer(int customerId)
     {
         // Set selected transform as currently used
@@ -92,23 +120,22 @@ public class CustomerSpawnManager : Spawner
         Transform startPoint = startPoints[customerId];
         Transform endPoint = endPoints[customerId];
 
-        // Spawn customer
-        Customer spawnedCustomer = SpawnObject(startPoints[customerId]).GetComponent<Customer>();
-
-        spawnedCustomer.id = customerId;
-        currentCustomers[spawnedCustomer] = customerId;
+        // Setup customer
+        Customer customer = SetupCustomer(customerId);
+        customer.id = customerId;
+        currentCustomers[customer] = customerId;
 
         // Set customer recipe
-        spawnedCustomer.recipe = RecipeManager.Instance.ChooseRecipe(customerId);
+        customer.recipe = RecipeManager.Instance.ChooseRecipe(customerId);
 
         // Set delivery point recipe
-        deliveryAreas[customerId].currentCustomer = spawnedCustomer;
+        deliveryAreas[customerId].currentCustomer = customer;
 
         // Get tween movement
-        TweenMovement movement = spawnedCustomer.movement;
+        TweenMovement movement = customer.movement;
 
         // Set timer on tween and UI
-        float recipeTime = spawnedCustomer.recipe.time;
+        float recipeTime = customer.recipe.time;
         movement.tweenTime = recipeTime;
         RecipeUIManager.Instance.SetupTimer(recipeTime, recipeTime, customerId);
         RecipeUIManager.Instance.StartTimer(customerId);
@@ -116,7 +143,7 @@ public class CustomerSpawnManager : Spawner
         // Start movement
         movement.SetUpMovement(startPoint, endPoint);
         movement.StartMovement();
-        movement.tween.OnComplete(() => DamagePlayer(spawnedCustomer));
+        movement.tween.OnComplete(() => DamagePlayer(customer));
     }
 
     internal void RemoveCustomer(Customer customer)

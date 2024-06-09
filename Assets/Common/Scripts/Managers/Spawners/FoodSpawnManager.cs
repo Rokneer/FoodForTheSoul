@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using DG.Tweening;
 using UnityEngine;
 
@@ -15,16 +14,12 @@ public class FoodSpawnManager : Spawner
     private int currentFoodId = -1;
     internal bool canSpawnInPath = true;
 
-    [SerializeField]
+    /* [SerializeField]
     private List<CeilingHook> ceilingHooks;
     private int currentHookId = -1;
     private readonly Dictionary<CeilingHook, bool> hooksDict = new();
     private readonly Dictionary<CeilingHook, int> hooksIdDict = new();
-
-    private bool AreHooksFull
-    {
-        get { return hooksDict.ContainsValue(false); }
-    }
+    private bool AreHooksFull => hooksDict.ContainsValue(false); */
 
     protected override bool CanSpawn =>
         base.CanSpawn && RecipeManager.Instance.activeIngredients.Count != 0;
@@ -43,10 +38,10 @@ public class FoodSpawnManager : Spawner
             Instance = this;
         }
 
-        foreach (CeilingHook hook in ceilingHooks)
+        /* foreach (CeilingHook hook in ceilingHooks)
         {
             hooksDict[hook] = false;
-        }
+        } */
     }
     #endregion Lifecycle
 
@@ -57,7 +52,7 @@ public class FoodSpawnManager : Spawner
         return ObjectPoolManager.SpawnObject(
             objectToSpawn,
             spawnPoint.position,
-            Quaternion.identity,
+            objectToSpawn.transform.rotation,
             PoolType.Ingredients
         );
     }
@@ -81,9 +76,9 @@ public class FoodSpawnManager : Spawner
 
             CreateFoodInPath(currentFoodId);
 
+            canSpawnInPath = false;
             yield return new WaitForSeconds(spawnTime);
-
-            StartCoroutine(SpawnFoodInPath());
+            canSpawnInPath = true;
         }
     }
 
@@ -104,7 +99,7 @@ public class FoodSpawnManager : Spawner
     }
     #endregion Paths
 
-    #region Hooks
+    /* #region Hooks
     internal IEnumerator SpawnFoodInHook()
     {
         if (CanSpawn && AreHooksFull)
@@ -175,6 +170,6 @@ public class FoodSpawnManager : Spawner
         yield return new WaitForSeconds(ceilingHook.delay);
         RetractHook(tweenMovement, ceilingHook, ingredientObj);
     }
-    #endregion Hooks
+    #endregion Hooks */
     #endregion Functions
 }

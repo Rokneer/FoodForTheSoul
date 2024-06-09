@@ -3,7 +3,11 @@ using UnityEngine;
 
 public class Customer : MonoBehaviour
 {
+    [Header("Data")]
     public int id;
+
+    [SerializeField]
+    private GameObject skin;
 
     [Header("Recipe")]
     public RecipeData recipe;

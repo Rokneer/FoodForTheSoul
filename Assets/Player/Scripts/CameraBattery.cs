@@ -29,7 +29,7 @@ public class CameraBattery : MonoBehaviour
             if (battery == 0)
             {
                 Debug.Log("Out of battery!");
-                PlayerController.Instance.canPause = false;
+                PauseManager.Instance.canPause = false;
                 GameManager.Instance.GameOver();
             }
         }

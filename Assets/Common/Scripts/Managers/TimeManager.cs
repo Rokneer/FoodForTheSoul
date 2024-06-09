@@ -5,9 +5,11 @@ public class TimeManager : MonoBehaviour
 {
     public static TimeManager Instance { get; private set; }
 
-    public bool isTimerActive = false;
+    internal bool isTimerActive = true;
     private float totalTime = 0;
-    public TextMeshProUGUI totalTimeText;
+
+    [SerializeField]
+    private TextMeshProUGUI totalTimeText;
 
     private void Awake()
     {
@@ -33,6 +35,7 @@ public class TimeManager : MonoBehaviour
             {
                 totalTime = 0;
             }
+            DisplayTime();
         }
     }
 

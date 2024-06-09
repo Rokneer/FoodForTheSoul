@@ -108,7 +108,6 @@ public class PlayerController : MonoBehaviour
     public bool isInsideInteractable = false;
     public event Action InteractableAction;
 
-    internal bool canPause;
     #endregion Variables
 
     #region Lifecycle
@@ -430,7 +429,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnPause(InputAction.CallbackContext context)
     {
-        if (context.started && canPause)
+        if (context.started && PauseManager.Instance.canPause)
         {
             PauseManager.Instance.ManagePauseMenu();
         }

@@ -8,6 +8,6 @@ public class RotateInPlace : MonoBehaviour
 
     private void Update()
     {
-        transform.Rotate(rotationSpeed * Time.deltaTime * Vector3.up);
+        transform.Rotate(rotationSpeed * Time.deltaTime * Vector3.forward);
     }
 }
