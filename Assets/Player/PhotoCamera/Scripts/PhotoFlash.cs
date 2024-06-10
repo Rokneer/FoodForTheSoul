@@ -31,7 +31,7 @@ public class PhotoFlash : MonoBehaviour
 
     [SerializeField]
     private AudioClip flashRechargeSFX;
-    #endregion Variables
+    #endregion
 
     #region Functions
     internal IEnumerator ActivateFlash()
@@ -64,5 +64,5 @@ public class PhotoFlash : MonoBehaviour
 
         canUseFlash = true;
     }
-    #endregion Functions
+    #endregion
 }

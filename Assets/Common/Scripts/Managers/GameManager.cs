@@ -2,10 +2,8 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+public class GameManager : Singleton<GameManager>
 {
-    public static GameManager Instance { get; private set; }
-
     [Header("Game Over")]
     [SerializeField]
     private GameObject gameOverUI;
@@ -16,19 +14,6 @@ public class GameManager : MonoBehaviour
 
     private List<Customer> Customers =>
         CustomerSpawnManager.Instance.currentCustomers.Keys.ToList();
-
-    private void Awake()
-    {
-        // Checks if there is only one instance of the script in the scene
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-        }
-        else
-        {
-            Instance = this;
-        }
-    }
 
     private void Start()
     {
@@ -47,11 +32,6 @@ public class GameManager : MonoBehaviour
     internal void DamageBattery(float damageValue)
     {
         cameraBattery.LowerBattery(damageValue);
-    }
-
-    private void DisableSpawner(Spawner spawner)
-    {
-        spawner.isActive = false;
     }
 
     internal void StunCustomers()

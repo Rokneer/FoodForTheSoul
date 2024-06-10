@@ -3,7 +3,8 @@ using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 
-public abstract class PhotoUIManager : MonoBehaviour
+public abstract class PhotoUIManager<T> : Singleton<T>
+    where T : MonoBehaviour
 {
     #region Variables
     public int activePhotoCount = -1;
@@ -38,7 +39,7 @@ public abstract class PhotoUIManager : MonoBehaviour
 
     protected readonly List<RectTransform> photoFramesRectTransforms = new();
     protected readonly List<CanvasGroup> photoCanvasGroups = new();
-    #endregion Variables
+    #endregion
 
     #region Lifecycle
     protected virtual void Awake()
@@ -50,7 +51,7 @@ public abstract class PhotoUIManager : MonoBehaviour
             photoCanvasGroups.Add(photoFrame.GetComponentInChildren<CanvasGroup>());
         }
     }
-    #endregion Lifecycle
+    #endregion
 
     #region Functions
     internal virtual void HidePhoto(int photoId)
@@ -58,5 +59,5 @@ public abstract class PhotoUIManager : MonoBehaviour
         // Fade photo out
         photoCanvasGroups[photoId].DOFade(0, fadeOutTime);
     }
-    #endregion Functions
+    #endregion
 }

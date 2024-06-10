@@ -1,25 +1,11 @@
 using UnityEngine;
 
-public class SoundFXManager : MonoBehaviour
+public class SoundFXManager : Singleton<SoundFXManager>
 {
-    public static SoundFXManager Instance { get; private set; }
-
     [SerializeField]
     private GameObject soundFXObject;
 
     private int currentId = -1;
-
-    private void Awake()
-    {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-        }
-        else
-        {
-            Instance = this;
-        }
-    }
 
     public void PlaySoundFXClip(AudioClip audioClip, Transform spawnTransform, float volume)
     {

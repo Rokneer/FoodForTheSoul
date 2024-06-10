@@ -15,7 +15,7 @@ public class TweenMovement : MonoBehaviour
     public float tweenTime;
 
     public Tween tween;
-    #endregion Variables
+    #endregion
 
     #region Functions
     internal void SetUpMovement(Transform startPoint, Transform endPoint)
@@ -72,5 +72,5 @@ public class TweenMovement : MonoBehaviour
         startTransform = null;
         endTransform = null;
     }
-    #endregion Functions
+    #endregion
 }

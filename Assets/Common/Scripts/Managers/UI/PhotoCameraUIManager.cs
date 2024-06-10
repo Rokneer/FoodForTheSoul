@@ -3,30 +3,13 @@ using DG.Tweening;
 using TMPro;
 using UnityEngine;
 
-public class PhotoCameraUIManager : PhotoUIManager
+public class PhotoCameraUIManager : PhotoUIManager<PhotoCameraUIManager>
 {
     #region Variables
-    public static PhotoCameraUIManager Instance { get; private set; }
 
     [SerializeField]
     private List<TMP_Text> ingredientText;
-    #endregion Variables
-
-    #region Lifecycle
-    protected override void Awake()
-    {
-        // Checks if there is only one instance of the script in the scene
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-        }
-        else
-        {
-            Instance = this;
-        }
-        base.Awake();
-    }
-    #endregion Lifecycle
+    #endregion
 
     #region Functions
     internal void AddPhoto(Sprite photoSprite, string photoLabel)
@@ -71,5 +54,5 @@ public class PhotoCameraUIManager : PhotoUIManager
         // Remove all current ingredients
         RecipeManager.Instance.ResetCurrentIngredients();
     }
-    #endregion Functions
+    #endregion
 }

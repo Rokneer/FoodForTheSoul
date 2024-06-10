@@ -9,10 +9,10 @@ public class PhotoZoom : MonoBehaviour
 
     [Header("Positions")]
     [SerializeField]
-    private Vector3 basePosition = new(0.23f, -0.141f, 0.738f);
+    private Vector3 basePosition = new();
 
     [SerializeField]
-    private Vector3 zoomPosition = new(0.364f, -0.339f, 0.734f);
+    private Vector3 zoomPosition = new();
 
     [Header("Zoom")]
     [SerializeField]
@@ -62,22 +62,22 @@ public class PhotoZoom : MonoBehaviour
     private AudioClip zoomOutSFX;
 
     private readonly float tweenDuration = 0.2f;
-    #endregion Variables
+    #endregion
 
     #region Lifecycle
 
     private void Awake()
     {
         cameraController = Camera.main.GetComponent<FirstPersonCamera>();
-        baseSenXValue = cameraController.sensX;
-        baseSenYValue = cameraController.sensY;
+        baseSenXValue = cameraController.SenX;
+        baseSenYValue = cameraController.SenY;
 
         baseMainCameraFOV = Camera.main.fieldOfView;
 
         photoCamera = GetComponentInChildren<Camera>();
         basePhotoCameraFOV = photoCamera.fieldOfView;
     }
-    #endregion Lifecycle
+    #endregion
 
     #region Functions
     internal void ZoomCamera(float mainFOV, float photoFOV, float senX, float senY, AudioClip sfx)
@@ -87,8 +87,8 @@ public class PhotoZoom : MonoBehaviour
         Camera.main.DOFieldOfView(mainFOV, tweenDuration);
         photoCamera.DOFieldOfView(photoFOV, tweenDuration);
 
-        cameraController.sensX = senX;
-        cameraController.sensY = senY;
+        cameraController.SenX = senX;
+        cameraController.SenY = senY;
     }
 
     internal void ZoomIn()
@@ -129,5 +129,5 @@ public class PhotoZoom : MonoBehaviour
         transform.localPosition = zoomPosition;
         ZoomCamera(baseMainCameraFOV, basePhotoCameraFOV, baseSenXValue, baseSenYValue, zoomOutSFX);
     }
-    #endregion Functions
+    #endregion
 }

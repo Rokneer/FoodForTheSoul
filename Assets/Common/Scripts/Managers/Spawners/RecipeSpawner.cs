@@ -1,10 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RecipeSpawner : Spawner
+public class RecipeSpawner : Spawner<RecipeSpawner>
 {
-    public static RecipeSpawner Instance { get; private set; }
-
     [Header("Spawn Points")]
     [SerializeField]
     private List<Transform> recipeSpawnPoints;
@@ -28,15 +26,6 @@ public class RecipeSpawner : Spawner
 
     private void Awake()
     {
-        // Checks if there is only one instance of the script in the scene
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-        }
-        else
-        {
-            Instance = this;
-        }
         foreach (Transform spawnPoint in recipeSpawnPoints)
         {
             spawnPointsDict[spawnPoint] = false;

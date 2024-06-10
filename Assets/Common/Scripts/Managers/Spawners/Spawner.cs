@@ -1,6 +1,7 @@
 using UnityEngine;
 
-public abstract class Spawner : MonoBehaviour
+public abstract class Spawner<T> : Singleton<T>
+    where T : MonoBehaviour
 {
     [Header("Spawn Setup")]
     [SerializeField]

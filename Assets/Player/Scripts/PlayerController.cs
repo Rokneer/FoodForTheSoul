@@ -2,11 +2,9 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : Singleton<PlayerController>
 {
     #region Variables
-    public static PlayerController Instance { get; private set; }
-
     internal PlayerInput playerInput;
     private Rigidbody rb;
 
@@ -108,21 +106,11 @@ public class PlayerController : MonoBehaviour
     public bool isInsideInteractable = false;
     public event Action InteractableAction;
 
-    #endregion Variables
+    #endregion
 
     #region Lifecycle
     private void Awake()
     {
-        // Checks if there is only one instance of the script in the scene
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-        }
-        else
-        {
-            Instance = this;
-        }
-
         playerInput = GetComponent<PlayerInput>();
         rb = GetComponent<Rigidbody>();
 
@@ -208,7 +196,7 @@ public class PlayerController : MonoBehaviour
         // Checks for input to move the player
         Movement();
     }
-    #endregion Lifecycle
+    #endregion
 
     #region Functions
     private void Movement()
@@ -434,5 +422,5 @@ public class PlayerController : MonoBehaviour
             PauseManager.Instance.ManagePauseMenu();
         }
     }
-    #endregion Functions
+    #endregion
 }

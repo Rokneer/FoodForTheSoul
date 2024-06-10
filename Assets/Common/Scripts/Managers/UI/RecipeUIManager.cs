@@ -4,11 +4,9 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class RecipeUIManager : PhotoUIManager
+public class RecipeUIManager : PhotoUIManager<RecipeUIManager>
 {
     #region Variables
-    public static RecipeUIManager Instance { get; private set; }
-
     [Header("Timer")]
     [SerializeField]
     private Slider[] recipeTimers = new Slider[3];
@@ -48,21 +46,11 @@ public class RecipeUIManager : PhotoUIManager
     [SerializeField]
     private List<ListWrapper<CanvasGroup>> ingredientCanvasGroups;
 
-    #endregion Variables
+    #endregion
 
     #region Lifecycle
     protected override void Awake()
     {
-        // Checks if there is only one instance of the script in the scene
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-        }
-        else
-        {
-            Instance = this;
-        }
-
         base.Awake();
 
         // Gets photo frame components
@@ -83,7 +71,7 @@ public class RecipeUIManager : PhotoUIManager
             }
         }
     }
-    #endregion Lifecycle
+    #endregion
 
     #region Functions
     internal void ShowRecipePhoto(RecipeData recipe)
@@ -194,5 +182,5 @@ public class RecipeUIManager : PhotoUIManager
         timerTweens[id].Kill(false);
         activeTimers[id] = false;
     }
-    #endregion Functions
+    #endregion
 }

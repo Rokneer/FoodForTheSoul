@@ -1,35 +1,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UIManager : MonoBehaviour
+public class UIManager : Singleton<UIManager>
 {
     #region Variables
-    public static UIManager Instance { get; private set; }
-
     [Header("UI")]
     [SerializeField]
     private List<UI> UserInterfaces;
     private readonly Dictionary<UITypes, GameObject> UIDict = new();
-    #endregion Variables
+    #endregion
 
     #region Lifecycle
     private void Awake()
     {
-        // Checks if there is only one instance of the script in the scene
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-        }
-        else
-        {
-            Instance = this;
-        }
         foreach (UI userInterface in UserInterfaces)
         {
             UIDict[userInterface.type] = userInterface.obj;
         }
     }
-    #endregion Lifecycle
+    #endregion
 
     #region Functions
     internal void ShowUI(UITypes type)
@@ -41,7 +30,7 @@ public class UIManager : MonoBehaviour
     {
         UIDict[type].SetActive(false);
     }
-    #endregion Functions
+    #endregion
 }
 
 [System.Serializable]

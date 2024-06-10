@@ -1,27 +1,13 @@
 using TMPro;
 using UnityEngine;
 
-public class TimeManager : MonoBehaviour
+public class TimeManager : Singleton<TimeManager>
 {
-    public static TimeManager Instance { get; private set; }
-
     internal bool isTimerActive = true;
     private float totalTime = 0;
 
     [SerializeField]
     private TextMeshProUGUI totalTimeText;
-
-    private void Awake()
-    {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-        }
-        else
-        {
-            Instance = this;
-        }
-    }
 
     private void Update()
     {

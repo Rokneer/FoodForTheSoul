@@ -3,13 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class ObjectPoolManager : MonoBehaviour
+public class ObjectPoolManager : Singleton<ObjectPoolManager>
 {
-    public static ObjectPoolManager Instance { get; private set; }
-
     public static List<PooledObjectInfo> ObjectPools = new();
     private GameObject objectPoolEmptyHolder;
-    private static GameObject gameObjectsEmpty;
     private static GameObject ingredientsEmpty;
     private static GameObject recipesEmpty;
     private static GameObject creaturesEmpty;
@@ -19,24 +16,12 @@ public class ObjectPoolManager : MonoBehaviour
 
     private void Awake()
     {
-        // Checks if there is only one instance of the script in the scene
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-        }
-        else
-        {
-            Instance = this;
-        }
         SetupEmpties();
     }
 
     private void SetupEmpties()
     {
         objectPoolEmptyHolder = new GameObject(PoolStrings.PooledObjects);
-
-        gameObjectsEmpty = new GameObject(PoolStrings.GameObjects);
-        gameObjectsEmpty.transform.SetParent(objectPoolEmptyHolder.transform);
 
         recipesEmpty = new GameObject(PoolStrings.Recipes);
         recipesEmpty.transform.SetParent(objectPoolEmptyHolder.transform);
@@ -153,7 +138,6 @@ public class ObjectPoolManager : MonoBehaviour
             PoolType.Recipes => recipesEmpty,
             PoolType.Creatures => creaturesEmpty,
             PoolType.Customers => customersEmpty,
-            PoolType.GameObjects => gameObjectsEmpty,
             _ => null,
         };
     }
@@ -173,4 +157,13 @@ public enum PoolType
     Creatures,
     Customers,
     None
+}
+
+public class PoolStrings
+{
+    internal static string PooledObjects = "PooledObjects";
+    internal static string Ingredients = "Ingredients";
+    internal static string Recipes = "Recipes";
+    internal static string Creatures = "Creatures";
+    internal static string Customers = "Customers";
 }

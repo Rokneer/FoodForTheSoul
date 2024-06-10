@@ -6,7 +6,7 @@ public abstract class PhotoObject : MonoBehaviour
     public PhotoObjectData data;
     private MeshFilter meshFilter;
     private MeshRenderer meshRenderer;
-    #endregion Variables
+    #endregion
 
     #region Functions
     public void SetMeshData()
@@ -26,5 +26,5 @@ public abstract class PhotoObject : MonoBehaviour
             tweenMovement.FinishTween();
         }
     }
-    #endregion Functions
+    #endregion
 }

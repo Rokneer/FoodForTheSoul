@@ -25,13 +25,13 @@ public class RandomIndex
         return randomIndex;
     }
 
-    public static int GetRandomIndex<T>(T[] valueArray, int lastIndex)
+    internal static int GetRandomIndex<T>(T[] valueArray, int lastIndex)
         where T : Object => InternalRandomIndex(valueArray.Length, lastIndex);
 
-    public static int GetRandomIndex<T>(List<T> valueList, int lastIndex)
+    internal static int GetRandomIndex<T>(List<T> valueList, int lastIndex)
         where T : Object => InternalRandomIndex(valueList.Count, lastIndex);
 
-    public static int GetUnusedRandomIndex<T>(
+    internal static int GetUnusedRandomIndex<T>(
         T[] valueArray,
         int lastIndex,
         Dictionary<T, bool> valuesDict
@@ -47,7 +47,7 @@ public class RandomIndex
         return randomIndex;
     }
 
-    public static int GetUnusedRandomIndex<T>(
+    internal static int GetUnusedRandomIndex<T>(
         List<T> valueList,
         int lastIndex,
         Dictionary<T, bool> valuesDict

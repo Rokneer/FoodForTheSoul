@@ -4,12 +4,17 @@ using UnityEngine.InputSystem;
 public class FirstPersonCamera : MonoBehaviour
 {
     #region Variables
-    [Header("Sensbility")]
-    [Range(0.1f, 10f)]
-    public float sensX;
+    internal float SenX
+    {
+        get => SettingsMenu.Instance.SensitivityX;
+        set => SettingsMenu.Instance.SensitivityX = value;
+    }
 
-    [Range(0.1f, 10f)]
-    public float sensY;
+    internal float SenY
+    {
+        get => SettingsMenu.Instance.SensitivityY;
+        set => SettingsMenu.Instance.SensitivityY = value;
+    }
 
     [Header("Positions")]
     [SerializeField]
@@ -17,13 +22,11 @@ public class FirstPersonCamera : MonoBehaviour
 
     [SerializeField]
     private Transform player;
+    private InputAction lookAction;
 
     private float xRotation;
     private float yRotation;
-
-    private InputAction lookAction;
-
-    #endregion Variables
+    #endregion
 
     #region Lifecycle
     private void Awake()
@@ -42,8 +45,8 @@ public class FirstPersonCamera : MonoBehaviour
         if (!PauseManager.Instance.IsPaused)
         {
             Vector2 mouseInput = lookAction.ReadValue<Vector2>().normalized;
-            float mouseX = mouseInput.x * sensX;
-            float mouseY = mouseInput.y * sensY;
+            float mouseX = mouseInput.x * SenX;
+            float mouseY = mouseInput.y * SenY;
 
             yRotation += mouseX;
             xRotation -= mouseY;
@@ -54,5 +57,5 @@ public class FirstPersonCamera : MonoBehaviour
             player.rotation = Quaternion.Euler(0, yRotation, 0);
         }
     }
-    #endregion Lifecycle
+    #endregion
 }

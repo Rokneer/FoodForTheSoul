@@ -1,28 +1,12 @@
 using UnityEngine;
 
-public class PauseManager : MonoBehaviour
+public class PauseManager : Singleton<PauseManager>
 {
-    public static PauseManager Instance { get; private set; }
-
     [SerializeField]
     private GameObject pauseMenu;
 
-    public bool IsPaused { get; set; } = false;
-
-    public bool canPause = true;
-
-    private void Awake()
-    {
-        IsPaused = false;
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-        }
-        else
-        {
-            Instance = this;
-        }
-    }
+    internal bool IsPaused { get; set; } = false;
+    internal bool canPause = true;
 
     public void PauseGame()
     {

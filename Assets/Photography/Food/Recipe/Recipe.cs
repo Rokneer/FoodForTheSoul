@@ -6,7 +6,7 @@ public class Recipe : MonoBehaviour
     public RecipeData data;
     private MeshFilter meshFilter;
     private MeshRenderer meshRenderer;
-    #endregion Variables
+    #endregion
 
     #region Functions
     internal void SetMeshData()
@@ -18,7 +18,7 @@ public class Recipe : MonoBehaviour
 
         meshRenderer.materials = data.model.GetComponent<MeshRenderer>().sharedMaterials;
     }
-    #endregion Functions
+    #endregion
 }
 
 [System.Serializable]

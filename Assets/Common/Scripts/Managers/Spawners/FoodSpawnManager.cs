@@ -3,11 +3,9 @@ using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 
-public class FoodSpawnManager : Spawner
+public class FoodSpawnManager : Spawner<FoodSpawnManager>
 {
     #region Variables
-    public static FoodSpawnManager Instance { get; private set; }
-
     [Header("Spawn Points")]
     [SerializeField]
     private List<CeilingPath> ceilingPaths;
@@ -23,27 +21,17 @@ public class FoodSpawnManager : Spawner
 
     protected override bool CanSpawn =>
         base.CanSpawn && RecipeManager.Instance.activeIngredients.Count != 0;
-    #endregion Variables
+    #endregion
 
     #region Lifecycle
     private void Awake()
     {
-        // Checks if there is only one instance of the script in the scene
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-        }
-        else
-        {
-            Instance = this;
-        }
-
         /* foreach (CeilingHook hook in ceilingHooks)
         {
             hooksDict[hook] = false;
         } */
     }
-    #endregion Lifecycle
+    #endregion
 
     #region Functions
     protected override GameObject SpawnObject(Transform spawnPoint)
@@ -171,5 +159,5 @@ public class FoodSpawnManager : Spawner
         RetractHook(tweenMovement, ceilingHook, ingredientObj);
     }
     #endregion Hooks */
-    #endregion Functions
+    #endregion
 }

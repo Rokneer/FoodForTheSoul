@@ -7,23 +7,32 @@ public class Options : ScriptableObject
     public bool isFullscreen = true;
 
     [Header("Volume")]
-    [Range(0, 1)]
+    const float minVolume = 0.0001f;
+    const float maxVolume = 1f;
+
+    [Range(minVolume, maxVolume)]
     public float masterVolumeLevel = 0.7f;
 
-    [Range(0, 1)]
+    [Range(minVolume, maxVolume)]
     public float sfxVolumeLevel = 0.7f;
 
-    [Range(0, 1)]
+    [Range(minVolume, maxVolume)]
     public float musicVolumeLevel = 0.7f;
 
     [Header("Sensitivity")]
-    [Range(0, 1)]
-    public float sensitivityX = 0.7f;
+    const float minSensitivity = 1f;
+    const float maxSensitivity = 8f;
 
-    [Range(0, 1)]
-    public float sensitivityY = 0.7f;
+    [Range(minSensitivity, maxSensitivity)]
+    public float sensitivityY = 4;
+
+    [Range(minSensitivity, maxSensitivity)]
+    public float sensitivityX = 5;
 
     [Header("FOV")]
-    [Range(40, 90)]
-    public int fieldOfView = 80;
+    const float minFOV = 40f;
+    const float maxFOV = 90f;
+
+    [Range(minFOV, maxFOV)]
+    public float fieldOfView = 80;
 }

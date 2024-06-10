@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 
-public class CustomerSpawnManager : Spawner
+public class CustomerSpawnManager : Spawner<CustomerSpawnManager>
 {
-    public static CustomerSpawnManager Instance { get; private set; }
-
     [Header("Skins")]
     [SerializeField]
     private List<GameObject> customerSkins = new();
@@ -42,16 +40,6 @@ public class CustomerSpawnManager : Spawner
 
     private void Awake()
     {
-        // Checks if there is only one instance of the script in the scene
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-        }
-        else
-        {
-            Instance = this;
-        }
-
         foreach (Transform spawnPoint in startPoints)
         {
             spawnPointsDict[spawnPoint] = false;
