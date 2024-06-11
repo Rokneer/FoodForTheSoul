@@ -372,11 +372,9 @@ MonoBehaviour:
   crouchSpeed: 3
   crouchYScale: 0.5
   playerHeight: 2
-  isGrounded: 0
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
-  isOnSlope: 0
   maxSlopeAngle: 40
   orientation: {fileID: 7144500513795248948}
   isInsideInteractable: 0
@@ -587,6 +585,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5673052940795239373}
     m_Modifications:
+    - target: {fileID: 596080338092835337, guid: b26534fa77565e24795adbc3dbe81d2e,
+        type: 3}
+      propertyPath: zoomInSFX
+      value: 
+      objectReference: {fileID: 8300000, guid: b68854f34112d314aaae82f13b8adf16, type: 3}
+    - target: {fileID: 596080338092835337, guid: b26534fa77565e24795adbc3dbe81d2e,
+        type: 3}
+      propertyPath: zoomOutSFX
+      value: 
+      objectReference: {fileID: 8300000, guid: b68854f34112d314aaae82f13b8adf16, type: 3}
     - target: {fileID: 1351113497523803659, guid: b26534fa77565e24795adbc3dbe81d2e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -637,11 +645,31 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1365999924223341059, guid: b26534fa77565e24795adbc3dbe81d2e,
+        type: 3}
+      propertyPath: photoSFX
+      value: 
+      objectReference: {fileID: 8300000, guid: d69b0b7c989282e42872ca0d484eebd3, type: 3}
+    - target: {fileID: 1365999924223341059, guid: b26534fa77565e24795adbc3dbe81d2e,
+        type: 3}
+      propertyPath: failedPhotoSFX
+      value: 
+      objectReference: {fileID: 8300000, guid: 497c1a8294544884ca520e43c22f3256, type: 3}
     - target: {fileID: 5478760602364030323, guid: b26534fa77565e24795adbc3dbe81d2e,
         type: 3}
       propertyPath: m_Name
       value: PhotoCamera
       objectReference: {fileID: 0}
+    - target: {fileID: 8183746148251976832, guid: b26534fa77565e24795adbc3dbe81d2e,
+        type: 3}
+      propertyPath: flashSFX
+      value: 
+      objectReference: {fileID: 8300000, guid: ee4bb3886ba98394fbe54b224a536c73, type: 3}
+    - target: {fileID: 8183746148251976832, guid: b26534fa77565e24795adbc3dbe81d2e,
+        type: 3}
+      propertyPath: flashRechargeSFX
+      value: 
+      objectReference: {fileID: 8300000, guid: 6e815f19b06def345bfe774165f5c73e, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

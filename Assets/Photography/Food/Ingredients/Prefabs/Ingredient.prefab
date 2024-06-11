@@ -121,6 +121,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 0}
+  soundEffect: {fileID: 8300000, guid: ff56f5833d2015e45aeb1cf5c7919875, type: 3}
 --- !u!114 &7431504231615347660
 MonoBehaviour:
   m_ObjectHideFlags: 0

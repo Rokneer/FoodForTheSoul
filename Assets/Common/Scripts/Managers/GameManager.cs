@@ -17,9 +17,9 @@ public class GameManager : Singleton<GameManager>
 
     private void Start()
     {
-        StartCoroutine(CustomerSpawnManager.Instance.SpawnCustomer());
+        CustomerSpawnManager.Instance.StartSpawner();
 
-        StartCoroutine(FoodSpawnManager.Instance.SpawnFoodInPath());
+        FoodSpawnManager.Instance.StartSpawner();
     }
 
     internal void GameOver()

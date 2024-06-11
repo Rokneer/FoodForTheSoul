@@ -3,7 +3,12 @@ using UnityEngine;
 public abstract class PhotoObject : MonoBehaviour
 {
     #region Variables
-    public PhotoObjectData data;
+    [SerializeField]
+    internal PhotoObjectData data;
+
+    [SerializeField]
+    internal AudioClip soundEffect;
+
     private MeshFilter meshFilter;
     private MeshRenderer meshRenderer;
     #endregion
@@ -24,6 +29,7 @@ public abstract class PhotoObject : MonoBehaviour
         if (TryGetComponent<TweenMovement>(out TweenMovement tweenMovement))
         {
             tweenMovement.FinishTween();
+            SoundFXManager.Instance.PlaySFXClip(soundEffect, transform, 0.3f);
         }
     }
     #endregion

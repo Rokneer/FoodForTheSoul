@@ -45,13 +45,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b20113ec88305254b8b309fdddcccbc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 0
   skin: {fileID: 0}
   recipe: {fileID: 0}
   stunTime: 5
   isStunned: 0
   damageValue: 25
   movement: {fileID: 7045120749390710151}
+  groanSounds:
+  - {fileID: 8300000, guid: 51d80b4ce74c87d458b1c3e5d6337693, type: 3}
+  damageSounds:
+  - {fileID: 8300000, guid: 8eed2f2212f3f24449c7d758c3a845b2, type: 3}
+  eatingSounds:
+  - {fileID: 8300000, guid: 9bde758f2bb18bd47a84ba519f627ad3, type: 3}
+  stunSound: {fileID: 8300000, guid: 8e1c1ad5210798e458002b845da4881c, type: 3}
 --- !u!114 &7045120749390710151
 MonoBehaviour:
   m_ObjectHideFlags: 0

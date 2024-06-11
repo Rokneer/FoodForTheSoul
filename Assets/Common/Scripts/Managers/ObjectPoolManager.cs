@@ -5,14 +5,13 @@ using UnityEngine;
 
 public class ObjectPoolManager : Singleton<ObjectPoolManager>
 {
-    public static List<PooledObjectInfo> ObjectPools = new();
+    internal static List<PooledObjectInfo> ObjectPools = new();
     private GameObject objectPoolEmptyHolder;
     private static GameObject ingredientsEmpty;
     private static GameObject recipesEmpty;
     private static GameObject creaturesEmpty;
     private static GameObject customersEmpty;
-
-    public static PoolType PoolingType;
+    private static GameObject sfxEmpty;
 
     private void Awake()
     {
@@ -34,6 +33,9 @@ public class ObjectPoolManager : Singleton<ObjectPoolManager>
 
         customersEmpty = new GameObject(PoolStrings.Customers);
         customersEmpty.transform.SetParent(objectPoolEmptyHolder.transform);
+
+        sfxEmpty = new GameObject(PoolStrings.SFXs);
+        sfxEmpty.transform.SetParent(objectPoolEmptyHolder.transform);
     }
 
     public static GameObject SpawnObject(
@@ -48,7 +50,7 @@ public class ObjectPoolManager : Singleton<ObjectPoolManager>
         // Create pool if it doesn't exist
         if (pool == null)
         {
-            pool = new PooledObjectInfo() { LookUpString = objectToSpawn.name };
+            pool = new PooledObjectInfo(objectToSpawn.name);
             ObjectPools.Add(pool);
         }
 
@@ -84,7 +86,7 @@ public class ObjectPoolManager : Singleton<ObjectPoolManager>
         // Create pool if it doesn't exist
         if (pool == null)
         {
-            pool = new PooledObjectInfo() { LookUpString = objectToSpawn.name };
+            pool = new PooledObjectInfo(objectToSpawn.name);
             ObjectPools.Add(pool);
         }
 
@@ -138,6 +140,7 @@ public class ObjectPoolManager : Singleton<ObjectPoolManager>
             PoolType.Recipes => recipesEmpty,
             PoolType.Creatures => creaturesEmpty,
             PoolType.Customers => customersEmpty,
+            PoolType.SFXs => sfxEmpty,
             _ => null,
         };
     }
@@ -145,17 +148,22 @@ public class ObjectPoolManager : Singleton<ObjectPoolManager>
 
 public class PooledObjectInfo
 {
-    public string LookUpString;
-    public List<GameObject> InactiveObjects = new();
+    internal string LookUpString;
+    internal List<GameObject> InactiveObjects = new();
+
+    internal PooledObjectInfo(string LookUpString)
+    {
+        this.LookUpString = LookUpString;
+    }
 }
 
 public enum PoolType
 {
-    GameObjects,
     Ingredients,
     Recipes,
     Creatures,
     Customers,
+    SFXs,
     None
 }
 
@@ -166,4 +174,5 @@ public class PoolStrings
     internal static string Recipes = "Recipes";
     internal static string Creatures = "Creatures";
     internal static string Customers = "Customers";
+    internal static string SFXs = "SFXs";
 }

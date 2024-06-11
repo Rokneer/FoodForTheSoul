@@ -5,8 +5,11 @@ using UnityEngine;
 public class RecipeManager : Singleton<RecipeManager>
 {
     [Header("Ingredients")]
-    public List<IngredientData> currentIngredients;
-    public List<IngredientData> activeIngredients;
+    [SerializeField]
+    internal List<IngredientData> currentIngredients;
+
+    [SerializeField]
+    internal List<IngredientData> activeIngredients;
 
     [SerializeField]
     private bool hasCompleteRecipe;
@@ -16,9 +19,7 @@ public class RecipeManager : Singleton<RecipeManager>
     private List<RecipeData> recipes;
 
     [SerializeField]
-    private GameObject recipeUI;
-
-    public List<RecipeData> currentRecipes;
+    internal List<RecipeData> currentRecipes;
 
     private int currentIngredientId = -1;
     private int currentRecipeId = -1;
@@ -154,8 +155,6 @@ public class RecipeManager : Singleton<RecipeManager>
 
     internal void RemoveRecipe(RecipeData recipe, int photoId)
     {
-        Debug.Log($"Removed {recipe.label} on photo {photoId}");
-
         RecipeUIManager.Instance.HidePhoto(photoId);
 
         currentRecipes.Remove(recipe);

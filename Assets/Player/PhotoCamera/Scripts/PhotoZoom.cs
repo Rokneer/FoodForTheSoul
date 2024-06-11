@@ -31,28 +31,21 @@ public class PhotoZoom : MonoBehaviour
     }
     public bool isExtraZooming = false;
 
-    [Header("Main Camera Values")]
-    [SerializeField]
-    private float mainCameraZoomInValue;
+    private float BaseMainCamFOV => SettingsMenu.Instance.FieldOfView;
+    private float MainCamZoomFOV => BaseMainCamFOV / 3;
+    private float MainCamExtraZoomFOV => BaseMainCamFOV / 5;
 
-    [SerializeField]
-    private float mainCameraExtraZoomValue;
-    private float baseMainCameraFOV;
+    private float BasePhotoCameraFOV => SettingsMenu.Instance.FieldOfView / 5;
+    private float PhotoCamZoomInFOV => BasePhotoCameraFOV / 3;
+    private float PhotoCamExtraZoomFOV => BasePhotoCameraFOV / 5;
 
-    [Header("Photo Camera Values")]
-    [SerializeField]
-    private float photoCameraZoomInValue;
+    private float BaseSenX => SettingsMenu.Instance.SensitivityX;
+    private float ZoomInSenX => BaseSenX / 3;
+    private float ExtraZoomSenX => BaseSenX / 5;
 
-    [SerializeField]
-    private float photoCameraExtraZoomValue;
-    private float basePhotoCameraFOV;
-
-    private float baseSenXValue;
-    private float ZoomInSenXValue => baseSenXValue / 3;
-    private float ExtraZoomSenXValue => baseSenXValue / 5;
-    private float baseSenYValue;
-    private float ZoomInSenYValue => baseSenYValue / 3;
-    private float ExtraZoomSenYValue => baseSenYValue / 5;
+    private float BaseSenY => SettingsMenu.Instance.SensitivityY;
+    private float ZoomInSenY => BaseSenY / 3;
+    private float ExtraZoomSenY => BaseSenY / 5;
 
     [Header("Audio")]
     [SerializeField]
@@ -65,30 +58,23 @@ public class PhotoZoom : MonoBehaviour
     #endregion
 
     #region Lifecycle
-
     private void Awake()
     {
         cameraController = Camera.main.GetComponent<FirstPersonCamera>();
-        baseSenXValue = cameraController.SenX;
-        baseSenYValue = cameraController.SenY;
-
-        baseMainCameraFOV = Camera.main.fieldOfView;
-
         photoCamera = GetComponentInChildren<Camera>();
-        basePhotoCameraFOV = photoCamera.fieldOfView;
     }
     #endregion
 
-    #region Functions
+    #region Zoom
     internal void ZoomCamera(float mainFOV, float photoFOV, float senX, float senY, AudioClip sfx)
     {
-        SoundFXManager.Instance.PlaySoundFXClip(sfx, transform, 1);
+        SoundFXManager.Instance.PlaySFXClip(sfx, transform, 0.2f);
 
         Camera.main.DOFieldOfView(mainFOV, tweenDuration);
         photoCamera.DOFieldOfView(photoFOV, tweenDuration);
 
-        cameraController.SenX = senX;
-        cameraController.SenY = senY;
+        cameraController.currentSenX = senX;
+        cameraController.currentSenY = senY;
     }
 
     internal void ZoomIn()
@@ -98,13 +84,7 @@ public class PhotoZoom : MonoBehaviour
         UIManager.Instance.ShowUI(UITypes.Zoom);
 
         transform.localPosition = basePosition;
-        ZoomCamera(
-            mainCameraZoomInValue,
-            photoCameraZoomInValue,
-            ZoomInSenXValue,
-            ZoomInSenYValue,
-            zoomInSFX
-        );
+        ZoomCamera(MainCamZoomFOV, PhotoCamZoomInFOV, ZoomInSenX, ZoomInSenY, zoomInSFX);
     }
 
     internal void ExtraZoomIn()
@@ -112,10 +92,10 @@ public class PhotoZoom : MonoBehaviour
         UIManager.Instance.HideUI(UITypes.Zoom);
 
         ZoomCamera(
-            mainCameraExtraZoomValue,
-            photoCameraExtraZoomValue,
-            ExtraZoomSenXValue,
-            ExtraZoomSenYValue,
+            MainCamExtraZoomFOV,
+            PhotoCamExtraZoomFOV,
+            ExtraZoomSenX,
+            ExtraZoomSenY,
             zoomInSFX
         );
     }
@@ -127,7 +107,7 @@ public class PhotoZoom : MonoBehaviour
         UIManager.Instance.ShowUI(UITypes.Score);
 
         transform.localPosition = zoomPosition;
-        ZoomCamera(baseMainCameraFOV, basePhotoCameraFOV, baseSenXValue, baseSenYValue, zoomOutSFX);
+        ZoomCamera(BaseMainCamFOV, BasePhotoCameraFOV, BaseSenX, BaseSenY, zoomOutSFX);
     }
     #endregion
 }
