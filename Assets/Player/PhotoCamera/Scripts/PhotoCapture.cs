@@ -37,7 +37,7 @@ public class PhotoCapture : MonoBehaviour
 
     [SerializeField]
     private AudioClip failedPhotoSFX;
-    #endregion Variables
+    #endregion
 
     #region Lifecycle
 
@@ -60,7 +60,7 @@ public class PhotoCapture : MonoBehaviour
             cameraBarrelRaycast.transform.forward * sphereCastLength
         );
     }
-    #endregion Lifecycle
+    #endregion
 
     #region Functions
     internal IEnumerator CapturePhoto()
@@ -79,7 +79,7 @@ public class PhotoCapture : MonoBehaviour
 
             // Disables ability take photos
             canTakePhoto = false;
-            SoundFXManager.Instance.PlaySoundFXClip(photoSFX, transform, 1);
+            SoundFXManager.Instance.PlaySFXClip(photoSFX, transform, 0.8f);
 
             yield return new WaitForEndOfFrame();
 
@@ -155,8 +155,8 @@ public class PhotoCapture : MonoBehaviour
         else
         {
             // Play failed photo SFX
-            SoundFXManager.Instance.PlaySoundFXClip(failedPhotoSFX, transform, 1);
+            SoundFXManager.Instance.PlaySFXClip(failedPhotoSFX, transform, 1);
         }
     }
-    #endregion Functions
+    #endregion
 }

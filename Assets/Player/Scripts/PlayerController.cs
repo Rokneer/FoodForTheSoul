@@ -2,11 +2,9 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : Singleton<PlayerController>
 {
     #region Variables
-    public static PlayerController Instance { get; private set; }
-
     internal PlayerInput playerInput;
     private Rigidbody rb;
 
@@ -85,16 +83,40 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private float playerHeight;
 
-    [SerializeField]
-    private bool isGrounded;
+    private bool IsGrounded =>
+        Physics.Raycast(
+            transform.position,
+            Vector3.down,
+            (playerHeight * 0.5f) + 0.3f,
+            groundLayer
+        );
 
     [SerializeField]
     private LayerMask groundLayer;
 
     [Header("Slope Handling")]
-    [SerializeField]
-    private bool isOnSlope;
     private bool isExitingSlope;
+    private bool IsOnSlope
+    {
+        get
+        {
+            bool isOnSlope = Physics.Raycast(
+                transform.position,
+                Vector3.down,
+                out slopeHit,
+                playerHeight * 0.5f + 0.3f
+            );
+
+            if (isOnSlope)
+            {
+                float angle = Vector3.Angle(Vector3.up, slopeHit.normal);
+                return angle < maxSlopeAngle && angle != 0;
+            }
+            return false;
+        }
+    }
+    private Vector3 SlopeMoveDirection =>
+        Vector3.ProjectOnPlane(moveDirection, slopeHit.normal).normalized;
 
     [SerializeField]
     private float maxSlopeAngle;
@@ -105,24 +127,19 @@ public class PlayerController : MonoBehaviour
     private Transform orientation;
 
     [Header("Interactable")]
-    public bool isInsideInteractable = false;
-    public event Action InteractableAction;
+    [SerializeField]
+    internal bool isInsideInteractable = false;
+    internal event Action InteractableAction;
 
-    #endregion Variables
+    [Header("Audio")]
+    [SerializeField]
+    private AudioClip rechargeSound;
+
+    #endregion
 
     #region Lifecycle
     private void Awake()
     {
-        // Checks if there is only one instance of the script in the scene
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-        }
-        else
-        {
-            Instance = this;
-        }
-
         playerInput = GetComponent<PlayerInput>();
         rb = GetComponent<Rigidbody>();
 
@@ -190,17 +207,11 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        // Checks if player is grounded
-        isGrounded = CheckIfIsGrounded();
-
-        // Checks if player is on a slope
-        isOnSlope = CheckIfIsOnSlope();
-
         // Manages player speed
         ManageSpeed();
 
         // Handles applying drag
-        rb.drag = isGrounded ? groundDrag : 0;
+        rb.drag = IsGrounded ? groundDrag : 0;
     }
 
     private void FixedUpdate()
@@ -208,9 +219,9 @@ public class PlayerController : MonoBehaviour
         // Checks for input to move the player
         Movement();
     }
-    #endregion Lifecycle
+    #endregion
 
-    #region Functions
+    #region Movement
     private void Movement()
     {
         // Gets value from movement input action
@@ -223,16 +234,16 @@ public class PlayerController : MonoBehaviour
             (orientation.forward * verticalInput) + (orientation.right * horizontalInput);
 
         // Force added on a slope
-        if (isOnSlope && !isExitingSlope)
+        if (IsOnSlope && !isExitingSlope)
         {
-            rb.AddForce(20f * MovementSpeed * GetSlopeMoveDirection(), ForceMode.Force);
+            rb.AddForce(20f * MovementSpeed * SlopeMoveDirection, ForceMode.Force);
             if (rb.velocity.y > 0)
             {
                 rb.AddForce(Vector3.down * 80f, ForceMode.Force);
             }
         }
         // Force added on a even ground
-        else if (isGrounded)
+        else if (IsGrounded)
         {
             rb.AddForce(10f * MovementSpeed * moveDirection.normalized, ForceMode.Force);
         }
@@ -245,13 +256,13 @@ public class PlayerController : MonoBehaviour
             );
         }
 
-        rb.useGravity = !isOnSlope;
+        rb.useGravity = !IsOnSlope;
     }
 
     private void ManageSpeed()
     {
         // Limits speed on a slope
-        if (isOnSlope && !isExitingSlope && rb.velocity.magnitude > MovementSpeed)
+        if (IsOnSlope && !isExitingSlope && rb.velocity.magnitude > MovementSpeed)
         {
             rb.velocity = rb.velocity.normalized * MovementSpeed;
         }
@@ -268,20 +279,12 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+    #endregion
 
-    private void OnInteract(InputAction.CallbackContext context)
-    {
-        if (context.started && isInsideInteractable)
-        {
-            InteractableAction?.Invoke();
-        }
-    }
-
-    private void ExcuteInteractableAction() { }
-
+    #region Crouch
     private void OnCrouch(InputAction.CallbackContext context)
     {
-        if (isGrounded)
+        if (IsGrounded)
         {
             if (context.started)
             {
@@ -305,10 +308,12 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+    #endregion
 
+    #region Run
     private void OnRun(InputAction.CallbackContext context)
     {
-        if (isGrounded && movementState != MovementState.Crouching)
+        if (IsGrounded && movementState != MovementState.Crouching)
         {
             if (context.started)
             {
@@ -320,10 +325,12 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+    #endregion
 
+    #region Jump
     private void OnJump(InputAction.CallbackContext context)
     {
-        if (context.started && isReadyToJump && isGrounded)
+        if (context.started && isReadyToJump && IsGrounded)
         {
             isReadyToJump = false;
             isExitingSlope = true;
@@ -338,23 +345,40 @@ public class PlayerController : MonoBehaviour
         isReadyToJump = true;
         isExitingSlope = false;
     }
+    #endregion
 
+    #region Interact
+    private void OnInteract(InputAction.CallbackContext context)
+    {
+        if (context.started && isInsideInteractable)
+        {
+            InteractableAction?.Invoke();
+        }
+    }
+    #endregion
+
+    #region Flash
     private void OnFlash(InputAction.CallbackContext context)
     {
-        if (context.started && photoFlash.canUseFlash)
+        if (context.started)
         {
             StartCoroutine(photoFlash.ActivateFlash());
         }
     }
+    #endregion
 
+    #region Reload
     private void OnReload(InputAction.CallbackContext context)
     {
         if (context.started)
         {
             PhotoCameraUIManager.Instance.ResetPhotos();
+            SoundFXManager.Instance.PlaySFXClip(rechargeSound, transform, 0.5f, true);
         }
     }
+    #endregion
 
+    #region Zoom
     private void OnZoom(InputAction.CallbackContext context)
     {
         if (context.started)
@@ -386,7 +410,9 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+    #endregion
 
+    #region Photo
     private void OnPhoto(InputAction.CallbackContext context)
     {
         if (context.started && photoCapture.canTakePhoto)
@@ -394,39 +420,9 @@ public class PlayerController : MonoBehaviour
             StartCoroutine(photoCapture.CapturePhoto());
         }
     }
+    #endregion
 
-    private bool CheckIfIsGrounded()
-    {
-        return Physics.Raycast(
-            transform.position,
-            Vector3.down,
-            (playerHeight * 0.5f) + 0.3f,
-            groundLayer
-        );
-    }
-
-    private bool CheckIfIsOnSlope()
-    {
-        bool isOnSlope = Physics.Raycast(
-            transform.position,
-            Vector3.down,
-            out slopeHit,
-            playerHeight * 0.5f + 0.3f
-        );
-
-        if (isOnSlope)
-        {
-            float angle = Vector3.Angle(Vector3.up, slopeHit.normal);
-            return angle < maxSlopeAngle && angle != 0;
-        }
-        return false;
-    }
-
-    private Vector3 GetSlopeMoveDirection()
-    {
-        return Vector3.ProjectOnPlane(moveDirection, slopeHit.normal).normalized;
-    }
-
+    #region Pause
     private void OnPause(InputAction.CallbackContext context)
     {
         if (context.started && PauseManager.Instance.canPause)
@@ -434,5 +430,5 @@ public class PlayerController : MonoBehaviour
             PauseManager.Instance.ManagePauseMenu();
         }
     }
-    #endregion Functions
+    #endregion
 }

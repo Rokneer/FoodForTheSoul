@@ -31,38 +31,41 @@ public class PhotoFlash : MonoBehaviour
 
     [SerializeField]
     private AudioClip flashRechargeSFX;
-    #endregion Variables
+    #endregion
 
     #region Functions
     internal IEnumerator ActivateFlash()
     {
-        canUseFlash = false;
+        if (canUseFlash)
+        {
+            canUseFlash = false;
 
-        // Update flash UI
-        flashCooldownSlider.DOValue(0, flashDuration).SetEase(Ease.Flash);
+            // Update flash UI
+            flashCooldownSlider.DOValue(0, flashDuration).SetEase(Ease.Flash);
 
-        // Stun all current customers
-        GameManager.Instance.StunCustomers();
+            // Stun all current customers
+            GameManager.Instance.StunCustomers();
 
-        // Play flash SFX
-        SoundFXManager.Instance.PlaySoundFXClip(flashSFX, transform, 1);
+            // Play flash SFX
+            SoundFXManager.Instance.PlaySFXClip(flashSFX, transform, 0.3f);
 
-        // Increase light intensity
-        flash.DOIntensity(flashIntensity, flashDuration).SetEase(Ease.OutExpo);
+            // Increase light intensity
+            flash.DOIntensity(flashIntensity, flashDuration).SetEase(Ease.OutExpo);
 
-        yield return new WaitForSeconds(flashDuration);
+            yield return new WaitForSeconds(flashDuration);
 
-        // Lower light intensity
-        flash.DOIntensity(0, 0.2f).SetEase(Ease.Flash);
+            // Lower light intensity
+            flash.DOIntensity(0, 0.2f).SetEase(Ease.Flash);
 
-        // Start flash UI cooldown timer
-        flashCooldownSlider.DOValue(1, flashCooldown).SetEase(Ease.OutExpo);
-        yield return new WaitForSeconds(flashCooldown);
+            // Start flash UI cooldown timer
+            flashCooldownSlider.DOValue(1, flashCooldown).SetEase(Ease.InExpo);
+            yield return new WaitForSeconds(flashCooldown);
 
-        // Play flash recharge SFX
-        SoundFXManager.Instance.PlaySoundFXClip(flashRechargeSFX, transform, 1);
+            // Play flash recharge SFX
+            SoundFXManager.Instance.PlaySFXClip(flashRechargeSFX, transform, 0.85f);
 
-        canUseFlash = true;
+            canUseFlash = true;
+        }
     }
-    #endregion Functions
+    #endregion
 }

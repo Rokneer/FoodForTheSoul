@@ -2,13 +2,14 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class RecipeManager : MonoBehaviour
+public class RecipeManager : Singleton<RecipeManager>
 {
-    public static RecipeManager Instance { get; private set; }
-
     [Header("Ingredients")]
-    public List<IngredientData> currentIngredients;
-    public List<IngredientData> activeIngredients;
+    [SerializeField]
+    internal List<IngredientData> currentIngredients;
+
+    [SerializeField]
+    internal List<IngredientData> activeIngredients;
 
     [SerializeField]
     private bool hasCompleteRecipe;
@@ -18,27 +19,12 @@ public class RecipeManager : MonoBehaviour
     private List<RecipeData> recipes;
 
     [SerializeField]
-    private GameObject recipeUI;
-
-    public List<RecipeData> currentRecipes;
+    internal List<RecipeData> currentRecipes;
 
     private int currentIngredientId = -1;
     private int currentRecipeId = -1;
 
     private readonly Dictionary<RecipeData, bool> isRecipeDoneDictionary = new();
-
-    private void Awake()
-    {
-        // Checks if there is only one instance of the script in the scene
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-        }
-        else
-        {
-            Instance = this;
-        }
-    }
 
     internal void AddToCurrentIngredients(IngredientData ingredient)
     {
@@ -169,8 +155,6 @@ public class RecipeManager : MonoBehaviour
 
     internal void RemoveRecipe(RecipeData recipe, int photoId)
     {
-        Debug.Log($"Removed {recipe.label} on photo {photoId}");
-
         RecipeUIManager.Instance.HidePhoto(photoId);
 
         currentRecipes.Remove(recipe);

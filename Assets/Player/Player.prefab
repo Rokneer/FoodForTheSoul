@@ -332,6 +332,18 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 69e6859f-7b8a-41ad-8437-8a60968b7ac3
     m_ActionName: Player/Jump[/Keyboard/space]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 7429425d-76f2-40a5-9fdd-4935c506bf8c
+    m_ActionName: Player/ExtraZoom[/Keyboard/q]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 452da11d-c13e-455e-b8ea-f123837cbb7b
+    m_ActionName: Player/Reload[/Keyboard/r]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 54e1f7ce-0dbe-4424-b62a-56f96a3e23d6
+    m_ActionName: Player/Pause[/Keyboard/tab,/Keyboard/escape]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -360,11 +372,9 @@ MonoBehaviour:
   crouchSpeed: 3
   crouchYScale: 0.5
   playerHeight: 2
-  isGrounded: 0
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
-  isOnSlope: 0
   maxSlopeAngle: 40
   orientation: {fileID: 7144500513795248948}
   isInsideInteractable: 0
@@ -534,8 +544,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cca710369be49644d82f12ae9eec5527, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sensX: 3
-  sensY: 3
   orientation: {fileID: 7144500513795248948}
   player: {fileID: 136363546090562214}
 --- !u!1 &7196367581145473853
@@ -579,19 +587,14 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 596080338092835337, guid: b26534fa77565e24795adbc3dbe81d2e,
         type: 3}
-      propertyPath: basePosition.x
-      value: 0.144
-      objectReference: {fileID: 0}
+      propertyPath: zoomInSFX
+      value: 
+      objectReference: {fileID: 8300000, guid: b68854f34112d314aaae82f13b8adf16, type: 3}
     - target: {fileID: 596080338092835337, guid: b26534fa77565e24795adbc3dbe81d2e,
         type: 3}
-      propertyPath: basePosition.y
-      value: -0.082
-      objectReference: {fileID: 0}
-    - target: {fileID: 596080338092835337, guid: b26534fa77565e24795adbc3dbe81d2e,
-        type: 3}
-      propertyPath: zoomPosition.x
-      value: 0.271
-      objectReference: {fileID: 0}
+      propertyPath: zoomOutSFX
+      value: 
+      objectReference: {fileID: 8300000, guid: b68854f34112d314aaae82f13b8adf16, type: 3}
     - target: {fileID: 1351113497523803659, guid: b26534fa77565e24795adbc3dbe81d2e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -642,96 +645,31 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2642740228791927283, guid: b26534fa77565e24795adbc3dbe81d2e,
+    - target: {fileID: 1365999924223341059, guid: b26534fa77565e24795adbc3dbe81d2e,
         type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -0.003179
-      objectReference: {fileID: 0}
-    - target: {fileID: 2642740228791927283, guid: b26534fa77565e24795adbc3dbe81d2e,
+      propertyPath: photoSFX
+      value: 
+      objectReference: {fileID: 8300000, guid: d69b0b7c989282e42872ca0d484eebd3, type: 3}
+    - target: {fileID: 1365999924223341059, guid: b26534fa77565e24795adbc3dbe81d2e,
         type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 2642740228791927283, guid: b26534fa77565e24795adbc3dbe81d2e,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2642740228791927283, guid: b26534fa77565e24795adbc3dbe81d2e,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2642740228791927283, guid: b26534fa77565e24795adbc3dbe81d2e,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 90
-      objectReference: {fileID: 0}
-    - target: {fileID: 4011269842282246557, guid: b26534fa77565e24795adbc3dbe81d2e,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.102
-      objectReference: {fileID: 0}
-    - target: {fileID: 4011269842282246557, guid: b26534fa77565e24795adbc3dbe81d2e,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.013
-      objectReference: {fileID: 0}
+      propertyPath: failedPhotoSFX
+      value: 
+      objectReference: {fileID: 8300000, guid: 497c1a8294544884ca520e43c22f3256, type: 3}
     - target: {fileID: 5478760602364030323, guid: b26534fa77565e24795adbc3dbe81d2e,
         type: 3}
       propertyPath: m_Name
       value: PhotoCamera
       objectReference: {fileID: 0}
-    - target: {fileID: 6288584403511543819, guid: b26534fa77565e24795adbc3dbe81d2e,
+    - target: {fileID: 8183746148251976832, guid: b26534fa77565e24795adbc3dbe81d2e,
         type: 3}
-      propertyPath: m_Type
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6288584403511543819, guid: b26534fa77565e24795adbc3dbe81d2e,
+      propertyPath: flashSFX
+      value: 
+      objectReference: {fileID: 8300000, guid: ee4bb3886ba98394fbe54b224a536c73, type: 3}
+    - target: {fileID: 8183746148251976832, guid: b26534fa77565e24795adbc3dbe81d2e,
         type: 3}
-      propertyPath: m_Range
-      value: 0.12
-      objectReference: {fileID: 0}
-    - target: {fileID: 6288584403511543819, guid: b26534fa77565e24795adbc3dbe81d2e,
-        type: 3}
-      propertyPath: m_Intensity
-      value: 0.01
-      objectReference: {fileID: 0}
-    - target: {fileID: 6288584403511543819, guid: b26534fa77565e24795adbc3dbe81d2e,
-        type: 3}
-      propertyPath: m_SpotAngle
-      value: 151
-      objectReference: {fileID: 0}
-    - target: {fileID: 6288584403511543819, guid: b26534fa77565e24795adbc3dbe81d2e,
-        type: 3}
-      propertyPath: m_Lightmapping
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 6288584403511543819, guid: b26534fa77565e24795adbc3dbe81d2e,
-        type: 3}
-      propertyPath: m_InnerSpotAngle
-      value: 92
-      objectReference: {fileID: 0}
-    - target: {fileID: 6288584403511543819, guid: b26534fa77565e24795adbc3dbe81d2e,
-        type: 3}
-      propertyPath: m_Shadows.m_NearPlane
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6665708226276971359, guid: b26534fa77565e24795adbc3dbe81d2e,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.00112
-      objectReference: {fileID: 0}
-    - target: {fileID: 6665708226276971359, guid: b26534fa77565e24795adbc3dbe81d2e,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.00112
-      objectReference: {fileID: 0}
-    - target: {fileID: 6665708226276971359, guid: b26534fa77565e24795adbc3dbe81d2e,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1
-      objectReference: {fileID: 0}
+      propertyPath: flashRechargeSFX
+      value: 
+      objectReference: {fileID: 8300000, guid: 6e815f19b06def345bfe774165f5c73e, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

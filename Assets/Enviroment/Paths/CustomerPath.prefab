@@ -104,30 +104,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4207545504636743201}
     m_Modifications:
-    - target: {fileID: -8442343462336656275, guid: 35a1258cbc8b7064bb5109941c70da37,
-        type: 3}
-      propertyPath: interactHint
-      value: 
-      objectReference: {fileID: 8616299700265170230}
     - target: {fileID: 2268816933667538050, guid: 35a1258cbc8b7064bb5109941c70da37,
         type: 3}
       propertyPath: m_Name
       value: RecipeDeliveryArea
-      objectReference: {fileID: 0}
-    - target: {fileID: 4784439817551430449, guid: 35a1258cbc8b7064bb5109941c70da37,
-        type: 3}
-      propertyPath: m_Name
-      value: RecipeDeliverySpawn
-      objectReference: {fileID: 0}
-    - target: {fileID: 6056201185052687859, guid: 35a1258cbc8b7064bb5109941c70da37,
-        type: 3}
-      propertyPath: m_Size.x
-      value: 3.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 6056201185052687859, guid: 35a1258cbc8b7064bb5109941c70da37,
-        type: 3}
-      propertyPath: m_Size.z
-      value: 1.64
       objectReference: {fileID: 0}
     - target: {fileID: 6527128926449076415, guid: 35a1258cbc8b7064bb5109941c70da37,
         type: 3}
@@ -187,12 +167,6 @@ PrefabInstance:
 --- !u!4 &1033575647008842773 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6527128926449076415, guid: 35a1258cbc8b7064bb5109941c70da37,
-    type: 3}
-  m_PrefabInstance: {fileID: 6107719738624339114}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &8616299700265170230 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2545031125752109468, guid: 35a1258cbc8b7064bb5109941c70da37,
     type: 3}
   m_PrefabInstance: {fileID: 6107719738624339114}
   m_PrefabAsset: {fileID: 0}

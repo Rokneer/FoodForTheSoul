@@ -13,9 +13,14 @@ public class DeliveryArea : InteractableArea
     {
         if (IsCurrentRecipeComplete)
         {
-            Debug.Log($"Delivered {currentCustomer.recipe.label} on {gameObject.name}");
+            SoundFXManager
+                .Instance
+                .PlayRandomSFXClip(currentCustomer.eatingSounds, transform, 0.4f);
+
             RecipeUIManager.Instance.HideRecipePhoto();
+
             CustomerSpawnManager.Instance.RemoveCustomer(currentCustomer);
+
             ScoreManager.Instance.AddScore(currentCustomer.recipe);
         }
     }

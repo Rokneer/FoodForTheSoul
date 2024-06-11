@@ -4,13 +4,15 @@ using UnityEngine;
 public class Customer : MonoBehaviour
 {
     [Header("Data")]
-    public int id;
+    internal int id;
+    internal bool isActive;
 
     [SerializeField]
     private GameObject skin;
 
     [Header("Recipe")]
-    public RecipeData recipe;
+    [SerializeField]
+    internal RecipeData recipe;
 
     [Header("Stun")]
     [SerializeField]
@@ -21,11 +23,35 @@ public class Customer : MonoBehaviour
     [SerializeField]
     private float damageValue = 25;
 
-    public TweenMovement movement;
+    [SerializeField]
+    internal TweenMovement movement;
+
+    [Header("Audio")]
+    private bool canGroan = true;
+
+    [SerializeField]
+    private AudioClip[] groanSounds;
+
+    [SerializeField]
+    private AudioClip[] damageSounds;
+
+    [SerializeField]
+    internal AudioClip[] eatingSounds;
+
+    [SerializeField]
+    private AudioClip stunSound;
 
     private void Awake()
     {
         movement = GetComponent<TweenMovement>();
+    }
+
+    private void Update()
+    {
+        if (isActive)
+        {
+            StartCoroutine(PlayGroanSFX());
+        }
     }
 
     internal IEnumerator StunCustomer()
@@ -40,11 +66,10 @@ public class Customer : MonoBehaviour
         // Stop timer
         RecipeUIManager.Instance.PauseTimer(id);
 
-        //* Start stun particle effect
+        // Play sfx
+        SoundFXManager.Instance.PlaySFXClip(stunSound, transform, 0.4f, true);
 
         yield return new WaitForSeconds(stunTime);
-
-        //* Stop stun particle effect
 
         // Resume tween movement
         movement.ResumeMovement();
@@ -55,9 +80,24 @@ public class Customer : MonoBehaviour
         isStunned = false;
     }
 
+    internal IEnumerator PlayGroanSFX()
+    {
+        if (canGroan)
+        {
+            AudioClip groanClip = SoundFXManager
+                .Instance
+                .PlayRandomSFXClip(groanSounds, transform, 0.3f, true);
+
+            canGroan = false;
+            yield return new WaitForSeconds(groanClip.length + 3f);
+            canGroan = true;
+        }
+    }
+
     internal void DoDamage()
     {
         Debug.Log($"Customer with {recipe.label} attacked angrily!");
+        SoundFXManager.Instance.PlayRandomSFXClip(damageSounds, transform, 0.5f, true);
         GameManager.Instance.DamageBattery(damageValue);
     }
 }

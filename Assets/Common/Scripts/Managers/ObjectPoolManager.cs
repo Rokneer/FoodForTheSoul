@@ -3,40 +3,24 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class ObjectPoolManager : MonoBehaviour
+public class ObjectPoolManager : Singleton<ObjectPoolManager>
 {
-    public static ObjectPoolManager Instance { get; private set; }
-
-    public static List<PooledObjectInfo> ObjectPools = new();
+    internal static List<PooledObjectInfo> ObjectPools = new();
     private GameObject objectPoolEmptyHolder;
-    private static GameObject gameObjectsEmpty;
     private static GameObject ingredientsEmpty;
     private static GameObject recipesEmpty;
     private static GameObject creaturesEmpty;
     private static GameObject customersEmpty;
-
-    public static PoolType PoolingType;
+    private static GameObject sfxEmpty;
 
     private void Awake()
     {
-        // Checks if there is only one instance of the script in the scene
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-        }
-        else
-        {
-            Instance = this;
-        }
         SetupEmpties();
     }
 
     private void SetupEmpties()
     {
         objectPoolEmptyHolder = new GameObject(PoolStrings.PooledObjects);
-
-        gameObjectsEmpty = new GameObject(PoolStrings.GameObjects);
-        gameObjectsEmpty.transform.SetParent(objectPoolEmptyHolder.transform);
 
         recipesEmpty = new GameObject(PoolStrings.Recipes);
         recipesEmpty.transform.SetParent(objectPoolEmptyHolder.transform);
@@ -49,6 +33,9 @@ public class ObjectPoolManager : MonoBehaviour
 
         customersEmpty = new GameObject(PoolStrings.Customers);
         customersEmpty.transform.SetParent(objectPoolEmptyHolder.transform);
+
+        sfxEmpty = new GameObject(PoolStrings.SFXs);
+        sfxEmpty.transform.SetParent(objectPoolEmptyHolder.transform);
     }
 
     public static GameObject SpawnObject(
@@ -63,7 +50,7 @@ public class ObjectPoolManager : MonoBehaviour
         // Create pool if it doesn't exist
         if (pool == null)
         {
-            pool = new PooledObjectInfo() { LookUpString = objectToSpawn.name };
+            pool = new PooledObjectInfo(objectToSpawn.name);
             ObjectPools.Add(pool);
         }
 
@@ -99,7 +86,7 @@ public class ObjectPoolManager : MonoBehaviour
         // Create pool if it doesn't exist
         if (pool == null)
         {
-            pool = new PooledObjectInfo() { LookUpString = objectToSpawn.name };
+            pool = new PooledObjectInfo(objectToSpawn.name);
             ObjectPools.Add(pool);
         }
 
@@ -153,7 +140,7 @@ public class ObjectPoolManager : MonoBehaviour
             PoolType.Recipes => recipesEmpty,
             PoolType.Creatures => creaturesEmpty,
             PoolType.Customers => customersEmpty,
-            PoolType.GameObjects => gameObjectsEmpty,
+            PoolType.SFXs => sfxEmpty,
             _ => null,
         };
     }
@@ -161,16 +148,31 @@ public class ObjectPoolManager : MonoBehaviour
 
 public class PooledObjectInfo
 {
-    public string LookUpString;
-    public List<GameObject> InactiveObjects = new();
+    internal string LookUpString;
+    internal List<GameObject> InactiveObjects = new();
+
+    internal PooledObjectInfo(string LookUpString)
+    {
+        this.LookUpString = LookUpString;
+    }
 }
 
 public enum PoolType
 {
-    GameObjects,
     Ingredients,
     Recipes,
     Creatures,
     Customers,
+    SFXs,
     None
+}
+
+public class PoolStrings
+{
+    internal static string PooledObjects = "PooledObjects";
+    internal static string Ingredients = "Ingredients";
+    internal static string Recipes = "Recipes";
+    internal static string Creatures = "Creatures";
+    internal static string Customers = "Customers";
+    internal static string SFXs = "SFXs";
 }

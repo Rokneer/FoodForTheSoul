@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   label: Plantain
   model: {fileID: 8999145095426790995, guid: 2a6010c7513615047b5de517f2ae8386, type: 3}
-  sprite: {fileID: 21300000, guid: 10cbe39038b9c134a9750c33a5465ed0, type: 3}
+  sprite: {fileID: 21300000, guid: 126b6399dacf7a64aa2fdb8883a7e832, type: 3}
