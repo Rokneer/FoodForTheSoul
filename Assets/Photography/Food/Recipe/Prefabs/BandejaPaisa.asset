@@ -16,11 +16,11 @@ MonoBehaviour:
   model: {fileID: 919132149155446097, guid: 2f3b3e845d6b60c4791aad24bfeb0909, type: 3}
   sprite: {fileID: 21300000, guid: 10cbe39038b9c134a9750c33a5465ed0, type: 3}
   ingredients:
-  - data: {fileID: 11400000, guid: 133b4b12667edee4db7af83832491ca2, type: 2}
+  - data: {fileID: 11400000, guid: 61fe04b0f1bc10a42a3c44f40b9b3027, type: 2}
+    count: 1
+  - data: {fileID: 11400000, guid: 0fd2c3ccf09292b40a68194a9bca2c0e, type: 2}
     count: 1
   - data: {fileID: 11400000, guid: 2f55d05485589f64d93eecbd52308ed5, type: 2}
-    count: 1
-  - data: {fileID: 11400000, guid: db59ae687a95a414eb2799f277214c31, type: 2}
     count: 1
   points: 540
   time: 65

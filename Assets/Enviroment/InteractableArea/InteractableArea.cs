@@ -7,16 +7,18 @@ public abstract class InteractableArea : MonoBehaviour
 
     protected virtual bool CanShowHint => true;
 
-    protected virtual void OnTriggerEnter(Collider collider)
+    protected virtual void OnTriggerStay(Collider collider)
     {
         if (collider.gameObject.CompareTag(TagStrings.Player))
         {
             PlayerController player = collider.gameObject.GetComponentInParent<PlayerController>();
+            if (!player.isInsideInteractable)
+            {
+                player.isInsideInteractable = true;
+                player.InteractableAction += Interact;
 
-            player.isInsideInteractable = true;
-            player.InteractableAction += Interact;
-
-            interactHint.SetActive(CanShowHint && player.isInsideInteractable);
+                interactHint.SetActive(CanShowHint && player.isInsideInteractable);
+            }
         }
     }
 
@@ -25,11 +27,13 @@ public abstract class InteractableArea : MonoBehaviour
         if (collider.gameObject.CompareTag(TagStrings.Player))
         {
             PlayerController player = collider.gameObject.GetComponentInParent<PlayerController>();
+            if (player.isInsideInteractable)
+            {
+                player.isInsideInteractable = false;
+                player.InteractableAction -= Interact;
 
-            player.isInsideInteractable = false;
-            player.InteractableAction -= Interact;
-
-            interactHint.SetActive(CanShowHint && player.isInsideInteractable);
+                interactHint.SetActive(CanShowHint && player.isInsideInteractable);
+            }
         }
     }
 

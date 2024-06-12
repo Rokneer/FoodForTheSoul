@@ -2,11 +2,14 @@ using UnityEngine;
 
 public class TakeOutArea : InteractableArea
 {
-    public RecipeData recipe;
+    [SerializeField]
+    internal RecipeData recipe;
+    private bool HasRecipe => recipe != null;
+    protected override bool CanShowHint => HasRecipe;
 
     protected override void Interact()
     {
-        if (recipe != null)
+        if (HasRecipe)
         {
             Debug.Log($"Picked up {recipe.label}");
 

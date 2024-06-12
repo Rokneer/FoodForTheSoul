@@ -16,9 +16,9 @@ MonoBehaviour:
   model: {fileID: 919132149155446097, guid: c574778ad3e59df4d8104e1264020620, type: 3}
   sprite: {fileID: 21300000, guid: 0e65fdacdcc7cfe499bb44a0ca02a874, type: 3}
   ingredients:
-  - data: {fileID: 11400000, guid: 133b4b12667edee4db7af83832491ca2, type: 2}
-    count: 1
   - data: {fileID: 11400000, guid: db59ae687a95a414eb2799f277214c31, type: 2}
+    count: 1
+  - data: {fileID: 11400000, guid: 61fe04b0f1bc10a42a3c44f40b9b3027, type: 2}
     count: 1
   - data: {fileID: 11400000, guid: aa4164d4c12d3194f9fd4c3e44f35752, type: 2}
     count: 1

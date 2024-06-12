@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Egg
   m_EditorClassIdentifier: 
   label: Egg
-  model: {fileID: -8311307091603856250, guid: 2a6010c7513615047b5de517f2ae8386, type: 3}
-  sprite: {fileID: 21300000, guid: 7b19e634090ae3d4ebfc0301bd7d334b, type: 3}
+  model: {fileID: 919132149155446097, guid: cfb0d59960e2b004d84b25b1142ea52a, type: 3}
+  sprite: {fileID: 21300000, guid: d33182bab37114e409ae801c3f8f25e7, type: 3}
