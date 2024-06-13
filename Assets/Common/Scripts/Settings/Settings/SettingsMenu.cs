@@ -24,6 +24,17 @@ public class SettingsMenu : Singleton<SettingsMenu>
     }
     #endregion
 
+    private string FormatValue(float value, int range = 3)
+    {
+        string valueString = value.ToString();
+
+        if (valueString.Length < range)
+        {
+            return valueString;
+        }
+        return valueString[..range];
+    }
+
     #region Fullscreen
     [Header("Fullscreen")]
     [SerializeField]
@@ -69,7 +80,7 @@ public class SettingsMenu : Singleton<SettingsMenu>
             masterVolume = value;
             settings.masterVolumeLevel = masterVolume;
             masterVolumeSlider.value = masterVolume;
-            masterVolumeText.text = masterVolume.ToString();
+            masterVolumeText.text = FormatValue(masterVolume);
             audioMixer.SetFloat(AudioMixerStrings.MasterVolume, CalculateVolumen(masterVolume));
         }
     }
@@ -92,7 +103,7 @@ public class SettingsMenu : Singleton<SettingsMenu>
             soundFXVolume = value;
             settings.sfxVolumeLevel = soundFXVolume;
             soundFXVolumeSlider.value = soundFXVolume;
-            soundFXVolumeText.text = soundFXVolume.ToString();
+            soundFXVolumeText.text = FormatValue(soundFXVolume);
             audioMixer.SetFloat(AudioMixerStrings.SoundFXVolume, CalculateVolumen(soundFXVolume));
         }
     }
@@ -115,7 +126,7 @@ public class SettingsMenu : Singleton<SettingsMenu>
             musicVolume = value;
             settings.musicVolumeLevel = musicVolume;
             musicVolumeSlider.value = musicVolume;
-            musicVolumeText.text = musicVolume.ToString();
+            musicVolumeText.text = FormatValue(musicVolume);
             audioMixer.SetFloat(AudioMixerStrings.MusicVolume, CalculateVolumen(musicVolume));
         }
     }
@@ -147,7 +158,7 @@ public class SettingsMenu : Singleton<SettingsMenu>
                 fpsCamera.currentSenX = sensitivityX;
             }
             sensitivityXSlider.value = sensitivityX;
-            sensitivityXText.text = sensitivityX.ToString();
+            sensitivityXText.text = FormatValue(sensitivityX);
         }
     }
 
@@ -172,7 +183,7 @@ public class SettingsMenu : Singleton<SettingsMenu>
                 fpsCamera.currentSenY = sensitivityY;
             }
             sensitivityYSlider.value = sensitivityY;
-            sensitivityYText.text = sensitivityY.ToString();
+            sensitivityYText.text = FormatValue(sensitivityY);
         }
     }
     #endregion
@@ -195,7 +206,7 @@ public class SettingsMenu : Singleton<SettingsMenu>
             fieldOfView = value;
             settings.fieldOfView = fieldOfView;
             fieldOfViewSlider.value = fieldOfView;
-            fieldOfViewText.text = fieldOfView.ToString();
+            fieldOfViewText.text = FormatValue(fieldOfView);
             Camera.main.fieldOfView = fieldOfView;
         }
     }

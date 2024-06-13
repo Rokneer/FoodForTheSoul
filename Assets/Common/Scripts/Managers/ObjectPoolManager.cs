@@ -101,6 +101,8 @@ public class ObjectPoolManager : Singleton<ObjectPoolManager>
         {
             // Activate inactive object
             pool.InactiveObjects.Remove(spawnableObject);
+            spawnableObject.transform.position = parentTransform.position;
+            spawnableObject.transform.parent = parentTransform;
             spawnableObject.SetActive(true);
         }
         return spawnableObject;

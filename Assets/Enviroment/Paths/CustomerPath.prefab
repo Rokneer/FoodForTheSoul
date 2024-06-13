@@ -109,6 +109,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: RecipeDeliveryArea
       objectReference: {fileID: 0}
+    - target: {fileID: 6056201185052687859, guid: 35a1258cbc8b7064bb5109941c70da37,
+        type: 3}
+      propertyPath: m_Center.z
+      value: -0.4234
+      objectReference: {fileID: 0}
     - target: {fileID: 6527128926449076415, guid: 35a1258cbc8b7064bb5109941c70da37,
         type: 3}
       propertyPath: m_LocalPosition.x

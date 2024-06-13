@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: aa447088b789c7e4281ff4c7fcdd70cb
+guid: 5ffcb26634f83e34c930ae78e0ad55a2
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -12,8 +12,18 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Ojo
-    second: {fileID: 2100000, guid: aadafd8d6658ee144a62ec1b099c2713, type: 2}
+      name: Ojos
+    second: {fileID: 2100000, guid: efafce990998acf448413b1a196bb52e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Ojos Iris2
+    second: {fileID: 2100000, guid: f2a74987e6bcd9f48bf4d7625e62160f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Ojos iris
+    second: {fileID: 2100000, guid: 5d5fed23e3689ae4c8740704d14f9411, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
@@ -24,11 +34,6 @@ ModelImporter:
       assembly: UnityEngine.CoreModule
       name: Ropa
     second: {fileID: 2100000, guid: ef9834130eebcff4eb19859b4f0a1aa2, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Ropa.001
-    second: {fileID: 2100000, guid: d111e9d67f8c6614fa8716441eda7337, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
@@ -48,7 +53,7 @@ ModelImporter:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
       name: boca
-    second: {fileID: 2800000, guid: 74bd7d02b5fae8f4b901a114ad049f0d, type: 3}
+    second: {fileID: 2800000, guid: 277178d0dc4c02643a2b57972c8c8249, type: 3}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -80,16 +85,16 @@ ModelImporter:
     isReadable: 0
   meshes:
     lODScreenPercentages: []
-    globalScale: 2.5
+    globalScale: 1
     meshCompression: 0
     addColliders: 0
     useSRGBMaterialColor: 1
     sortHierarchyByName: 1
     importPhysicalCameras: 1
-    importVisibility: 0
-    importBlendShapes: 0
-    importCameras: 0
-    importLights: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
     nodeNameCollisionStrategy: 1
     fileIdsGeneration: 2
     swapUVChannels: 0
@@ -135,7 +140,7 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    globalScale: 0.024999999
+    globalScale: 1
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0

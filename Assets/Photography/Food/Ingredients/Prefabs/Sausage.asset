@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Sausage
   m_EditorClassIdentifier: 
   label: Sausage
-  model: {fileID: -4576539920130680172, guid: 2a6010c7513615047b5de517f2ae8386, type: 3}
-  sprite: {fileID: 21300000, guid: 98bf3239e1998744a81ef19e3f5ed761, type: 3}
+  model: {fileID: 919132149155446097, guid: d211cb53f0410d645ad77126204646c9, type: 3}
+  sprite: {fileID: 21300000, guid: d6107e000063bd44888941712629b619, type: 3}

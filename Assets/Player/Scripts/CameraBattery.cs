@@ -1,3 +1,4 @@
+using System.Collections;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
@@ -36,6 +37,16 @@ public class CameraBattery : MonoBehaviour
     }
 
     [SerializeField]
+    private float rechargeValue = 1;
+
+    [SerializeField]
+    private float rechargeDelay = 3;
+    internal bool canRecharge = true;
+
+    [SerializeField]
+    private float damageDelay = 7;
+
+    [SerializeField]
     private Slider batteryGauge;
     private readonly float tweenDuration = 0.2f;
 
@@ -43,6 +54,26 @@ public class CameraBattery : MonoBehaviour
     {
         batteryGauge.maxValue = maxBattery;
         batteryGauge.value = Battery;
+    }
+
+    private void Start()
+    {
+        InvokeRepeating(nameof(RechargeBattery), 0, rechargeDelay);
+    }
+
+    private void RechargeBattery()
+    {
+        if (canRecharge && Battery < MaxBattery)
+        {
+            IncreaseBattery(rechargeValue);
+        }
+    }
+
+    internal IEnumerator PauseRecharge()
+    {
+        canRecharge = false;
+        yield return new WaitForSeconds(damageDelay);
+        canRecharge = true;
     }
 
     internal void LowerBattery(float damageValue)

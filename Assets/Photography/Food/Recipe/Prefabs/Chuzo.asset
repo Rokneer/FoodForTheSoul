@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: Chuzo
   m_EditorClassIdentifier: 
   label: Chuzo
-  model: {fileID: 919132149155446097, guid: 561f032fd418470469796d8cf46885f2, type: 3}
+  model: {fileID: 919132149155446097, guid: d67c9d48e361f274bba4f38632cd3844, type: 3}
   sprite: {fileID: 21300000, guid: 0e65fdacdcc7cfe499bb44a0ca02a874, type: 3}
   ingredients:
   - data: {fileID: 11400000, guid: aa4164d4c12d3194f9fd4c3e44f35752, type: 2}
     count: 3
   points: 220
-  time: 65
+  time: 50

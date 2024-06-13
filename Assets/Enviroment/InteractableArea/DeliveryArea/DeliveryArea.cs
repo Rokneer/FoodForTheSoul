@@ -2,7 +2,10 @@ using UnityEngine;
 
 public class DeliveryArea : InteractableArea
 {
-    public Customer currentCustomer;
+    [SerializeField]
+    private AudioClip wrongDeliverySound;
+
+    internal Customer currentCustomer;
 
     private bool IsCurrentRecipeComplete =>
         currentCustomer != null && RecipeUIManager.Instance.equipedRecipe == currentCustomer.recipe;
@@ -22,6 +25,8 @@ public class DeliveryArea : InteractableArea
             CustomerSpawnManager.Instance.RemoveCustomer(currentCustomer);
 
             ScoreManager.Instance.AddScore(currentCustomer.recipe);
+            return;
         }
+        SoundFXManager.Instance.PlaySFXClip(wrongDeliverySound, transform, 0.8f);
     }
 }
