@@ -284,7 +284,7 @@ public class PlayerController : Singleton<PlayerController>
     #region Crouch
     private void OnCrouch(InputAction.CallbackContext context)
     {
-        if (IsGrounded)
+        if (IsGrounded && !PauseManager.Instance.IsPaused)
         {
             if (context.started)
             {
@@ -313,7 +313,11 @@ public class PlayerController : Singleton<PlayerController>
     #region Run
     private void OnRun(InputAction.CallbackContext context)
     {
-        if (IsGrounded && movementState != MovementState.Crouching)
+        if (
+            IsGrounded
+            && movementState != MovementState.Crouching
+            && !PauseManager.Instance.IsPaused
+        )
         {
             if (context.started)
             {
@@ -330,7 +334,7 @@ public class PlayerController : Singleton<PlayerController>
     #region Jump
     private void OnJump(InputAction.CallbackContext context)
     {
-        if (context.started && isReadyToJump && IsGrounded)
+        if (context.started && isReadyToJump && IsGrounded && !PauseManager.Instance.IsPaused)
         {
             isReadyToJump = false;
             isExitingSlope = true;
@@ -350,7 +354,7 @@ public class PlayerController : Singleton<PlayerController>
     #region Interact
     private void OnInteract(InputAction.CallbackContext context)
     {
-        if (context.started && isInsideInteractable)
+        if (context.started && isInsideInteractable && !PauseManager.Instance.IsPaused)
         {
             InteractableAction?.Invoke();
         }
@@ -360,7 +364,7 @@ public class PlayerController : Singleton<PlayerController>
     #region Flash
     private void OnFlash(InputAction.CallbackContext context)
     {
-        if (context.started)
+        if (context.started && !PauseManager.Instance.IsPaused)
         {
             StartCoroutine(photoFlash.ActivateFlash());
         }
@@ -370,7 +374,7 @@ public class PlayerController : Singleton<PlayerController>
     #region Reload
     private void OnReload(InputAction.CallbackContext context)
     {
-        if (context.started)
+        if (context.started && !PauseManager.Instance.IsPaused)
         {
             PhotoCameraUIManager.Instance.ResetPhotos();
             SoundFXManager.Instance.PlaySFXClip(rechargeSound, transform, 0.5f, true);
@@ -381,7 +385,7 @@ public class PlayerController : Singleton<PlayerController>
     #region Zoom
     private void OnZoom(InputAction.CallbackContext context)
     {
-        if (context.started)
+        if (context.started && !PauseManager.Instance.IsPaused)
         {
             photoZoom.IsZooming = !photoZoom.IsZooming;
             if (photoZoom.IsZooming)
@@ -397,7 +401,7 @@ public class PlayerController : Singleton<PlayerController>
 
     private void OnExtraZoom(InputAction.CallbackContext context)
     {
-        if (context.started && photoZoom.IsZooming)
+        if (context.started && photoZoom.IsZooming && !PauseManager.Instance.IsPaused)
         {
             photoZoom.isExtraZooming = !photoZoom.isExtraZooming;
             if (photoZoom.isExtraZooming)
@@ -415,7 +419,7 @@ public class PlayerController : Singleton<PlayerController>
     #region Photo
     private void OnPhoto(InputAction.CallbackContext context)
     {
-        if (context.started && photoCapture.canTakePhoto)
+        if (context.started && photoCapture.canTakePhoto && !PauseManager.Instance.IsPaused)
         {
             StartCoroutine(photoCapture.CapturePhoto());
         }

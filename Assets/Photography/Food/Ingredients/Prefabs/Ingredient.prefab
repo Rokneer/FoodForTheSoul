@@ -137,7 +137,7 @@ MonoBehaviour:
   startTransform: {fileID: 0}
   endTransform: {fileID: 0}
   currentPosition: {x: 0, y: 0, z: 0}
-  tweenTime: 5
+  tweenTime: 8
 --- !u!114 &6020226326266963998
 MonoBehaviour:
   m_ObjectHideFlags: 0

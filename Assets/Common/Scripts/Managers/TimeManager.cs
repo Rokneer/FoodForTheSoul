@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class TimeManager : Singleton<TimeManager>
 {
-    internal bool isTimerActive = true;
+    internal bool isActive = true;
     private float totalTime = 0;
 
     [SerializeField]
@@ -11,7 +11,7 @@ public class TimeManager : Singleton<TimeManager>
 
     private void Update()
     {
-        if (isTimerActive)
+        if (isActive)
         {
             if (totalTime >= 0)
             {

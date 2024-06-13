@@ -6,24 +6,21 @@ using UnityEngine.UI;
 public class SettingsMenu : Singleton<SettingsMenu>
 {
     [SerializeField]
-    private Settings defaultSettings;
-
-    [SerializeField]
     private Settings settings;
 
     #region Lifecycle
     private void Awake()
     {
-        Fullscreen = defaultSettings.isFullscreen;
+        Fullscreen = settings.isFullscreen;
 
-        MasterVolume = defaultSettings.masterVolumeLevel;
-        SoundFXVolume = defaultSettings.sfxVolumeLevel;
-        MusicVolume = defaultSettings.musicVolumeLevel;
+        MasterVolume = settings.masterVolumeLevel;
+        SoundFXVolume = settings.sfxVolumeLevel;
+        MusicVolume = settings.musicVolumeLevel;
 
-        SensitivityX = defaultSettings.sensitivityX;
-        SensitivityY = defaultSettings.sensitivityY;
+        SensitivityX = settings.sensitivityX;
+        SensitivityY = settings.sensitivityY;
 
-        FieldOfView = defaultSettings.fieldOfView;
+        FieldOfView = settings.fieldOfView;
     }
     #endregion
 

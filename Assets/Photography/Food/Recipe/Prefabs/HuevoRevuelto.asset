@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: HuevoRevuelto
   m_EditorClassIdentifier: 
   label: Huevo Revuelto
-  model: {fileID: 919132149155446097, guid: 66af1ae2db7af3048856dd8023766569, type: 3}
+  model: {fileID: 919132149155446097, guid: e5094d40cd05ba34a85aa86d040cc369, type: 3}
   sprite: {fileID: 21300000, guid: 637fac2f451608743b588751a04c96b1, type: 3}
   ingredients:
   - data: {fileID: 11400000, guid: db59ae687a95a414eb2799f277214c31, type: 2}
@@ -21,4 +21,4 @@ MonoBehaviour:
   - data: {fileID: 11400000, guid: aa4164d4c12d3194f9fd4c3e44f35752, type: 2}
     count: 1
   points: 400
-  time: 35
+  time: 30
