@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: CurrentSettings
   m_EditorClassIdentifier: 
   isFullscreen: 1
-  masterVolumeLevel: 0.7
-  sfxVolumeLevel: 0.7
-  musicVolumeLevel: 0.7
-  sensitivityX: 4
-  sensitivityY: 4
+  masterVolumeLevel: 0.6
+  sfxVolumeLevel: 0.6
+  musicVolumeLevel: 0.6
+  sensitivityX: 3
+  sensitivityY: 3
   fieldOfView: 80

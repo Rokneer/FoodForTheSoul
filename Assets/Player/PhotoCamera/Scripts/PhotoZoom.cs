@@ -35,7 +35,7 @@ public class PhotoZoom : MonoBehaviour
     private float MainCamZoomFOV => BaseMainCamFOV / 3;
     private float MainCamExtraZoomFOV => BaseMainCamFOV / 5;
 
-    private float BasePhotoCameraFOV => SettingsMenu.Instance.FieldOfView / 5;
+    private float BasePhotoCameraFOV => SettingsMenu.Instance.FieldOfView / 4;
     private float PhotoCamZoomInFOV => BasePhotoCameraFOV / 3;
     private float PhotoCamExtraZoomFOV => BasePhotoCameraFOV / 5;
 
