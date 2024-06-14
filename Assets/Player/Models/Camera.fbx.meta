@@ -3,7 +3,32 @@ guid: f9a15b3821019ab469a9be57482a4265
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: boton rojo
+    second: {fileID: 2100000, guid: 77e19c9b96509e548a1106ed695bea3a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: color beige
+    second: {fileID: 2100000, guid: 7722bb4e3167f1346a73416138349627, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: color rojizo
+    second: {fileID: 2100000, guid: 29bb677f92143e34da1a99a8df33c175, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: grisaceo partes camara
+    second: {fileID: 2100000, guid: 16ef734fa6f0e6644b67b75869f4954b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: negro lente
+    second: {fileID: 2100000, guid: 209b7c79b2d11e64983e500c03c871a2, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
