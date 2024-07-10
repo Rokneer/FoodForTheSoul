@@ -6,9 +6,28 @@ using UnityEngine;
 public class PhotoCameraUIManager : PhotoUIManager<PhotoCameraUIManager>
 {
     #region Variables
-
     [SerializeField]
     private List<TMP_Text> ingredientText;
+
+    [SerializeField]
+    private GameObject reloadUI;
+
+    public override int ActivePhotoCount
+    {
+        get => base.ActivePhotoCount;
+        set
+        {
+            base.ActivePhotoCount = value;
+            if (base.ActivePhotoCount > -1)
+            {
+                reloadUI.SetActive(true);
+            }
+            else
+            {
+                reloadUI.SetActive(false);
+            }
+        }
+    }
     #endregion
 
     #region Functions
@@ -16,21 +35,21 @@ public class PhotoCameraUIManager : PhotoUIManager<PhotoCameraUIManager>
     {
         photoLabel ??= "Nothing :c";
 
-        activePhotoCount++;
+        ActivePhotoCount++;
 
         // Set photo sprite
-        displayImages[activePhotoCount].sprite = photoSprite;
+        displayImages[ActivePhotoCount].sprite = photoSprite;
 
         // Set ingredient label
-        ingredientText[activePhotoCount].text = photoLabel;
+        ingredientText[ActivePhotoCount].text = photoLabel;
 
         // Slide photo into frame
-        photoFramesRectTransforms[activePhotoCount]
+        photoFramesRectTransforms[ActivePhotoCount]
             .DOAnchorPosX(slideInPoint, slideInTime)
             .SetEase(Ease.InOutSine);
 
         // Fade photo in
-        photoCanvasGroups[activePhotoCount].DOFade(1, fadeInTime);
+        photoCanvasGroups[ActivePhotoCount].DOFade(1, fadeInTime);
     }
 
     internal override void HidePhoto(int photoId)
@@ -46,7 +65,7 @@ public class PhotoCameraUIManager : PhotoUIManager<PhotoCameraUIManager>
     internal void ResetPhotos()
     {
         // Reset photo to inactive state
-        activePhotoCount = -1;
+        ActivePhotoCount = -1;
         for (int i = 0; i < 3; i++)
         {
             HidePhoto(i);

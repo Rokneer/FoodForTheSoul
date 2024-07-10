@@ -130,7 +130,7 @@ public class RecipeUIManager : PhotoUIManager<RecipeUIManager>
             canvasGroup.DOFade(1, fadeInTime);
         }
 
-        return activePhotoCount;
+        return ActivePhotoCount;
     }
 
     internal override void HidePhoto(int photoId)

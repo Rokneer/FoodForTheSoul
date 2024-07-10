@@ -18,18 +18,17 @@ public class LevelLoader : Singleton<LevelLoader>
 
     private IEnumerator LoadLevelTransition(int id)
     {
+        PauseManager.Instance.ResumeGame();
         transition.SetTrigger(TransitionStrings.StartTrigger);
 
         yield return new WaitForSeconds(transition.GetCurrentAnimatorClipInfo(0)[0].clip.length);
 
         SceneManager.LoadSceneAsync(id);
-        PauseManager.Instance.ResumeGame();
     }
 
     public void ResetCurrentLevel()
     {
-        SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex);
-        PauseManager.Instance.ResumeGame();
+        StartCoroutine(LoadLevelTransition(SceneManager.GetActiveScene().buildIndex));
     }
 
     public void QuitGame()

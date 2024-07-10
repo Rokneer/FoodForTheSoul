@@ -51,6 +51,7 @@ public class GameManager : Singleton<GameManager>
     [Header("Photo Camera")]
     [SerializeField]
     private CameraBattery cameraBattery;
+    internal bool isGameOver = false;
 
     private List<Customer> Customers =>
         CustomerSpawnManager.Instance.currentCustomers.Keys.ToList();
@@ -131,6 +132,8 @@ public class GameManager : Singleton<GameManager>
 
     internal void GameOver()
     {
+        GameManager.Instance.isGameOver = true;
+        PauseManager.Instance.canPause = false;
         PauseManager.Instance.PauseGame();
         PauseManager.Instance.ManageMouseVisibility(true);
         gameOverUI.SetActive(true);

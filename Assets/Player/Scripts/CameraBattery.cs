@@ -27,10 +27,9 @@ public class CameraBattery : MonoBehaviour
             battery = Mathf.Clamp(value, 0, maxBattery);
             batteryGauge.value = battery;
 
-            if (battery == 0)
+            if (battery == 0 && !GameManager.Instance.isGameOver)
             {
                 Debug.Log("Out of battery!");
-                PauseManager.Instance.canPause = false;
                 GameManager.Instance.GameOver();
             }
         }

@@ -7,7 +7,13 @@ public abstract class PhotoUIManager<T> : Singleton<T>
     where T : MonoBehaviour
 {
     #region Variables
-    public int activePhotoCount = -1;
+    [SerializeField]
+    private int activePhotoCount = -1;
+    public virtual int ActivePhotoCount
+    {
+        get => activePhotoCount;
+        set => activePhotoCount = value;
+    }
 
     [Header("Slide Animation")]
     [SerializeField]
@@ -39,6 +45,7 @@ public abstract class PhotoUIManager<T> : Singleton<T>
 
     protected readonly List<RectTransform> photoFramesRectTransforms = new();
     protected readonly List<CanvasGroup> photoCanvasGroups = new();
+
     #endregion
 
     #region Lifecycle

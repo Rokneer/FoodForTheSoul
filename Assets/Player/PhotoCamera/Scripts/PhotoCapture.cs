@@ -65,7 +65,7 @@ public class PhotoCapture : MonoBehaviour
     #region Functions
     internal IEnumerator CapturePhoto()
     {
-        if (PhotoCameraUIManager.Instance.activePhotoCount < 2)
+        if (PhotoCameraUIManager.Instance.ActivePhotoCount < 2)
         {
             // Checks if cast sphere hits a valid target
             bool hasHit = Physics.SphereCast(
@@ -134,10 +134,8 @@ public class PhotoCapture : MonoBehaviour
                     || photoHit.collider.gameObject.CompareTag(TagStrings.Food)
                 )
                 {
-                    PhotoObject photoObject = photoHit
-                        .collider
-                        .gameObject
-                        .GetComponent<PhotoObject>();
+                    PhotoObject photoObject =
+                        photoHit.collider.gameObject.GetComponent<PhotoObject>();
 
                     photoObject.WasPhotographed();
 
