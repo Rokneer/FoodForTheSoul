@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: e2d645e9b0d8dfb4bae7530ea7155dd3
+guid: e7de955df05f77f4782b222d7a8f3008
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -9,16 +9,6 @@ ModelImporter:
       assembly: UnityEngine.CoreModule
       name: ladrillo
     second: {fileID: 2100000, guid: 2db9fba6dd125304b8c905ee0f76ced4, type: 2}
-  - first:
-      type: UnityEngine:Texture2D
-      assembly: UnityEngine.CoreModule
-      name: Bricks082B_1K-PNG_Roughness
-    second: {fileID: 2800000, guid: fffb3c13d22087b4c852b3c35a9a83ad, type: 3}
-  - first:
-      type: UnityEngine:Texture2D
-      assembly: UnityEngine.CoreModule
-      name: ladrillos2
-    second: {fileID: 2800000, guid: c5dee0e90468f224799d4816a4cfb8e8, type: 3}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -50,20 +40,20 @@ ModelImporter:
     isReadable: 0
   meshes:
     lODScreenPercentages: []
-    globalScale: 1
+    globalScale: 1.44
     meshCompression: 0
     addColliders: 0
     useSRGBMaterialColor: 1
     sortHierarchyByName: 1
     importPhysicalCameras: 1
-    importVisibility: 1
-    importBlendShapes: 1
-    importCameras: 1
-    importLights: 1
+    importVisibility: 0
+    importBlendShapes: 0
+    importCameras: 0
+    importLights: 0
     nodeNameCollisionStrategy: 1
     fileIdsGeneration: 2
     swapUVChannels: 0
-    generateSecondaryUV: 0
+    generateSecondaryUV: 1
     useFileUnits: 1
     keepQuads: 0
     weldVertices: 1
@@ -105,7 +95,7 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    globalScale: 1
+    globalScale: 1.44
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0
