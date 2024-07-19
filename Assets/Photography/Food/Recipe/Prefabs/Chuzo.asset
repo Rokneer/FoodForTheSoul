@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Chuzo
   m_EditorClassIdentifier: 
   label: Chuzo
-  model: {fileID: 919132149155446097, guid: d67c9d48e361f274bba4f38632cd3844, type: 3}
+  model: {fileID: 919132149155446097, guid: e460fa8245799ec4097ebd04069e0711, type: 3}
   sprite: {fileID: 21300000, guid: 162b6dd9bc05ccd46a1cd73345c06ed2, type: 3}
   ingredients:
   - data: {fileID: 11400000, guid: aa4164d4c12d3194f9fd4c3e44f35752, type: 2}

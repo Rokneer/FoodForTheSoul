@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PlatanoMaduro
   m_EditorClassIdentifier: 
   label: "Pl\xE1tano Maduro"
-  model: {fileID: 919132149155446097, guid: 312278ec0dfd9884facb2ead94138f2a, type: 3}
+  model: {fileID: 919132149155446097, guid: ac61fb99a370ca34facf687e388e4dd4, type: 3}
   sprite: {fileID: 21300000, guid: 75421c1ccec452444b67e842ee978745, type: 3}
   ingredients:
   - data: {fileID: 11400000, guid: 133b4b12667edee4db7af83832491ca2, type: 2}

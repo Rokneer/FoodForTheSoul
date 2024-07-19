@@ -111,6 +111,8 @@ public class RecipeSpawner : Spawner<RecipeSpawner>
         Recipe recipe = spawnedRecipe.GetComponent<Recipe>();
         recipe.data = recipeData;
 
+        recipe.transform.eulerAngles = new Vector3(-90, 0, 0);
+
         // Setup current mesh filter and renderer
         recipe.SetMeshData();
     }

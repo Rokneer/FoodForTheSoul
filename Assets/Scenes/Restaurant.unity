@@ -18124,6 +18124,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: RecipeTakeOutArea_3
       objectReference: {fileID: 0}
+    - target: {fileID: 8354447431969568589, guid: b7a66da6ae2120942b0fa53e24fe714c,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.25
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -21694,6 +21699,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: RecipeTakeOutArea_2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8354447431969568589, guid: b7a66da6ae2120942b0fa53e24fe714c,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.25
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -39339,6 +39349,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: RecipeTakeOutArea_1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8354447431969568589, guid: b7a66da6ae2120942b0fa53e24fe714c,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.25
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

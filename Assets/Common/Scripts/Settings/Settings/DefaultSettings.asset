@@ -16,6 +16,6 @@ MonoBehaviour:
   masterVolumeLevel: 0.7
   sfxVolumeLevel: 0.7
   musicVolumeLevel: 0.7
-  sensitivityX: 4
-  sensitivityY: 4
+  sensitivityX: 2
+  sensitivityY: 2
   fieldOfView: 80

@@ -8,6 +8,7 @@ public class TutorialMenu : MonoBehaviour
     public void PlayTutorial()
     {
         tutorialSettings.skipTutorial = false;
+        tutorialSettings.hasPlayedTutorial = false;
     }
 
     public void SkipTutorial()

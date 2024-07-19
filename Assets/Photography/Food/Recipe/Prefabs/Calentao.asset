@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Calentao
   m_EditorClassIdentifier: 
   label: Calentao
-  model: {fileID: 919132149155446097, guid: c574778ad3e59df4d8104e1264020620, type: 3}
+  model: {fileID: 919132149155446097, guid: 4aa0876f3830b944390eba921c0f9871, type: 3}
   sprite: {fileID: 21300000, guid: e7a16038903efb14fb01ffdfc16e9884, type: 3}
   ingredients:
   - data: {fileID: 11400000, guid: db59ae687a95a414eb2799f277214c31, type: 2}
